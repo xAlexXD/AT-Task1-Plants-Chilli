@@ -48,7 +48,11 @@ Window::Window(int width, int height, const char* name)
 	wr.right = width + wr.left;
 	wr.top = 100;
 	wr.bottom = height + wr.top;
-	AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, false);
+	
+	if (FAILED(AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, false)))
+	{
+		throw WND_LAST_EXCEPT();
+	}
 
 	_width = wr.right - wr.left;
 	_height = wr.bottom - wr.top;
@@ -60,6 +64,11 @@ Window::Window(int width, int height, const char* name)
 		CW_USEDEFAULT, CW_USEDEFAULT, _width, _height,
 		nullptr, nullptr, WindowClass::GetInstance(), this
 	);
+
+	if (_hWnd == nullptr)
+	{
+		throw WND_LAST_EXCEPT();
+	}
 
 	//Show Window
 	ShowWindow(_hWnd, SW_SHOWDEFAULT);
