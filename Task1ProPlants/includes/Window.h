@@ -1,6 +1,7 @@
 #pragma once
 #include "WindowsCustomInclude.h"
 #include "ExceptionHandler.h"
+#include "Keyboard.h"
 
 class Window
 {
@@ -40,6 +41,8 @@ public:
 	~Window();
 	Window(const Window&) = delete;
 	Window& operator=(const Window&) = delete;
+public:
+	Keyboard _keyboard;
 private:
 	//Cannot set windows callback to member functions so static is like making it global, we'll then use these to call our member function
 	static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;

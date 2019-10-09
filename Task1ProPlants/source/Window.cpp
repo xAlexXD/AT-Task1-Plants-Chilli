@@ -121,12 +121,27 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 			PostQuitMessage(1337);
 			//Add a return to reprevent the default window handler from destroying our window and allow our destructor to handle it instead
 			return 0;
+		case WM_KILLFOCUS:
+			//If window looses focus clear all key states to prevent ghost keys still being registered
+			_keyboard.ClearState();
+			break;
 		case WM_KEYDOWN:
+		//Added sys key to take into account the ALT key
+		case WM_SYSKEYDOWN:
+			//If bit 30 of lParam is false or autorepeat is enabled then process the keypress, otherwise ignore it 
+			if (!(lParam & 0x40000000) || _keyboard.AutorepeatIsEnabled())
+			{
+				_keyboard.OnKeyPressed(static_cast<unsigned char>(wParam));
+			}
 			break;
 		case WM_KEYUP:
+		//Added sys key to take into account the ALT key
+		case WM_SYSKEYUP:
+			_keyboard.OnKeyReleased(static_cast<unsigned char>(wParam));
 			break;
 		case WM_CHAR:
 			//Returns Character pressed with modifers (shift + d == D)
+			_keyboard.OnChar(static_cast<unsigned char>(wParam));
 			break;
 		case WM_LBUTTONDOWN:
 			//Left mouse button down
