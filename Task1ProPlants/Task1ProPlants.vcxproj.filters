@@ -24,12 +24,18 @@
     <ClCompile Include="source\Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\ExceptionHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes\WindowsCustomInclude.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="includes\Window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\ExceptionHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

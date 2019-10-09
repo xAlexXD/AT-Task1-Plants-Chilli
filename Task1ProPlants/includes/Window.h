@@ -1,27 +1,42 @@
 #pragma once
 #include "WindowsCustomInclude.h"
+#include "ExceptionHandler.h"
 
 class Window
 {
 private:
+	//Specialised instance of the exception handler specific to windows
+	class Exception : public ExceptionHandler
+	{
+	public:
+		Exception(int line, const char* file, HRESULT hr) noexcept;
+		const char* what() const noexcept override;
+		virtual const char* GetType() const noexcept override;
+		static std::string TranslateErrorCode(HRESULT hr);
+		HRESULT GetErrorCode() const noexcept;
+		std::string GetErrorString() const noexcept;
+	private:
+		HRESULT hr;
+	};
+
 	//Singleton manages register and cleanup of window class
 	class WindowClass
 	{
 	public:
-		static const LPCWSTR GetName() noexcept;
+		static const char* GetName() noexcept;
 		static HINSTANCE GetInstance() noexcept;
 	private:
 		WindowClass() noexcept;
 		~WindowClass();
 		WindowClass(const WindowClass&) = delete;
 		WindowClass& operator=(const WindowClass&) = delete;
-		static constexpr LPCWSTR _windowClassName = L"AT Task 1 Plantu";
+		static constexpr const char* _windowClassName = "AT Task 1 Plantu";
 		static WindowClass _windowClass;
 		HINSTANCE _hInstance;
 	};
 
 public:
-	Window(int width, int height, const LPCWSTR name) noexcept;
+	Window(int width, int height, const char* name);
 	~Window();
 	Window(const Window&) = delete;
 	Window& operator=(const Window&) = delete;
@@ -36,4 +51,7 @@ private:
 	int _height;
 	HWND _hWnd;
 };
+
+//Error exception helper macro
+#define WND_EXCEPT(hr) Window::Exception(__LINE__, __FILE__, hr)
 
