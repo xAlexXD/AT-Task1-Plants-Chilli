@@ -11,16 +11,16 @@ public:
 	public:
 		enum class Type
 		{
-			Press,
-			Release,
-			Invalid
+			PRESS,
+			RELEASE,
+			INVALID
 		};
-		Event() noexcept : _type(Type::Invalid), _code(0u) { }
+		Event() noexcept : _type(Type::INVALID), _code(0u) { }
 		Event(Type type, unsigned char code) noexcept : _type(type), _code(code) { }
 
-		inline bool IsPress() const noexcept				{ return _type == Type::Press; }
-		inline bool IsRelease() const noexcept				{ return _type == Type::Release; }
-		inline bool IsValid() const noexcept				{ return _type != Type::Invalid; }
+		inline bool IsPress() const noexcept				{ return _type == Type::PRESS; }
+		inline bool IsRelease() const noexcept				{ return _type == Type::RELEASE; }
+		inline bool IsValid() const noexcept				{ return _type != Type::INVALID; }
 		inline unsigned char GetCode() const noexcept		{ return _code; }
 	private:
 		Type _type;

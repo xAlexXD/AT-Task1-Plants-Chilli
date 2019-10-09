@@ -40,7 +40,7 @@ HINSTANCE Window::WindowClass::GetInstance() noexcept
 
 //Window Related Functions
 
-Window::Window(int width, int height, const char* name)
+Window::Window(int width, int height, const char* name) : _width(width), _height(height)
 {
 	//Calc window size based on desired client region size
 	RECT wr;
@@ -49,18 +49,15 @@ Window::Window(int width, int height, const char* name)
 	wr.top = 100;
 	wr.bottom = height + wr.top;
 	
-	if (FAILED(AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, false)))
+	if (AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, false) == 0)
 	{
 		throw WND_LAST_EXCEPT();
 	}
 
-	_width = wr.right - wr.left;
-	_height = wr.bottom - wr.top;
-
 	//Create window and store hWnd
 	_hWnd = CreateWindow(
 		WindowClass::GetName(), name,
-		WS_OVERLAPPEDWINDOW,
+		WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
 		CW_USEDEFAULT, CW_USEDEFAULT, _width, _height,
 		nullptr, nullptr, WindowClass::GetInstance(), this
 	);
@@ -77,6 +74,14 @@ Window::Window(int width, int height, const char* name)
 Window::~Window()
 {
 	DestroyWindow(_hWnd);
+}
+
+void Window::SetTitle(const std::string newTitle)
+{
+	if (SetWindowText(_hWnd, newTitle.c_str()) == 0)
+	{
+		throw WND_LAST_EXCEPT();
+	}
 }
 
 LRESULT WINAPI Window::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
@@ -125,6 +130,7 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 			//If window looses focus clear all key states to prevent ghost keys still being registered
 			_keyboard.ClearState();
 			break;
+	//////////// KEYBOARD MESSAGES ///////////////
 		case WM_KEYDOWN:
 		//Added sys key to take into account the ALT key
 		case WM_SYSKEYDOWN:
@@ -143,14 +149,57 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 			//Returns Character pressed with modifers (shift + d == D)
 			_keyboard.OnChar(static_cast<unsigned char>(wParam));
 			break;
+	////////////////////////////////////////////////
+	///////////// MOUSE MESSAGES //////////////////
+		case WM_MOUSEMOVE:
+			const POINTS pt1 = MAKEPOINTS(lParam);
+			//If mouse is in client region log movement and log enter into window and capture if it wasnt previous in window
+			if (pt1.x >= 0 && pt1.x < _width && pt1.y >= 0 && pt1.y < _height)
+			{
+				_mouse.OnMouseMove(pt1.x, pt1.y);
+				if (!_mouse.IsInWindow())
+				{
+					SetCapture(_hWnd);
+					_mouse.OnMouseEnter();
+				}
+			}
+			//Not in client -> log move / maintain capture if button down
+			else
+			{
+				if (wParam & (MK_LBUTTON | MK_RBUTTON))
+				{
+					_mouse.OnMouseMove(pt1.x, pt1.y);
+				}
+				//button up == release the capture and log that the mouse has left
+				else
+				{
+					ReleaseCapture();
+					_mouse.OnMouseLeave();
+				}
+			}
+			break;
 		case WM_LBUTTONDOWN:
-			//Left mouse button down
-			//POINTS pt = MAKEPOINTS(lParam); // Gets x and y of mouse
+			const POINTS pt2 = MAKEPOINTS(lParam);
+			_mouse.OnLeftPressed(pt2.x, pt2.y);
+			break;
+		case WM_LBUTTONUP:
+			const POINTS pt3 = MAKEPOINTS(lParam);
+			_mouse.OnLeftReleased(pt3.x, pt3.y);
 			break;
 		case WM_RBUTTONDOWN:
-			//Right mouse button down
-			//POINTS pt = MAKEPOINTS(lParam); // Gets x and y of mouse
+			const POINTS pt4 = MAKEPOINTS(lParam);
+			_mouse.OnRightPressed(pt4.x, pt4.y);
 			break;
+		case WM_RBUTTONUP:
+			const POINTS pt5 = MAKEPOINTS(lParam);
+			_mouse.OnRightReleased(pt5.x, pt5.y);
+			break;
+		case WM_MOUSEWHEEL:
+			const POINTS pt6 = MAKEPOINTS(lParam);
+			const int delta = GET_WHEEL_DELTA_WPARAM(wParam);
+			_mouse.OnWheelDelta(pt6.x, pt6.y, delta);
+			break;
+	//////////////////////////////////////////////
 	}
 
 	return DefWindowProc(hWnd, msg, wParam, lParam);
