@@ -16,8 +16,8 @@
     <Filter Include="Shader Files">
       <UniqueIdentifier>{d03974c3-a404-4db2-8998-d503d8b9527e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\dxerror">
-      <UniqueIdentifier>{59647b08-60fb-4627-a91d-7924442bb53a}</UniqueIdentifier>
+    <Filter Include="Dxerr">
+      <UniqueIdentifier>{251abce8-9171-4992-a10b-42c7e24d7dc1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -46,7 +46,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\dxerr.cpp">
-      <Filter>Source Files\dxerror</Filter>
+      <Filter>Dxerr</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -75,18 +75,26 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="includes\dxerr.h">
-      <Filter>Header Files</Filter>
+      <Filter>Dxerr</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\DXGetErrorDescription.inl">
-      <Filter>Source Files\dxerror</Filter>
+      <Filter>Dxerr</Filter>
     </None>
     <None Include="source\DXGetErrorString.inl">
-      <Filter>Source Files\dxerror</Filter>
+      <Filter>Dxerr</Filter>
     </None>
     <None Include="source\DXTrace.inl">
-      <Filter>Source Files\dxerror</Filter>
+      <Filter>Dxerr</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="shaders\VertexShader.hlsl">
+      <Filter>Shader Files</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\PixelShader.hlsl">
+      <Filter>Shader Files</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

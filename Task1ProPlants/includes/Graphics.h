@@ -2,11 +2,9 @@
 
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "dxgi.lib")
-#pragma comment(lib, "d3dcompiler.lib")
 
 #include "WindowsCustomInclude.h"
 #include <d3d11.h>
-#include <d3dcompiler.h>
 #include <DirectXMath.h>
 #include "ExceptionHandler.h"
 #include <wrl.h>
@@ -45,6 +43,7 @@ public:
 	void EndFrame();
 	void ClearBuffer(float r, float g, float b) noexcept;
 
+	void DrawTestTriangle();
 private:
 	Microsoft::WRL::ComPtr<ID3D11Device> _pDevice;
 	Microsoft::WRL::ComPtr<IDXGISwapChain> _pSwapChain;
