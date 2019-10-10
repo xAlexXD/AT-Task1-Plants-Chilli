@@ -82,7 +82,7 @@ void Graphics::ClearBuffer(float r, float g, float b) noexcept
 	_pContext->ClearRenderTargetView(_pTarget.Get(), color);
 }
 
-void Graphics::DrawTestTriangle(float angle, float x, float y)
+void Graphics::DrawTestCube(float angle, float x, float y)
 {
 	struct Vertex
 	{
@@ -90,24 +90,20 @@ void Graphics::DrawTestTriangle(float angle, float x, float y)
 		{
 			float x;
 			float y;
+			float z;
 		} pos;
-		struct 
-		{
-			unsigned char r;
-			unsigned char g;
-			unsigned char b;
-			unsigned char a;
-		} color;
 	};
 
-	//Create verticies for a 2D triangle
+	//Create verticies for a cube
 	const Vertex vertices[] = {
-		{ 0.0f, 0.5f, 255, 0, 0, 0 },
-		{ 0.5f, -0.5f, 0, 255, 0, 0 },
-		{ -0.5f, -0.5f, 0, 0, 255, 0 },
-		{ -0.3f, 0.3f, 255, 0, 0, 0 },
-		{ 0.3f, 0.3f, 0, 255, 0, 0 },
-		{ 0.0f, -0.8f, 0, 0, 255, 0 },
+		{-1.0f, -1.0f, -1.0f},
+		{1.0f, -1.0f, -1.0f},
+		{-1.0f, 1.0f, -1.0f},
+		{1.0f, 1.0f, -1.0f},
+		{-1.0f, -1.0f, 1.0f},
+		{1.0f, -1.0f, 1.0f},
+		{-1.0f, 1.0f, 1.0f},
+		{1.0f, 1.0f, 1.0f},
 	};
 
 	D3D11_SUBRESOURCE_DATA verDataDesc = {};
@@ -135,10 +131,12 @@ void Graphics::DrawTestTriangle(float angle, float x, float y)
 	//Create indices for those vertices
 	const unsigned short indices[] =
 	{
-		0,1,2,
-		0,2,3,
-		0,4,1,
-		2,1,5,
+		0,2,1,	2,3,1,
+		1,3,5,	3,7,5,
+		2,6,3,	3,6,7,
+		4,5,7,	4,7,6,
+		0,4,2,	2,4,6,
+		0,1,4,	1,5,4
 	};
 
 	Microsoft::WRL::ComPtr<ID3D11Buffer> pIndexBuffer;
@@ -167,7 +165,10 @@ void Graphics::DrawTestTriangle(float angle, float x, float y)
 		{
 			//Matrixies are right multiplied so put modifiers on the right ALL THE TIME, same in shader
 			DirectX::XMMatrixTranspose(
-				DirectX::XMMatrixRotationZ(angle) * DirectX::XMMatrixScaling(3.0f / 4.0f, 1.0f, 1.0f) * DirectX::XMMatrixTranslation(x,y,0.0f)
+				DirectX::XMMatrixRotationZ(angle) *								//Rotate around z
+				DirectX::XMMatrixRotationX(angle) *								//Rotate around x as well
+				DirectX::XMMatrixTranslation(x,y,4.0f) *						//Move to where the mouse is
+				DirectX::XMMatrixPerspectiveLH(1.0f, 3.0f/4.0f, 0.5f, 10.0f)	//Projection matrix that conpensates for unmatching aspect ratio
 			)				
 		}
 	};
@@ -186,6 +187,46 @@ void Graphics::DrawTestTriangle(float angle, float x, float y)
 
 	//Bind constant buffer to vertex shader
 	_pContext->VSSetConstantBuffers(0u, 1u, pConstantBuffer.GetAddressOf());
+
+	//Second constant buffer to hold colors for the lookup 
+	struct ConstantBuffer2
+	{
+		struct
+		{
+			float r;
+			float g;
+			float b;
+			float a;
+		} face_colors[6];
+	};
+	//One colour for each face of the cube
+	const ConstantBuffer2 cb2 =
+	{
+		{
+			{1.0f, 0.0f, 1.0f},
+			{1.0f, 0.0f, 0.0f},
+			{0.0f, 1.0f, 0.0f},
+			{0.0f, 0.0f, 1.0f},
+			{1.0f, 1.0f, 0.0f},
+			{0.0f, 1.0f, 1.0f},
+		}
+	};
+
+	//Create second constant buffer
+	Microsoft::WRL::ComPtr<ID3D11Buffer> pConstantBuffer2;
+	D3D11_BUFFER_DESC cbd2;
+	cbd2.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	cbd2.Usage = D3D11_USAGE_DEFAULT;
+	cbd2.CPUAccessFlags = 0u;
+	cbd2.MiscFlags = 0u;
+	cbd2.ByteWidth = sizeof(ConstantBuffer2);
+	cbd2.StructureByteStride = 0u;
+	D3D11_SUBRESOURCE_DATA csd2 = {};
+	csd2.pSysMem = &cb2;
+	GFX_THROW_FAILED(_pDevice->CreateBuffer(&cbd2, &csd2, &pConstantBuffer2));
+
+	//Bind constant buffer to pixel shader
+	_pContext->PSSetConstantBuffers(0u, 1u, pConstantBuffer2.GetAddressOf());
 
 	//Create Pixel shader
 	Microsoft::WRL::ComPtr<ID3DBlob> pBlob;
@@ -207,8 +248,7 @@ void Graphics::DrawTestTriangle(float angle, float x, float y)
 	//Input (vertex) layout (2d position only)
 	Microsoft::WRL::ComPtr<ID3D11InputLayout> pInputLayout;
 	const D3D11_INPUT_ELEMENT_DESC ied[] = {
-		{"Position", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-		{"Color", 0, DXGI_FORMAT_R8G8B8A8_UNORM, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
+		{"Position", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
 	};
 
 	GFX_THROW_FAILED(_pDevice->CreateInputLayout(ied, (UINT)std::size(ied), pBlob->GetBufferPointer(), pBlob->GetBufferSize(), &pInputLayout));

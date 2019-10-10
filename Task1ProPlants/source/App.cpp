@@ -23,7 +23,7 @@ void App::DoFrame()
 {
 	const float c = sin(timer.Peek()) / 2.0f + 0.5f;
 	_wnd.Gfx().ClearBuffer(c, c, 1.0f);
-	_wnd.Gfx().DrawTestTriangle(
+	_wnd.Gfx().DrawTestCube(
 		timer.Peek(), 
 		_wnd._mouse.GetPosX() / 400.0f - 1.0f,		//Have to scale the pos divide by half of the axis and minus 1 to make the range from -1 to 1 which fits screen rendering
 		-_wnd._mouse.GetPosY() / 300.0f + 1.0f
