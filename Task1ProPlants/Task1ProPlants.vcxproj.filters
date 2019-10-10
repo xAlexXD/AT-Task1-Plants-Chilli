@@ -16,6 +16,9 @@
     <Filter Include="Shader Files">
       <UniqueIdentifier>{d03974c3-a404-4db2-8998-d503d8b9527e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\dxerror">
+      <UniqueIdentifier>{59647b08-60fb-4627-a91d-7924442bb53a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\WinMain.cpp">
@@ -43,7 +46,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\dxerr.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\dxerror</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -77,13 +80,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="source\DXGetErrorDescription.inl">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\dxerror</Filter>
     </None>
     <None Include="source\DXGetErrorString.inl">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\dxerror</Filter>
     </None>
     <None Include="source\DXTrace.inl">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\dxerror</Filter>
     </None>
   </ItemGroup>
 </Project>

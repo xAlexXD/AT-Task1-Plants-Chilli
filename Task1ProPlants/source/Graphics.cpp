@@ -5,6 +5,8 @@
 #define GFX_THROW_FAILED(hrcall) if( FAILED( hr = (hrcall) ) ) throw Graphics::HrException( __LINE__,__FILE__,hr )
 #define GFX_DEVICE_REMOVED_EXCEPT(hr) Graphics::DeviceRemovedException( __LINE__,__FILE__,(hr) )
 
+namespace wrl = Microsoft::WRL;
+
 Graphics::Graphics(HWND hWnd)
 {
 	//Descriptor for swap chain
@@ -44,37 +46,13 @@ Graphics::Graphics(HWND hWnd)
 	));
 
 	//gain access to texture subresource in swapchain (back buffer)
-	ID3D11Texture2D* pBackBuffer = nullptr;
-	GFX_THROW_FAILED( _pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), reinterpret_cast<void**>(&pBackBuffer)));
+	wrl::ComPtr<ID3D11Texture2D> pBackBuffer;
+	GFX_THROW_FAILED( _pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), &pBackBuffer));
 	GFX_THROW_FAILED( _pDevice->CreateRenderTargetView(
-		pBackBuffer,
+		pBackBuffer.Get(),
 		nullptr,
 		&_pTarget
 	));
-	pBackBuffer->Release();
-}
-
-Graphics::~Graphics()
-{
-	if (_pTarget != nullptr)
-	{
-		_pTarget->Release();
-	}
-
-	if (_pContext != nullptr)
-	{
-		_pContext->Release();
-	}
-
-	if (_pSwapChain != nullptr)
-	{
-		_pSwapChain->Release();
-	}
-
-	if (_pDevice != nullptr)
-	{
-		_pDevice->Release();
-	}
 }
 
 void Graphics::EndFrame()
@@ -97,7 +75,7 @@ void Graphics::EndFrame()
 void Graphics::ClearBuffer(float r, float g, float b) noexcept
 {
 	const float color[] = { r,g,b,1.0f };
-	_pContext->ClearRenderTargetView(_pTarget, color);
+	_pContext->ClearRenderTargetView(_pTarget.Get(), color);
 }
 
 
