@@ -1,6 +1,4 @@
 #include "..\includes\App.h"
-#include <sstream>
-#include <iomanip>
 
 App::App() : _wnd(800, 600, "AT Task1 Proc Plants")
 {
@@ -23,8 +21,8 @@ int App::Go()
 
 void App::DoFrame()
 {
-	const float t = _timer.Peek();
-	std::ostringstream oss;
-	oss << "Time elapsed: " << std::setprecision(1) << std::fixed << t << "s";
-	_wnd.SetTitle(oss.str());
+	const float c = sin(timer.Peek()) / 2.0f + 0.5f;
+	_wnd.Gfx().ClearBuffer(c, c, 1.0f);
+
+	_wnd.Gfx().EndFrame();
 }

@@ -11,6 +11,6 @@ private:
 	void DoFrame();
 private:
 	Window _wnd;
-	Timer _timer;
+	Timer timer;
 };
 
