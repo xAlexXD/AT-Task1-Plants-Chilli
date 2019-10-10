@@ -81,7 +81,7 @@ void Graphics::ClearBuffer(float r, float g, float b) noexcept
 	_pContext->ClearRenderTargetView(_pTarget.Get(), color);
 }
 
-void Graphics::DrawTestTriangle()
+void Graphics::DrawTestTriangle(float angle)
 {
 	struct Vertex
 	{
@@ -102,11 +102,11 @@ void Graphics::DrawTestTriangle()
 	//Create verticies for a 2D triangle
 	const Vertex vertices[] = {
 		{ 0.0f, 0.5f, 255, 0, 0, 0 },
-		{ 0.5f, -0.5f, 255, 0, 0, 0 },
-		{ -0.5f, -0.5f, 255, 0, 0, 0 },
+		{ 0.5f, -0.5f, 0, 255, 0, 0 },
+		{ -0.5f, -0.5f, 0, 0, 255, 0 },
 		{ -0.3f, 0.3f, 255, 0, 0, 0 },
-		{ 0.3f, 0.3f, 255, 0, 0, 0 },
-		{ 0.0f, -0.8f, 255, 0, 0, 0 },
+		{ 0.3f, 0.3f, 0, 255, 0, 0 },
+		{ 0.0f, -0.8f, 0, 0, 255, 0 },
 	};
 
 	D3D11_SUBRESOURCE_DATA verDataDesc = {};
@@ -154,6 +154,40 @@ void Graphics::DrawTestTriangle()
 
 	//Bind indices buffer to pipeline
 	_pContext->IASetIndexBuffer(pIndexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0u);
+
+	//create constant buffer for transformation matrix
+	struct ConstantBuffer
+	{
+		struct
+		{
+			float element[4][4];
+		} transformation;
+	};
+	//This matrix is a concatination of rotation plus a squeeze in the X to compensate for 4:3 ratio
+	const ConstantBuffer cb =
+	{
+		{
+			(3.0f / 4.0f) * std::cos(angle),	std::sin(angle),	0.0f,	0.0f,
+			(3.0f / 4.0f) * -std::sin(angle),	std::cos(angle),	0.0f,	0.0f,
+			0.0f,								0.0f,				1.0f,	0.0f,
+			0.0f,								0.0f,				0.0f,	1.0f,
+		}
+	};
+
+	Microsoft::WRL::ComPtr<ID3D11Buffer> pConstantBuffer;
+	D3D11_BUFFER_DESC cbd;
+	cbd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+	cbd.Usage = D3D11_USAGE_DYNAMIC;
+	cbd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	cbd.MiscFlags = 0u;
+	cbd.ByteWidth = sizeof(cb);
+	cbd.StructureByteStride = 0u;
+	D3D11_SUBRESOURCE_DATA csd = {};
+	csd.pSysMem = &cb;
+	GFX_THROW_FAILED(_pDevice->CreateBuffer(&cbd, &csd, &pConstantBuffer));
+
+	//Bind constant buffer to vertex shader
+	_pContext->VSSetConstantBuffers(0u, 1u, pConstantBuffer.GetAddressOf());
 
 	//Create Pixel shader
 	Microsoft::WRL::ComPtr<ID3DBlob> pBlob;
