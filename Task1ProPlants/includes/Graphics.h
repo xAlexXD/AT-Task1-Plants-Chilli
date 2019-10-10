@@ -5,7 +5,6 @@
 
 #include "WindowsCustomInclude.h"
 #include <d3d11.h>
-#include <DirectXMath.h>
 #include "ExceptionHandler.h"
 #include <wrl.h>
 
@@ -43,7 +42,7 @@ public:
 	void EndFrame();
 	void ClearBuffer(float r, float g, float b) noexcept;
 
-	void DrawTestTriangle(float angle);
+	void DrawTestTriangle(float angle, float x, float y);
 private:
 	Microsoft::WRL::ComPtr<ID3D11Device> _pDevice;
 	Microsoft::WRL::ComPtr<IDXGISwapChain> _pSwapChain;

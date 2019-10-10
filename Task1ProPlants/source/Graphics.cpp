@@ -3,6 +3,7 @@
 #include <sstream>
 
 #include <d3dcompiler.h>
+#include <DirectXMath.h>
 #pragma comment(lib, "D3Dcompiler.lib")
 
 #define GFX_THROW_FAILED(hrcall) if( FAILED( hr = (hrcall) ) ) throw Graphics::HrException( __LINE__,__FILE__,hr )
@@ -81,7 +82,7 @@ void Graphics::ClearBuffer(float r, float g, float b) noexcept
 	_pContext->ClearRenderTargetView(_pTarget.Get(), color);
 }
 
-void Graphics::DrawTestTriangle(float angle)
+void Graphics::DrawTestTriangle(float angle, float x, float y)
 {
 	struct Vertex
 	{
@@ -158,19 +159,16 @@ void Graphics::DrawTestTriangle(float angle)
 	//create constant buffer for transformation matrix
 	struct ConstantBuffer
 	{
-		struct
-		{
-			float element[4][4];
-		} transformation;
+		DirectX::XMMATRIX transform;
 	};
 	//This matrix is a concatination of rotation plus a squeeze in the X to compensate for 4:3 ratio
 	const ConstantBuffer cb =
 	{
 		{
-			(3.0f / 4.0f) * std::cos(angle),	std::sin(angle),	0.0f,	0.0f,
-			(3.0f / 4.0f) * -std::sin(angle),	std::cos(angle),	0.0f,	0.0f,
-			0.0f,								0.0f,				1.0f,	0.0f,
-			0.0f,								0.0f,				0.0f,	1.0f,
+			//Matrixies are right multiplied so put modifiers on the right ALL THE TIME, same in shader
+			DirectX::XMMatrixTranspose(
+				DirectX::XMMatrixRotationZ(angle) * DirectX::XMMatrixScaling(3.0f / 4.0f, 1.0f, 1.0f) * DirectX::XMMatrixTranslation(x,y,0.0f)
+			)				
 		}
 	};
 
