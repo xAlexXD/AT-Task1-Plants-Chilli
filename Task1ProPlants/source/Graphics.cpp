@@ -85,15 +85,28 @@ void Graphics::DrawTestTriangle()
 {
 	struct Vertex
 	{
-		float x;
-		float y;
+		struct
+		{
+			float x;
+			float y;
+		} pos;
+		struct 
+		{
+			unsigned char r;
+			unsigned char g;
+			unsigned char b;
+			unsigned char a;
+		} color;
 	};
 
 	//Create verticies for a 2D triangle
 	const Vertex vertices[] = {
-		{ 0.0f, 0.5f },
-		{ 0.5f, -0.5f },
-		{ -0.5f, -0.5f }
+		{ 0.0f, 0.5f, 255, 0, 0, 0 },
+		{ 0.5f, -0.5f, 255, 0, 0, 0 },
+		{ -0.5f, -0.5f, 255, 0, 0, 0 },
+		{ -0.3f, 0.3f, 255, 0, 0, 0 },
+		{ 0.3f, 0.3f, 255, 0, 0, 0 },
+		{ 0.0f, -0.8f, 255, 0, 0, 0 },
 	};
 
 	D3D11_SUBRESOURCE_DATA verDataDesc = {};
@@ -118,6 +131,30 @@ void Graphics::DrawTestTriangle()
 	const UINT offset = 0u;
 	_pContext->IASetVertexBuffers(0u, 1u, pVertexBuffer.GetAddressOf(), &stride, &offset);
 
+	//Create indices for those vertices
+	const unsigned short indices[] =
+	{
+		0,1,2,
+		0,2,3,
+		0,4,1,
+		2,1,5,
+	};
+
+	Microsoft::WRL::ComPtr<ID3D11Buffer> pIndexBuffer;
+	D3D11_BUFFER_DESC ibd = {};
+	ibd.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	ibd.Usage = D3D11_USAGE_DEFAULT;
+	ibd.CPUAccessFlags = 0u;
+	ibd.MiscFlags = 0u;
+	ibd.ByteWidth = sizeof(indices);
+	ibd.StructureByteStride = sizeof(unsigned short);
+	D3D11_SUBRESOURCE_DATA isd = {};
+	isd.pSysMem = indices;
+	GFX_THROW_FAILED(_pDevice->CreateBuffer(&ibd, &isd, &pIndexBuffer));
+
+	//Bind indices buffer to pipeline
+	_pContext->IASetIndexBuffer(pIndexBuffer.Get(), DXGI_FORMAT_R16_UINT, 0u);
+
 	//Create Pixel shader
 	Microsoft::WRL::ComPtr<ID3DBlob> pBlob;
 	Microsoft::WRL::ComPtr<ID3D11PixelShader> pPixelShader;
@@ -138,7 +175,8 @@ void Graphics::DrawTestTriangle()
 	//Input (vertex) layout (2d position only)
 	Microsoft::WRL::ComPtr<ID3D11InputLayout> pInputLayout;
 	const D3D11_INPUT_ELEMENT_DESC ied[] = {
-		{"Position", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0}
+		{"Position", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+		{"Color", 0, DXGI_FORMAT_R8G8B8A8_UNORM, 0, D3D11_APPEND_ALIGNED_ELEMENT, D3D11_INPUT_PER_VERTEX_DATA, 0},
 	};
 
 	GFX_THROW_FAILED(_pDevice->CreateInputLayout(ied, (UINT)std::size(ied), pBlob->GetBufferPointer(), pBlob->GetBufferSize(), &pInputLayout));
@@ -163,7 +201,7 @@ void Graphics::DrawTestTriangle()
 	_pContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	//Draw vertices in pipeline
-	_pContext->Draw((UINT)std::size(vertices), 0u);
+	_pContext->DrawIndexed((UINT)std::size(indices), 0u, 0u);
 }
 
 
