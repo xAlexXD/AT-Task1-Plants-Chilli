@@ -42,11 +42,12 @@ public:
 	void EndFrame();
 	void ClearBuffer(float r, float g, float b) noexcept;
 
-	void DrawTestCube(float angle, float x, float y);
+	void DrawTestCube(float angle, float x, float z);
 private:
 	Microsoft::WRL::ComPtr<ID3D11Device> _pDevice;
 	Microsoft::WRL::ComPtr<IDXGISwapChain> _pSwapChain;
 	Microsoft::WRL::ComPtr<ID3D11DeviceContext> _pContext;
 	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> _pTarget;
+	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> _pDepthStencilView;
 };
 

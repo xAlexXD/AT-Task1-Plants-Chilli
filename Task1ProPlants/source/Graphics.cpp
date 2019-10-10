@@ -57,6 +57,43 @@ Graphics::Graphics(HWND hWnd)
 		nullptr,
 		&_pTarget
 	));
+
+	//Create z buffer / depth buffer
+	Microsoft::WRL::ComPtr<ID3D11DepthStencilState> pDDState;
+	D3D11_DEPTH_STENCIL_DESC dsd = {};
+	dsd.DepthEnable = TRUE;
+	dsd.StencilEnable = FALSE;
+	dsd.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	dsd.DepthFunc = D3D11_COMPARISON_LESS;
+
+	GFX_THROW_FAILED(_pDevice->CreateDepthStencilState(&dsd, &pDDState));
+
+	//bind depth state
+	_pContext->OMSetDepthStencilState(pDDState.Get(), 1u);
+
+	//Create depth stensil texture
+	Microsoft::WRL::ComPtr<ID3D11Texture2D> pDepthStencil;
+	D3D11_TEXTURE2D_DESC td = {};
+	td.Width = 800u;
+	td.Height = 600u;
+	td.MipLevels = 1u;
+	td.ArraySize = 1u;
+	td.Format = DXGI_FORMAT_D32_FLOAT;
+	td.SampleDesc.Count = 1u;			//SampleDesc values must match swapchains values!!!
+	td.SampleDesc.Quality = 0u;
+	td.Usage = D3D11_USAGE_DEFAULT;
+	td.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	GFX_THROW_FAILED(_pDevice->CreateTexture2D(&td, nullptr, &pDepthStencil));
+
+	//Create view of depth stencil texture
+	CD3D11_DEPTH_STENCIL_VIEW_DESC dsvd = {};
+	dsvd.Format = DXGI_FORMAT_D32_FLOAT;
+	dsvd.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+	dsvd.Texture2D.MipSlice = 0u;
+	GFX_THROW_FAILED(_pDevice->CreateDepthStencilView(pDepthStencil.Get(), &dsvd, &_pDepthStencilView));
+
+	//Bind the depth stencil view to OM
+	_pContext->OMSetRenderTargets(1u, _pTarget.GetAddressOf(), _pDepthStencilView.Get());
 }
 
 void Graphics::EndFrame()
@@ -80,9 +117,10 @@ void Graphics::ClearBuffer(float r, float g, float b) noexcept
 {
 	const float color[] = { r,g,b,1.0f };
 	_pContext->ClearRenderTargetView(_pTarget.Get(), color);
+	_pContext->ClearDepthStencilView(_pDepthStencilView.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
 }
 
-void Graphics::DrawTestCube(float angle, float x, float y)
+void Graphics::DrawTestCube(float angle, float x, float z)
 {
 	struct Vertex
 	{
@@ -167,7 +205,7 @@ void Graphics::DrawTestCube(float angle, float x, float y)
 			DirectX::XMMatrixTranspose(
 				DirectX::XMMatrixRotationZ(angle) *								//Rotate around z
 				DirectX::XMMatrixRotationX(angle) *								//Rotate around x as well
-				DirectX::XMMatrixTranslation(x,y,4.0f) *						//Move to where the mouse is
+				DirectX::XMMatrixTranslation(x,0.0f,z + 4.0f) *					//Move to where the mouse is
 				DirectX::XMMatrixPerspectiveLH(1.0f, 3.0f/4.0f, 0.5f, 10.0f)	//Projection matrix that conpensates for unmatching aspect ratio
 			)				
 		}
@@ -255,9 +293,6 @@ void Graphics::DrawTestCube(float angle, float x, float y)
 
 	//Bind input layout to pipeline
 	_pContext->IASetInputLayout(pInputLayout.Get());
-
-	//Bind render targets
-	_pContext->OMSetRenderTargets(1u, _pTarget.GetAddressOf(), nullptr);
 
 	//Create viewport
 	D3D11_VIEWPORT vp = {};
