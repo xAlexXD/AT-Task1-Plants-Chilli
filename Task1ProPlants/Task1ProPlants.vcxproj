@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\App.cpp" />
+    <ClCompile Include="source\dxerr.cpp" />
     <ClCompile Include="source\ExceptionHandler.cpp" />
     <ClCompile Include="source\Graphics.cpp" />
     <ClCompile Include="source\Keyboard.cpp" />
@@ -30,6 +31,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes\App.h" />
+    <ClInclude Include="includes\dxerr.h" />
     <ClInclude Include="includes\ExceptionHandler.h" />
     <ClInclude Include="includes\Graphics.h" />
     <ClInclude Include="includes\Keyboard.h" />
@@ -37,6 +39,11 @@
     <ClInclude Include="includes\Timer.h" />
     <ClInclude Include="includes\Window.h" />
     <ClInclude Include="includes\WindowsCustomInclude.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="source\DXGetErrorDescription.inl" />
+    <None Include="source\DXGetErrorString.inl" />
+    <None Include="source\DXTrace.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -139,6 +146,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)source;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -179,6 +187,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)source;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

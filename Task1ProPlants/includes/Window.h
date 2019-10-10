@@ -13,15 +13,26 @@ private:
 	//Specialised instance of the exception handler specific to windows
 	class Exception : public ExceptionHandler
 	{
+		using ExceptionHandler::ExceptionHandler;
 	public:
-		Exception(int line, const char* file, HRESULT hr) noexcept;
+		static std::string TranslateErrorCode(HRESULT hr) noexcept;
+	};
+	class HrException : public Exception
+	{
+	public:
+		HrException(int line, const char* file, HRESULT hr) noexcept;
 		const char* what() const noexcept override;
-		virtual const char* GetType() const noexcept override;
-		static std::string TranslateErrorCode(HRESULT hr);
+		const char* GetType() const noexcept override;
 		HRESULT GetErrorCode() const noexcept;
-		std::string GetErrorString() const noexcept;
+		std::string GetErrorDescription() const noexcept;
 	private:
 		HRESULT hr;
+	};
+	class NoGfxException : public Exception
+	{
+	public:
+		using Exception::Exception;
+		const char* GetType() const noexcept override;
 	};
 
 	//Singleton manages register and cleanup of window class
@@ -64,6 +75,7 @@ private:
 };
 
 //Error exception helper macro
-#define WND_EXCEPT(hr) Window::Exception(__LINE__, __FILE__, hr)
-#define WND_LAST_EXCEPT() Window::Exception(__LINE__, __FILE__, GetLastError())
+#define WND_EXCEPT( hr ) Window::HrException( __LINE__,__FILE__,(hr) )
+#define WND_LAST_EXCEPT() Window::HrException( __LINE__,__FILE__,GetLastError() )
+#define WND_NOGFX_EXCEPT() Window::NoGfxException( __LINE__,__FILE__ )
 

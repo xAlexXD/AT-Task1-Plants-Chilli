@@ -42,6 +42,9 @@
     <ClCompile Include="source\Graphics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\dxerr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes\WindowsCustomInclude.h">
@@ -68,5 +71,19 @@
     <ClInclude Include="includes\Graphics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="includes\dxerr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="source\DXGetErrorDescription.inl">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="source\DXGetErrorString.inl">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="source\DXTrace.inl">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
