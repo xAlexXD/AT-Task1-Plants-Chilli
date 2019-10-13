@@ -17,4 +17,5 @@ void TransConstBuffer::Bind(Graphics& gfx) noexcept
 	_pVcBuf->Bind(gfx);
 }
 
+//Declaration for private static variable, needed so the linker can find where it is ?
 std::unique_ptr<VertexConstantBuffer<DirectX::XMMATRIX>> TransConstBuffer::_pVcBuf;
