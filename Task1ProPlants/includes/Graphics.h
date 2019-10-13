@@ -1,15 +1,24 @@
 #pragma once
 
+#include <wrl.h>
+#include <d3d11.h>
+#include <d3dcompiler.h>
+#include <DirectXMath.h>
+#include <vector>
+#include <memory>
+#include <random>
+
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "dxgi.lib")
+#pragma comment(lib, "D3Dcompiler.lib")
 
 #include "WindowsCustomInclude.h"
-#include <d3d11.h>
 #include "ExceptionHandler.h"
-#include <wrl.h>
+
 
 class Graphics
 {
+	friend class Bindable;
 public:
 	class Exception : public ExceptionHandler
 	{
@@ -42,12 +51,17 @@ public:
 	void EndFrame();
 	void ClearBuffer(float r, float g, float b) noexcept;
 
-	void DrawTestCube(float angle, float x, float z);
+	void DrawIndexed(UINT count) noexcept;
+	DirectX::XMMATRIX GetProjection() const noexcept;
+	void SetProjection(DirectX::FXMMATRIX proj) noexcept;
+
 private:
 	Microsoft::WRL::ComPtr<ID3D11Device> _pDevice;
 	Microsoft::WRL::ComPtr<IDXGISwapChain> _pSwapChain;
 	Microsoft::WRL::ComPtr<ID3D11DeviceContext> _pContext;
 	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> _pTarget;
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> _pDepthStencilView;
+
+	DirectX::XMMATRIX _projectionMatrix;
 };
 

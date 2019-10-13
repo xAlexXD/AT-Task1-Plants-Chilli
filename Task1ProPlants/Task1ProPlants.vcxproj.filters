@@ -19,6 +19,9 @@
     <Filter Include="Dxerr">
       <UniqueIdentifier>{251abce8-9171-4992-a10b-42c7e24d7dc1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Macros">
+      <UniqueIdentifier>{153551d4-585a-4ee5-8e7d-52ee6b605885}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\WinMain.cpp">
@@ -48,6 +51,9 @@
     <ClCompile Include="source\dxerr.cpp">
       <Filter>Dxerr</Filter>
     </ClCompile>
+    <ClCompile Include="source\Bindable.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes\WindowsCustomInclude.h">
@@ -76,6 +82,15 @@
     </ClInclude>
     <ClInclude Include="includes\dxerr.h">
       <Filter>Dxerr</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\GraphicsThrowMacros.h">
+      <Filter>Header Files\Macros</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\WindowThrowMacros.h">
+      <Filter>Header Files\Macros</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Bindable.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

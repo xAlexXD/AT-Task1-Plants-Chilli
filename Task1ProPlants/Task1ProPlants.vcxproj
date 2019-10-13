@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\App.cpp" />
+    <ClCompile Include="source\Bindable.cpp" />
     <ClCompile Include="source\dxerr.cpp" />
     <ClCompile Include="source\ExceptionHandler.cpp" />
     <ClCompile Include="source\Graphics.cpp" />
@@ -31,14 +32,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes\App.h" />
+    <ClInclude Include="includes\Bindable.h" />
     <ClInclude Include="includes\dxerr.h" />
     <ClInclude Include="includes\ExceptionHandler.h" />
     <ClInclude Include="includes\Graphics.h" />
+    <ClInclude Include="includes\GraphicsThrowMacros.h" />
     <ClInclude Include="includes\Keyboard.h" />
     <ClInclude Include="includes\Mouse.h" />
     <ClInclude Include="includes\Timer.h" />
     <ClInclude Include="includes\Window.h" />
     <ClInclude Include="includes\WindowsCustomInclude.h" />
+    <ClInclude Include="includes\WindowThrowMacros.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="source\DXGetErrorDescription.inl" />

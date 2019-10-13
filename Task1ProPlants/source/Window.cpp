@@ -1,4 +1,5 @@
 #include "Window.h"
+#include "WindowThrowMacros.h"
 #include <sstream>
 
 ////Window class related functions
