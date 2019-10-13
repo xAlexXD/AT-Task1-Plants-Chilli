@@ -5,14 +5,14 @@
 template<class T>
 class DrawablesBase : public Drawable
 {
-public:
-	bool IsStaticInitialized() const noexcept
+protected:
+	static bool IsStaticInitialized() noexcept
 	{
 		return !_staticBinds.empty();
 	}
-	void AddStaticBind(std::unique_ptr<Bindable> bind)
+	static void AddStaticBind(std::unique_ptr<Bindable> bind)
 	{
-		assert("*MUST* use AddIndexBuffer to bind index buffer" && typeid(*bind) != typeid(IndexBuffer));
+		assert("*MUST* use AddStaticIndexBuffer to bind index buffer" && typeid(*bind) != typeid(IndexBuffer));
 		_staticBinds.push_back(std::move(bind));
 	}
 

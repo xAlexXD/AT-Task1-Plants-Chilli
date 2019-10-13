@@ -10,7 +10,7 @@ public:
 	void Bind(Graphics& gfx) noexcept override;
 
 private:
-	VertexConstantBuffer<DirectX::XMMATRIX> _vcBuf;
+	static std::unique_ptr<VertexConstantBuffer<DirectX::XMMATRIX>> _pVcBuf;
 	const Drawable& _parent;
 };
 
