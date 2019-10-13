@@ -46,6 +46,7 @@
     <ClInclude Include="includes\ConstantBuffer.h" />
     <ClInclude Include="includes\Cube.h" />
     <ClInclude Include="includes\Drawable.h" />
+    <ClInclude Include="includes\DrawablesBase.h" />
     <ClInclude Include="includes\dxerr.h" />
     <ClInclude Include="includes\ExceptionHandler.h" />
     <ClInclude Include="includes\Graphics.h" />

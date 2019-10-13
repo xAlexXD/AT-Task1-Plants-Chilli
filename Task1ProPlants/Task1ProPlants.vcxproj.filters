@@ -164,6 +164,9 @@
     <ClInclude Include="includes\Cube.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="includes\DrawablesBase.h">
+      <Filter>Header Files\Drawables</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\DXGetErrorDescription.inl">

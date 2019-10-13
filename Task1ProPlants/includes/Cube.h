@@ -1,7 +1,7 @@
 #pragma once
-#include "Drawable.h"
+#include "DrawablesBase.h"
 
-class Cube : public Drawable
+class Cube : public DrawablesBase<Cube>
 {
 public:
 	Cube(Graphics& gfx, std::mt19937& rng,
