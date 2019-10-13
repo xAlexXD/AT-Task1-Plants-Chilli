@@ -1,7 +1,7 @@
 #include "..\includes\IndexBuffer.h"
 #include "GraphicsThrowMacros.h"
 
-IndexBuffer::IndexBuffer(Graphics& gfx, const std::vector<unsigned short>& indices)
+IndexBuffer::IndexBuffer(Graphics& gfx, const std::vector<unsigned short>& indices) : _count((UINT)indices.size())
 {
 	HRESULT hr;
 
@@ -16,7 +16,7 @@ IndexBuffer::IndexBuffer(Graphics& gfx, const std::vector<unsigned short>& indic
 
 	//Setup the data reference the buffer is going to use
 	D3D11_SUBRESOURCE_DATA isd = {};
-	isd.pSysMem = indices.data;
+	isd.pSysMem = indices.data();
 
 	//Create the buffer itself
 	GFX_THROW_FAILED(GetDevice(gfx)->CreateBuffer(&ibd, &isd, &_pIndexBuffer));

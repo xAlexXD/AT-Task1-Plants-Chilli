@@ -6,6 +6,9 @@ TransConstBuffer::TransConstBuffer(Graphics& gfx, const Drawable& parent) : _vcB
 
 void TransConstBuffer::Bind(Graphics& gfx) noexcept
 {
-	//_vcBuf.Update()
+	_vcBuf.Update(
+		gfx,
+		DirectX::XMMatrixTranspose(_parent.GetTransformXM() * gfx.GetProjection())
+	);
 	_vcBuf.Bind(gfx);
 }

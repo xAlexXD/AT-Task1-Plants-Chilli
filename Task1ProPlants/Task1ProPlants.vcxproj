@@ -21,25 +21,45 @@
   <ItemGroup>
     <ClCompile Include="source\App.cpp" />
     <ClCompile Include="source\Bindable.cpp" />
+    <ClCompile Include="source\Cube.cpp" />
+    <ClCompile Include="source\Drawable.cpp" />
     <ClCompile Include="source\dxerr.cpp" />
     <ClCompile Include="source\ExceptionHandler.cpp" />
     <ClCompile Include="source\Graphics.cpp" />
+    <ClCompile Include="source\IndexBuffer.cpp" />
+    <ClCompile Include="source\InputLayout.cpp" />
     <ClCompile Include="source\Keyboard.cpp" />
     <ClCompile Include="source\Mouse.cpp" />
+    <ClCompile Include="source\PixelShader.cpp" />
+    <ClCompile Include="source\PrimTopology.cpp" />
     <ClCompile Include="source\Timer.cpp" />
+    <ClCompile Include="source\TransConstBuffer.cpp" />
+    <ClCompile Include="source\VertexBuffer.cpp" />
+    <ClCompile Include="source\VertexShader.cpp" />
     <ClCompile Include="source\Window.cpp" />
     <ClCompile Include="source\WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes\App.h" />
     <ClInclude Include="includes\Bindable.h" />
+    <ClInclude Include="includes\BindableBase.h" />
+    <ClInclude Include="includes\ConstantBuffer.h" />
+    <ClInclude Include="includes\Cube.h" />
+    <ClInclude Include="includes\Drawable.h" />
     <ClInclude Include="includes\dxerr.h" />
     <ClInclude Include="includes\ExceptionHandler.h" />
     <ClInclude Include="includes\Graphics.h" />
     <ClInclude Include="includes\GraphicsThrowMacros.h" />
+    <ClInclude Include="includes\IndexBuffer.h" />
+    <ClInclude Include="includes\InputLayout.h" />
     <ClInclude Include="includes\Keyboard.h" />
     <ClInclude Include="includes\Mouse.h" />
+    <ClInclude Include="includes\PixelShader.h" />
+    <ClInclude Include="includes\PrimTopology.h" />
     <ClInclude Include="includes\Timer.h" />
+    <ClInclude Include="includes\TransConstBuffer.h" />
+    <ClInclude Include="includes\VertexBuffer.h" />
+    <ClInclude Include="includes\VertexShader.h" />
     <ClInclude Include="includes\Window.h" />
     <ClInclude Include="includes\WindowsCustomInclude.h" />
     <ClInclude Include="includes\WindowThrowMacros.h" />

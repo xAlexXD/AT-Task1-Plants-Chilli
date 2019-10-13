@@ -9,6 +9,8 @@ public:
 	//2 constructors one for defining the data filling a const buffer and one to just create an empty one
 	ConstantBuffer(Graphics& gfx, const C& consts)
 	{
+		HRESULT hr;
+
 		//Set up const buffer description
 		D3D11_BUFFER_DESC cbd;
 		cbd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
@@ -28,6 +30,8 @@ public:
 
 	ConstantBuffer(Graphics& gfx)
 	{
+		HRESULT hr;
+
 		//Set up const buffer description
 		D3D11_BUFFER_DESC cbd;
 		cbd.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
@@ -42,8 +46,10 @@ public:
 	}
 
 	//Constant buffers tend to need to be updated frequently for example const buffers that hold positional matrixes
-	void Update(graphics& gfx, const C& consts)
+	void Update(Graphics& gfx, const C& consts)
 	{
+		HRESULT hr;
+
 		//Map the buffer so that it cant be accessed whilst we write to it and update the buffer with the new content
 		D3D11_MAPPED_SUBRESOURCE msr;
 		GFX_THROW_FAILED(GetContext(gfx)->Map(_pConstBuffer.Get(), 0u, D3D11_MAP_WRITE_DISCARD, 0u, &msr));

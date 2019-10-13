@@ -6,11 +6,14 @@ class App
 {
 public:
 	App();
+	~App();
 	int Go();
 private:
 	void DoFrame();
 private:
 	Window _wnd;
-	Timer timer;
+	Timer _timer;
+
+	std::vector<std::unique_ptr<class Cube>> _cubes;
 };
 
