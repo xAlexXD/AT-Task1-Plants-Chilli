@@ -34,6 +34,9 @@
     <Filter Include="Source Files\Drawables">
       <UniqueIdentifier>{30ac39a1-88c1-462e-8e9e-bbe40d414b80}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Primitives">
+      <UniqueIdentifier>{aa120da1-49f4-45ea-a127-18a37f3a4699}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\WinMain.cpp">
@@ -92,6 +95,9 @@
     </ClCompile>
     <ClCompile Include="source\Cube.cpp">
       <Filter>Source Files\Drawables</Filter>
+    </ClCompile>
+    <ClCompile Include="source\GameObjectTransform.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -166,6 +172,30 @@
     </ClInclude>
     <ClInclude Include="includes\Cube.h">
       <Filter>Header Files\Drawables</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\MathClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\IndexedTriangleList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\CubePrim.h">
+      <Filter>Header Files\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\ConePrim.h">
+      <Filter>Header Files\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\PrismPrim.h">
+      <Filter>Header Files\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\SpherePrim.h">
+      <Filter>Header Files\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\PlanePrim.h">
+      <Filter>Header Files\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\GameObjectTransform.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

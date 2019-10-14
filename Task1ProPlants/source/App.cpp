@@ -10,7 +10,7 @@ App::App() : _wnd(800, 600, "AT Task1 Proc Plants")
 	std::uniform_real_distribution<float> worldRotDelta(0.0f, 3.1415f * 0.3f); //Chosing a random dist between 0 and 2PI aka full radius for radians
 	std::uniform_real_distribution<float> rDist(6.0f, 20.0f); 
 
-	for (size_t i = 0; i < 50; i++)
+	for (size_t i = 0; i < 1; i++)
 	{
 		_cubes.push_back(std::make_unique<Cube>(_wnd.Gfx(), rng, rDist, localRotDelta, worldRotDelta, worldRot));
 	}
