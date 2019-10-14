@@ -80,7 +80,8 @@ Cube::Cube(Graphics& gfx, std::mt19937& rng,
 	//Create transform constant buffer bind -- this one slighly special, need a reference to this class to be able to call the transform function and use that data
 	AddBind(std::make_unique<TransConstBuffer>(gfx, *this));
 
-	//DirectX::XMStoreFloat3x3(&_transform->GetModelTransform(), DirectX::XMMatrixScaling(2.0f, 2.0f, 2.0f));
+	//Adjust this to change the per instance scaling
+	DirectX::XMStoreFloat3x3(&_transform->GetModelTransform(), DirectX::XMMatrixScaling(1.0f, 1.0f, 1.0f));
 }
 
 void Cube::Update(float dt) noexcept

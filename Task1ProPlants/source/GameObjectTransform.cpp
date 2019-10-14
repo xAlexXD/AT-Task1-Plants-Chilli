@@ -28,7 +28,7 @@ DirectX::XMMATRIX GameObjectTransform::GetGameObjectTransformXM() const noexcept
 		DirectX::XMMatrixTranslation(0.0f, 0.0f, 20.0f);					//Offsets the cube from the camera to give it some space
 }
 
-DirectX::XMFLOAT3X3 GameObjectTransform::GetModelTransform() noexcept
+DirectX::XMFLOAT3X3& GameObjectTransform::GetModelTransform() noexcept
 {
 	return _modelTransform;
 }

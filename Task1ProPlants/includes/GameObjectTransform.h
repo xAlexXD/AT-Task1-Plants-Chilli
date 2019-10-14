@@ -20,7 +20,7 @@ public:
 	void Update(float dt) noexcept;
 	DirectX::XMMATRIX GetGameObjectTransformXM() const noexcept;
 
-	DirectX::XMFLOAT3X3 GetModelTransform() noexcept;
+	DirectX::XMFLOAT3X3& GetModelTransform() noexcept;
 
 private:
 	//Model transformation, used for scaling
