@@ -3,7 +3,7 @@
 #include <memory>
 #include "imgui.h"
 
-App::App() : _wnd(800, 600, "AT Task1 Proc Plants")
+App::App() : _wnd(1280, 720, "AT Task1 Proc Plants")
 {
 	std::mt19937 rng(std::random_device{}());
 	std::uniform_real_distribution<float> worldRot(0.0f, 3.1415f * 2.0f); //Chosing a random dist between 0 and 2PI aka full radius for radians
@@ -16,7 +16,8 @@ App::App() : _wnd(800, 600, "AT Task1 Proc Plants")
 		_cubes.push_back(std::make_unique<Cube>(_wnd.Gfx(), rng, rDist, localRotDelta, worldRotDelta, worldRot));
 	}
 	
-	_wnd.Gfx().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 3.0f / 4.0f, 0.5f, 40.0f));
+	_wnd.Gfx().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 720.0f / 1280.0f, 0.5f, 40.0f));
+	_wnd.Gfx().SetCamera(DirectX::XMMatrixTranslation(0.0f, 0.0f, 20.0f));
 }
 
 App::~App()

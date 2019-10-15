@@ -43,7 +43,7 @@ public:
 		const char* GetType() const noexcept override;
 	};
 public:
-	Graphics(HWND hWnd);
+	Graphics(HWND hWnd, unsigned int width, unsigned int height);
 	Graphics(const Graphics&) = delete;
 	Graphics& operator=(const Graphics&) = delete;
 	~Graphics() = default;
@@ -54,6 +54,9 @@ public:
 	void EnableImgui() noexcept;
 	void DisableImgui() noexcept;
 	bool IsImguiEnabled() const noexcept;
+
+	DirectX::XMMATRIX GetCamera() const noexcept;
+	void SetCamera(DirectX::FXMMATRIX cam) noexcept;
 
 	void DrawIndexed(UINT count) noexcept;
 	DirectX::XMMATRIX GetProjection() const noexcept;
@@ -67,6 +70,7 @@ private:
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> _pDepthStencilView;
 
 	bool _imguiEnabled = true;
+	DirectX::XMMATRIX _cameraMatrix;
 	DirectX::XMMATRIX _projectionMatrix;
 };
 

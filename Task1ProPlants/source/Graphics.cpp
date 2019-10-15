@@ -5,7 +5,7 @@
 #include "imgui_impl_dx11.h"
 #include "imgui_impl_win32.h"
 
-Graphics::Graphics(HWND hWnd)
+Graphics::Graphics(HWND hWnd, unsigned int width, unsigned int height)
 {
 	//Descriptor for swap chain
 	DXGI_SWAP_CHAIN_DESC scd = {};
@@ -68,8 +68,8 @@ Graphics::Graphics(HWND hWnd)
 	//Create depth stensil texture
 	Microsoft::WRL::ComPtr<ID3D11Texture2D> pDepthStencil;
 	D3D11_TEXTURE2D_DESC td = {};
-	td.Width = 800u;
-	td.Height = 600u;
+	td.Width = width;
+	td.Height = height;
 	td.MipLevels = 1u;
 	td.ArraySize = 1u;
 	td.Format = DXGI_FORMAT_D32_FLOAT;
@@ -91,8 +91,8 @@ Graphics::Graphics(HWND hWnd)
 
 	//Configure viewport
 	D3D11_VIEWPORT vp;
-	vp.Width = 800.0f;
-	vp.Height = 600.0f;
+	vp.Width = width;
+	vp.Height = height;
 	vp.MinDepth = 0.0f;
 	vp.MaxDepth = 1.0f;
 	vp.TopLeftX = 0.0f;
@@ -155,6 +155,16 @@ void Graphics::DisableImgui() noexcept
 bool Graphics::IsImguiEnabled() const noexcept
 {
 	return _imguiEnabled;
+}
+
+DirectX::XMMATRIX Graphics::GetCamera() const noexcept
+{
+	return _cameraMatrix;
+}
+
+void Graphics::SetCamera(DirectX::FXMMATRIX cam) noexcept
+{
+	_cameraMatrix = cam;
 }
 
 void Graphics::DrawIndexed(UINT count) noexcept

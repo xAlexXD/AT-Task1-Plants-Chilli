@@ -24,8 +24,7 @@ DirectX::XMMATRIX GameObjectTransform::GetGameObjectTransformXM() const noexcept
 	return DirectX::XMLoadFloat3x3(&_modelTransform) *						//Takes the models transform as a modifer
 		DirectX::XMMatrixRotationRollPitchYaw(_pitch, _yaw, _roll) *		//Rotates around the cubes center
 		DirectX::XMMatrixTranslation(_r, 0.0f, 0.0f) *						//Translates the cube away from the origin of scene
-		DirectX::XMMatrixRotationRollPitchYaw(_theta, _phi, _chi) *			//Rotates cube around the origin of the scene
-		DirectX::XMMatrixTranslation(0.0f, 0.0f, 20.0f);					//Offsets the cube from the camera to give it some space
+		DirectX::XMMatrixRotationRollPitchYaw(_theta, _phi, _chi);		//Rotates cube around the origin of the scene
 }
 
 DirectX::XMFLOAT3X3& GameObjectTransform::GetModelTransform() noexcept

@@ -12,7 +12,7 @@ void TransConstBuffer::Bind(Graphics& gfx) noexcept
 {
 	_pVcBuf->Update(
 		gfx,
-		DirectX::XMMatrixTranspose(_parent.GetTransformXM() * gfx.GetProjection())
+		DirectX::XMMatrixTranspose(_parent.GetTransformXM() * gfx.GetCamera() * gfx.GetProjection())
 	);
 	_pVcBuf->Bind(gfx);
 }
