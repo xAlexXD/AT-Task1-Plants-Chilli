@@ -2,6 +2,7 @@
 #include "Window.h"
 #include "Timer.h"
 #include "ImguiManager.h"
+#include "Camera.h"
 
 class App
 {
@@ -18,5 +19,6 @@ private:
 
 	float _dtSpeedFactor = 1.0f;
 	std::vector<std::unique_ptr<class Cube>> _cubes;
+	Camera _cam;
 };
 

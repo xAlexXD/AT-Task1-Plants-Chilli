@@ -17,7 +17,6 @@ App::App() : _wnd(1280, 720, "AT Task1 Proc Plants")
 	}
 	
 	_wnd.Gfx().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 720.0f / 1280.0f, 0.5f, 40.0f));
-	_wnd.Gfx().SetCamera(DirectX::XMMatrixTranslation(0.0f, 0.0f, 20.0f));
 }
 
 App::~App()
@@ -46,6 +45,7 @@ void App::DoFrame()
 
 	//Start DirectX frame
 	_wnd.Gfx().BeginFrame(0.07f, 0.0f, 0.12f);
+	_wnd.Gfx().SetCamera(_cam.GetMatrix());
 
 	//updates the game objects in the scene
 	for (auto& cube : _cubes)
@@ -63,9 +63,10 @@ void App::DoFrame()
 		//Slider to adjust the factors value
 		ImGui::SliderFloat("Speed Modifer", &_dtSpeedFactor, 0.0f, 4.0f);
 	}
-
-	//After processing all windows for imgui always end
+	//After processing a window for imgui always end
 	ImGui::End();
+
+	_cam.SpawnImguiControlWindow();
 
 	//present
 	_wnd.Gfx().EndFrame();
