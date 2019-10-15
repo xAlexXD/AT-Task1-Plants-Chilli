@@ -163,6 +163,9 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 		return true;
 	}
 
+	//To be used in the cases to check if an input should be swallowed by imgui
+	const auto& imguiIo = ImGui::GetIO();
+
 	switch (msg)
 	{
 		case WM_CLOSE:
@@ -177,6 +180,9 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 		case WM_KEYDOWN:
 		//Added sys key to take into account the ALT key
 		case WM_SYSKEYDOWN:
+			//Swallow message if imgui wants to capture it
+			if(imguiIo.WantCaptureKeyboard){ break; }
+
 			//If bit 30 of lParam is false or autorepeat is enabled then process the keypress, otherwise ignore it 
 			if (!(lParam & 0x40000000) || _keyboard.AutorepeatIsEnabled())
 			{
@@ -186,15 +192,24 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 		case WM_KEYUP:
 		//Added sys key to take into account the ALT key
 		case WM_SYSKEYUP:
+			//Swallow message if imgui wants to capture it
+			if(imguiIo.WantCaptureKeyboard){ break; }
+
 			_keyboard.OnKeyReleased(static_cast<unsigned char>(wParam));
 			break;
 		case WM_CHAR:
+			//Swallow message if imgui wants to capture it
+			if(imguiIo.WantCaptureKeyboard){ break; }
+
 			//Returns Character pressed with modifers (shift + d == D)
 			_keyboard.OnChar(static_cast<unsigned char>(wParam));
 			break;
 	////////////////////////////////////////////////
 	///////////// MOUSE MESSAGES //////////////////
 		case WM_MOUSEMOVE:
+			//Swallow message if imgui wants to capture it
+			if(imguiIo.WantCaptureMouse){ break; }
+
 			const POINTS pt1 = MAKEPOINTS(lParam);
 			//If mouse is in client region log movement and log enter into window and capture if it wasnt previous in window
 			if (pt1.x >= 0 && pt1.x < _width && pt1.y >= 0 && pt1.y < _height)
@@ -222,22 +237,38 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 			}
 			break;
 		case WM_LBUTTONDOWN:
+			SetForegroundWindow(hWnd);
+			//Swallow message if imgui wants to capture it
+			if(imguiIo.WantCaptureMouse){ break; }
+
 			const POINTS pt2 = MAKEPOINTS(lParam);
 			_mouse.OnLeftPressed(pt2.x, pt2.y);
 			break;
 		case WM_LBUTTONUP:
+			//Swallow message if imgui wants to capture it
+			if(imguiIo.WantCaptureMouse){ break; }
+
 			const POINTS pt3 = MAKEPOINTS(lParam);
 			_mouse.OnLeftReleased(pt3.x, pt3.y);
 			break;
 		case WM_RBUTTONDOWN:
+			//Swallow message if imgui wants to capture it
+			if(imguiIo.WantCaptureMouse){ break; }
+
 			const POINTS pt4 = MAKEPOINTS(lParam);
 			_mouse.OnRightPressed(pt4.x, pt4.y);
 			break;
 		case WM_RBUTTONUP:
+			//Swallow message if imgui wants to capture it
+			if(imguiIo.WantCaptureMouse){ break; }
+
 			const POINTS pt5 = MAKEPOINTS(lParam);
 			_mouse.OnRightReleased(pt5.x, pt5.y);
 			break;
 		case WM_MOUSEWHEEL:
+			//Swallow message if imgui wants to capture it
+			if(imguiIo.WantCaptureMouse){ break; }
+
 			const POINTS pt6 = MAKEPOINTS(lParam);
 			const int delta = GET_WHEEL_DELTA_WPARAM(wParam);
 			_mouse.OnWheelDelta(pt6.x, pt6.y, delta);
