@@ -1,6 +1,7 @@
 #include "..\includes\App.h"
 #include "Cube.h"
 #include <memory>
+#include "imgui.h"
 
 App::App() : _wnd(800, 600, "AT Task1 Proc Plants")
 {
@@ -39,14 +40,34 @@ int App::Go()
 
 void App::DoFrame()
 {
+	//Creates a mark for this updates delta time and clears back buffer to solid colour
 	auto dt = _timer.Mark();
-	_wnd.Gfx().ClearBuffer(0.07f, 0.0f, 0.12f);
 
+	//Check input to toggle imgui
+	if (_wnd._keyboard.KeyIsPressed(VK_SPACE))
+	{
+		_wnd.Gfx().DisableImgui();
+	}
+	else
+	{
+		_wnd.Gfx().EnableImgui();
+	}
+
+	//Start DirectX frame
+	_wnd.Gfx().BeginFrame(0.07f, 0.0f, 0.12f);
+
+	//updates the game objects in the scene
 	for (auto& cube : _cubes)
 	{
-		cube->Update(dt);
+		cube->Update(_wnd._keyboard.KeyIsPressed(VK_SPACE) ? 0.0f : dt);
 		cube->Draw(_wnd.Gfx());
 	}
 
+	if (_showDemoWindow)
+	{
+		ImGui::ShowDemoWindow(&_showDemoWindow);
+	}
+
+	//present
 	_wnd.Gfx().EndFrame();
 }

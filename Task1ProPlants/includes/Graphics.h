@@ -48,8 +48,12 @@ public:
 	Graphics& operator=(const Graphics&) = delete;
 	~Graphics() = default;
 
+	void BeginFrame(float red, float green, float blue) noexcept;
 	void EndFrame();
-	void ClearBuffer(float r, float g, float b) noexcept;
+
+	void EnableImgui() noexcept;
+	void DisableImgui() noexcept;
+	bool IsImguiEnabled() const noexcept;
 
 	void DrawIndexed(UINT count) noexcept;
 	DirectX::XMMATRIX GetProjection() const noexcept;
@@ -62,6 +66,7 @@ private:
 	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> _pTarget;
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> _pDepthStencilView;
 
+	bool _imguiEnabled = true;
 	DirectX::XMMATRIX _projectionMatrix;
 };
 
