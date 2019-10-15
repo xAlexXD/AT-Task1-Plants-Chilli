@@ -41,17 +41,7 @@ int App::Go()
 void App::DoFrame()
 {
 	//Creates a mark for this updates delta time and clears back buffer to solid colour
-	auto dt = _timer.Mark();
-
-	//Check input to toggle imgui
-	if (_wnd._keyboard.KeyIsPressed(VK_SPACE))
-	{
-		_wnd.Gfx().DisableImgui();
-	}
-	else
-	{
-		_wnd.Gfx().EnableImgui();
-	}
+	auto dt = _timer.Mark() * _dtSpeedFactor;
 
 	//Start DirectX frame
 	_wnd.Gfx().BeginFrame(0.07f, 0.0f, 0.12f);
@@ -63,10 +53,18 @@ void App::DoFrame()
 		cube->Draw(_wnd.Gfx());
 	}
 
-	if (_showDemoWindow)
+	//Simple box to adjust speed of simulation
+	if (ImGui::Begin("Simulation Speed"))
 	{
-		ImGui::ShowDemoWindow(&_showDemoWindow);
+		//Small text box using c style print fs to pass in parameters
+		ImGui::Text("Application Average: %.3f ms || Framerate: %.1f FPS", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+
+		//Slider to adjust the factors value
+		ImGui::SliderFloat("Speed Modifer", &_dtSpeedFactor, 0.0f, 4.0f);
 	}
+
+	//After processing all windows for imgui always end
+	ImGui::End();
 
 	//present
 	_wnd.Gfx().EndFrame();

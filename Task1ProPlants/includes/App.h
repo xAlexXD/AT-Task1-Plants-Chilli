@@ -16,7 +16,7 @@ private:
 	Window _wnd;
 	Timer _timer;
 
-	bool _showDemoWindow = true;
+	float _dtSpeedFactor = 1.0f;
 	std::vector<std::unique_ptr<class Cube>> _cubes;
 };
 
