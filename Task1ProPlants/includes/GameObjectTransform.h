@@ -5,7 +5,7 @@
 class GameObjectTransform 
 {
 public:
-	GameObjectTransform() = delete;
+	GameObjectTransform() = default;
 	GameObjectTransform(const GameObjectTransform&) = delete;
 	GameObjectTransform& operator=(const GameObjectTransform&) = delete;
 	
@@ -27,7 +27,7 @@ private:
 	DirectX::XMFLOAT3X3 _modelTransform;
 
 	////Positional values
-	float _r;
+	float _r = 0.1f;;
 	//Local rotations
 	float _roll = 0.0f;			//Rotation along the x axis, where Z axis is down
 	float _pitch = 0.0f;		//Rotation along the y axis, where Z axis is down
@@ -38,11 +38,11 @@ private:
 	float _chi = 0.0f;			//Equiv to roll but in world space
 
 	////Speed (delta/s)
-	float _dRoll;
-	float _dPitch;
-	float _dYaw;
-	float _dTheta;
-	float _dPhi;
-	float _dChi;
+	float _dRoll = 0.0f;
+	float _dPitch = 0.0f;
+	float _dYaw = 0.0f;
+	float _dTheta = 0.0f;
+	float _dPhi = 0.0f;
+	float _dChi = 0.0f;
 };
 

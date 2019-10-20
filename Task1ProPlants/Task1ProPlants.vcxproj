@@ -44,6 +44,7 @@
     <ClCompile Include="source\Sampler.cpp" />
     <ClCompile Include="source\Sheet.cpp" />
     <ClCompile Include="source\Texture.cpp" />
+    <ClCompile Include="source\TexturedCube.cpp" />
     <ClCompile Include="source\Timer.cpp" />
     <ClCompile Include="source\TransConstBuffer.cpp" />
     <ClCompile Include="source\VertexBuffer.cpp" />
@@ -90,6 +91,7 @@
     <ClInclude Include="includes\Sheet.h" />
     <ClInclude Include="includes\SpherePrim.h" />
     <ClInclude Include="includes\Texture.h" />
+    <ClInclude Include="includes\TexturedCube.h" />
     <ClInclude Include="includes\Timer.h" />
     <ClInclude Include="includes\TransConstBuffer.h" />
     <ClInclude Include="includes\VertexBuffer.h" />

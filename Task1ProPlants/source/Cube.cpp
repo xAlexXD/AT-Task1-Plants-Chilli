@@ -20,8 +20,7 @@ Cube::Cube(Graphics& gfx, std::mt19937& rng,
 			DirectX::XMFLOAT3 pos;
 		};
 
-		//auto model = CubePrim::Make<Vertex>();
-		auto model = PrismPrim::MakeTesselated<Vertex>(24);
+		auto model = CubePrim::Make<Vertex>();
 		//READD LINE BELOW IF YOU WANT TO DO DEFORMATIONS ON A BASE OBJECT TO APPLY TO ALL INSTACES
 		//model.Transform(DirectX::XMMatrixScaling(1.0f, 1.0f, 1.0f));
 
