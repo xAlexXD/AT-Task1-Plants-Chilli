@@ -2,6 +2,7 @@
 #include "BindableBase.h"
 #include "GraphicsThrowMacros.h"
 #include "CubePrim.h"
+#include "PrismPrim.h"
 
 Cube::Cube(Graphics& gfx, std::mt19937& rng,
 	std::uniform_real_distribution<float>& rDist,
@@ -19,7 +20,8 @@ Cube::Cube(Graphics& gfx, std::mt19937& rng,
 			DirectX::XMFLOAT3 pos;
 		};
 
-		auto model = CubePrim::Make<Vertex>();
+		//auto model = CubePrim::Make<Vertex>();
+		auto model = PrismPrim::MakeTesselated<Vertex>(24);
 		//READD LINE BELOW IF YOU WANT TO DO DEFORMATIONS ON A BASE OBJECT TO APPLY TO ALL INSTACES
 		//model.Transform(DirectX::XMMatrixScaling(1.0f, 1.0f, 1.0f));
 

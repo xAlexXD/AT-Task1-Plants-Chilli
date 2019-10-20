@@ -4,6 +4,7 @@
 #include <sstream>
 #include "imgui_impl_dx11.h"
 #include "imgui_impl_win32.h"
+#include "Texture.h"
 
 Graphics::Graphics(HWND hWnd, unsigned int width, unsigned int height)
 {
@@ -101,6 +102,11 @@ Graphics::Graphics(HWND hWnd, unsigned int width, unsigned int height)
 
 	//Init imgui d3d implementation
 	ImGui_ImplDX11_Init(_pDevice.Get(), _pContext.Get());
+
+
+	const char* fileName = "./textures/grassTgaAlpha.tga";
+	//Texture load test
+	std::unique_ptr<Texture> tex = std::make_unique<Texture>(*this, fileName);
 }
 
 void Graphics::BeginFrame(float r, float g, float b) noexcept
