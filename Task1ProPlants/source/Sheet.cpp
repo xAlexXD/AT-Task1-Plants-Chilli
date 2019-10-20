@@ -29,7 +29,7 @@ Sheet::Sheet(Graphics& gfx,
 		model._vertices[2].tex = { 0.0f, 1.0f };
 		model._vertices[3].tex = { 1.0f, 1.0f };
 
-		AddStaticBind(std::make_unique<Texture>(gfx, "./textures/grassTgaAlpha.tga"));
+		AddStaticBind(std::make_unique<Texture>(gfx, "./textures/sheb.tga"));
 		AddStaticBind(std::make_unique<VertexBuffer>(gfx, model._vertices));
 		AddStaticBind(std::make_unique<Sampler>(gfx));
 

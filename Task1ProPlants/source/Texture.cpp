@@ -23,9 +23,9 @@ Texture::Texture(Graphics & gfx, const char* fileName)
 	td.SampleDesc.Count = 1;
 	td.SampleDesc.Quality = 0;
 	td.Usage = D3D11_USAGE_DEFAULT;
-	td.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
+	td.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 	td.CPUAccessFlags = 0;
-	td.MiscFlags = D3D11_RESOURCE_MISC_GENERATE_MIPS;
+	td.MiscFlags = 0;
 
 	D3D11_SUBRESOURCE_DATA sd = {};
 	sd.pSysMem = _pTargaData;
