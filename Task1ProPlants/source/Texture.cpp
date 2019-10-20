@@ -8,13 +8,13 @@ Texture::Texture(Graphics & gfx, const char* fileName)
 {
 	HRESULT hr;
 	int height, width;
-	Microsoft::WRL::ComPtr<ID3D11Texture2D> pTexture = nullptr;
 
 	//Load targa image data into memory
 	LoadTarga(fileName, width, height);
 
-	//Description of texture
-	D3D11_TEXTURE2D_DESC td;
+	//Creation of texture resource
+	Microsoft::WRL::ComPtr<ID3D11Texture2D> pTexture = nullptr;
+	D3D11_TEXTURE2D_DESC td = {};
 	td.Height = height;
 	td.Width = width;
 	td.MipLevels = 1;
@@ -23,25 +23,23 @@ Texture::Texture(Graphics & gfx, const char* fileName)
 	td.SampleDesc.Count = 1;
 	td.SampleDesc.Quality = 0;
 	td.Usage = D3D11_USAGE_DEFAULT;
-	td.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+	td.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
 	td.CPUAccessFlags = 0;
-	td.MiscFlags = 0;
+	td.MiscFlags = D3D11_RESOURCE_MISC_GENERATE_MIPS;
 
-	//Create the empty texture
-	GFX_THROW_FAILED(GetDevice(gfx)->CreateTexture2D(&td, nullptr, &pTexture));
+	D3D11_SUBRESOURCE_DATA sd = {};
+	sd.pSysMem = _pTargaData;
+	sd.SysMemPitch = sizeof(unsigned char) * (width * 4);
 
-	//Set the row pitch of thre target image data
-	unsigned int rowPitch = sizeof(unsigned char) * (width * 4);
-
-	//Copy the targa image data into texture, using update subresource instead of map and unmap due it getting cache retention preference as itll be around for longer
-	GetContext(gfx)->UpdateSubresource(pTexture.Get(), 0u, nullptr, _pTargaData, rowPitch, 0u);
+	//Create the texture
+	GFX_THROW_FAILED(GetDevice(gfx)->CreateTexture2D(&td, &sd, &pTexture));
 
 	//Setup the shader resource view desc
 	D3D11_SHADER_RESOURCE_VIEW_DESC srvd;
 	srvd.Format = td.Format;
 	srvd.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 	srvd.Texture2D.MostDetailedMip = 0;
-	srvd.Texture2D.MipLevels = -1;
+	srvd.Texture2D.MipLevels = 1;
 
 	//Create the shader resource view for the texture
 	GFX_THROW_FAILED(GetDevice(gfx)->CreateShaderResourceView(pTexture.Get(), &srvd, &_pTextureView));
@@ -60,6 +58,7 @@ Texture::~Texture()
 
 void Texture::Bind(Graphics& gfx) noexcept
 {
+	GetContext(gfx)->PSSetShaderResources(0u, 1u, _pTextureView.GetAddressOf());
 }
 
 ID3D11ShaderResourceView* Texture::GetTextureView() const noexcept

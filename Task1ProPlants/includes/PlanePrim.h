@@ -4,8 +4,9 @@
 #include <array>
 #include "MathClass.h"
 
-class Plane
+class PlanePrim
 {
+public:
 	template<class V>
 	static IndexedTriangleList<V> MakeTesselated(int divisions_x, int divisions_y)
 	{
@@ -40,7 +41,7 @@ class Plane
 		}
 
 		std::vector<unsigned short> indices;
-		indices.reserve(sq(divisions_x * divisions_y) * 6);
+		indices.reserve(square(divisions_x * divisions_y) * 6);
 		{
 			const auto vxy2i = [nVertices_x](size_t x, size_t y)
 			{

@@ -1,5 +1,6 @@
 #include "..\includes\App.h"
 #include "Cube.h"
+#include "Sheet.h"
 #include <memory>
 #include "imgui.h"
 
@@ -11,10 +12,16 @@ App::App() : _wnd(1280, 720, "AT Task1 Proc Plants")
 	std::uniform_real_distribution<float> worldRotDelta(0.0f, 3.1415f * 0.3f); //Chosing a random dist between 0 and 2PI aka full radius for radians
 	std::uniform_real_distribution<float> rDist(6.0f, 20.0f); 
 
-	for (size_t i = 0; i < 50; i++)
+	for (size_t i = 0; i < 20; i++)
 	{
 		_cubes.push_back(std::make_unique<Cube>(_wnd.Gfx(), rng, rDist, localRotDelta, worldRotDelta, worldRot));
 	}
+
+	for (size_t i = 0; i < 20; i++)
+	{
+		_sheets.push_back(std::make_unique<Sheet>(_wnd.Gfx(), rng, rDist, localRotDelta, worldRotDelta, worldRot));
+	}
+
 	
 	_wnd.Gfx().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 720.0f / 1280.0f, 0.5f, 100.0f));
 }
@@ -52,6 +59,12 @@ void App::DoFrame()
 	{
 		cube->Update(_wnd._keyboard.KeyIsPressed(VK_SPACE) ? 0.0f : dt);
 		cube->Draw(_wnd.Gfx());
+	}
+
+	for (auto& sheet : _sheets)
+	{
+		sheet->Update(_wnd._keyboard.KeyIsPressed(VK_SPACE) ? 0.0f : dt);
+		sheet->Draw(_wnd.Gfx());
 	}
 
 	//Simple box to adjust speed of simulation

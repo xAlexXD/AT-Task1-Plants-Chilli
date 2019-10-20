@@ -8,3 +8,5 @@
 #include "PixelShader.h"
 #include "InputLayout.h"
 #include "PrimTopology.h"
+#include "Texture.h"
+#include "Sampler.h"

@@ -25,6 +25,10 @@ public:
 
 	ID3D11ShaderResourceView* GetTextureView() const noexcept;
 
+
+protected:
+	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> _pTextureView = nullptr;
+
 private:
 	//Targa file header structer
 	struct TargaHeader
@@ -39,6 +43,4 @@ private:
 	void LoadTarga(const char* fileName, int& width, int& height);
 
 	unsigned char* _pTargaData = nullptr;
-	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> _pTextureView = nullptr;
 };
-

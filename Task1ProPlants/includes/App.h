@@ -19,6 +19,7 @@ private:
 
 	float _dtSpeedFactor = 1.0f;
 	std::vector<std::unique_ptr<class Cube>> _cubes;
+	std::vector<std::unique_ptr<class Sheet>> _sheets;
 	Camera _cam;
 };
 
