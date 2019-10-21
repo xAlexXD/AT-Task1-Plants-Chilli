@@ -23,6 +23,7 @@
     <ClCompile Include="source\Bindable.cpp" />
     <ClCompile Include="source\Camera.cpp" />
     <ClCompile Include="source\Cube.cpp" />
+    <ClCompile Include="source\Cylinder.cpp" />
     <ClCompile Include="source\Drawable.cpp" />
     <ClCompile Include="source\dxerr.cpp" />
     <ClCompile Include="source\ExceptionHandler.cpp" />
@@ -63,6 +64,7 @@
     <ClInclude Include="includes\ConstantBuffer.h" />
     <ClInclude Include="includes\Cube.h" />
     <ClInclude Include="includes\CubePrim.h" />
+    <ClInclude Include="includes\Cylinder.h" />
     <ClInclude Include="includes\Drawable.h" />
     <ClInclude Include="includes\DrawablesBase.h" />
     <ClInclude Include="includes\dxerr.h" />
@@ -110,6 +112,16 @@
     <None Include="source\DXTrace.inl" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="shaders\IndexedPhongPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)%(Filename).cso</ObjectFileOutput>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.1</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.1</ShaderModel>
+    </FxCompile>
     <FxCompile Include="shaders\PhongPixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>

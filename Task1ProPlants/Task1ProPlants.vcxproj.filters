@@ -144,6 +144,9 @@
     <ClCompile Include="source\PointLight.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\Cylinder.cpp">
+      <Filter>Source Files\Drawables</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes\WindowsCustomInclude.h">
@@ -290,6 +293,9 @@
     <ClInclude Include="includes\PointLight.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="includes\Cylinder.h">
+      <Filter>Header Files\Drawables</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\DXGetErrorDescription.inl">
@@ -325,6 +331,9 @@
       <Filter>Shader Files</Filter>
     </FxCompile>
     <FxCompile Include="shaders\PhongPixelShader.hlsl">
+      <Filter>Shader Files</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\IndexedPhongPixelShader.hlsl">
       <Filter>Shader Files</Filter>
     </FxCompile>
   </ItemGroup>
