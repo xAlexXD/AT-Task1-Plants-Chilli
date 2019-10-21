@@ -1,10 +1,10 @@
 #include "..\includes\TransConstBuffer.h"
 
-TransConstBuffer::TransConstBuffer(Graphics& gfx, const Drawable& parent) : _parent(parent)
+TransConstBuffer::TransConstBuffer(Graphics& gfx, const Drawable& parent, UINT slot) : _parent(parent)
 {
 	if (!_pVcBuf)
 	{
-		_pVcBuf = std::make_unique<VertexConstantBuffer<Transforms>>(gfx);
+		_pVcBuf = std::make_unique<VertexConstantBuffer<Transforms>>(gfx, slot);
 	}
 }
 

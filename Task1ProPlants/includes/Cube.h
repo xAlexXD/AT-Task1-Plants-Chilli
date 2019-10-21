@@ -9,7 +9,8 @@ public:
 		DirectX::XMFLOAT3 pos,
 		DirectX::XMFLOAT3 rot,
 		DirectX::XMFLOAT3 posDelta,
-		DirectX::XMFLOAT3 rotDelta
+		DirectX::XMFLOAT3 rotDelta,
+		DirectX::XMFLOAT3 matCol
 	);
 
 	void Update(float dt) noexcept override;

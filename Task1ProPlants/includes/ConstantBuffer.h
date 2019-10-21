@@ -7,7 +7,7 @@ class ConstantBuffer : public Bindable
 {
 public:
 	//2 constructors one for defining the data filling a const buffer and one to just create an empty one
-	ConstantBuffer(Graphics& gfx, const C& consts)
+	ConstantBuffer(Graphics& gfx, const C& consts, UINT slot = 0u) : _slot(slot)
 	{
 		HRESULT hr;
 
@@ -28,7 +28,7 @@ public:
 		GFX_THROW_FAILED(GetDevice(gfx)->CreateBuffer(&cbd, &csd, &_pConstBuffer));
 	}
 
-	ConstantBuffer(Graphics& gfx)
+	ConstantBuffer(Graphics& gfx, UINT slot = 0u) : _slot(slot)
 	{
 		HRESULT hr;
 
@@ -60,6 +60,7 @@ public:
 
 protected:
 	Microsoft::WRL::ComPtr<ID3D11Buffer> _pConstBuffer;
+	UINT _slot;
 };
 
 //Custom class variations for the vertex and pixel const buffer 
@@ -68,13 +69,14 @@ template<typename C>
 class VertexConstantBuffer : public ConstantBuffer<C>
 {
 	using ConstantBuffer<C>::_pConstBuffer;
+	using ConstantBuffer<C>::_slot;
 	using Bindable::GetContext;
 
 public:
 	using ConstantBuffer<C>::ConstantBuffer;
 	void Bind(Graphics& gfx) noexcept override
 	{
-		GetContext(gfx)->VSSetConstantBuffers(0u, 1u, _pConstBuffer.GetAddressOf());
+		GetContext(gfx)->VSSetConstantBuffers(_slot, 1u, _pConstBuffer.GetAddressOf());
 	}
 };
 
@@ -82,12 +84,13 @@ template<typename C>
 class PixelConstantBuffer : public ConstantBuffer<C>
 {
 	using ConstantBuffer<C>::_pConstBuffer;
+	using ConstantBuffer<C>::_slot;
 	using Bindable::GetContext;
 
 public:
 	using ConstantBuffer<C>::ConstantBuffer;
 	void Bind(Graphics& gfx) noexcept override
 	{
-		GetContext(gfx)->PSSetConstantBuffers(0u, 1u, _pConstBuffer.GetAddressOf());
+		GetContext(gfx)->PSSetConstantBuffers(_slot, 1u, _pConstBuffer.GetAddressOf());
 	}
 };

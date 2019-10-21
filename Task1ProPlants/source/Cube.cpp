@@ -7,7 +7,8 @@ Cube::Cube(Graphics& gfx,
 	DirectX::XMFLOAT3 pos,
 	DirectX::XMFLOAT3 rot,
 	DirectX::XMFLOAT3 posDelta,
-	DirectX::XMFLOAT3 rotDelta) :
+	DirectX::XMFLOAT3 rotDelta,
+	DirectX::XMFLOAT3 matCol) :
 	_transform(std::make_unique<GameObjectTransform>(pos, rot, posDelta, rotDelta))
 {
 	//If the static instances for the object have already been set up skip, otherwise create them
@@ -55,6 +56,15 @@ Cube::Cube(Graphics& gfx,
 	////This gets initialised normally because this needs to be unique per cube, for different transforms
 	//Create transform constant buffer bind -- this one slighly special, need a reference to this class to be able to call the transform function and use that data
 	AddBind(std::make_unique<TransConstBuffer>(gfx, *this));
+
+	//Add per instance colouring
+	struct PSMaterialConstant
+	{
+		DirectX::XMFLOAT3 color;
+		float padding;
+	} colorConst;
+	colorConst.color = matCol;
+	AddBind(std::make_unique<PixelConstantBuffer<PSMaterialConstant>>(gfx, colorConst, 1u));
 
 	//Adjust this to change the per instance scaling
 	DirectX::XMStoreFloat3x3(&_transform->GetModelTransform(), DirectX::XMMatrixScaling(1.0f, 1.0f, 1.0f));

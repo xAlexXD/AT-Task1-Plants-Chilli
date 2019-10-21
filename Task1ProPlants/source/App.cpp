@@ -12,6 +12,7 @@ App::App() : _wnd(1280, 720, "AT Task1 Proc Plants"), _light(_wnd.Gfx())
 	std::uniform_real_distribution<float> position(-10.0f, 10.0f); //Chosing a random dist between 0 and 2PI aka full radius for radians
 	std::uniform_real_distribution<float> localRot(0.0f, 3.1415f * 2.0f); //Chosing a random dist between 0 and 2PI aka full radius for radians
 	std::uniform_real_distribution<float> localRotDelta(0.0f, 3.1415f * 2.0f);
+	std::uniform_real_distribution<float> matColour(0.0f, 1.0f);
 
 	for (size_t i = 0; i < 100; i++)
 	{
@@ -19,7 +20,8 @@ App::App() : _wnd(1280, 720, "AT Task1 Proc Plants"), _light(_wnd.Gfx())
 			DirectX::XMFLOAT3(position(rng), position(rng), position(rng)),
 			DirectX::XMFLOAT3(localRot(rng), localRot(rng), localRot(rng)),
 			DirectX::XMFLOAT3(0.0f,0.0f,0.0f),
-			DirectX::XMFLOAT3(localRotDelta(rng), localRotDelta(rng), localRotDelta(rng))
+			DirectX::XMFLOAT3(localRotDelta(rng), localRotDelta(rng), localRotDelta(rng)),
+			DirectX::XMFLOAT3(matColour(rng), matColour(rng), matColour(rng))
 		));
 	}
 
