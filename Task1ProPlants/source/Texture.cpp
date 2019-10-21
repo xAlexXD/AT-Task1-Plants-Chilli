@@ -39,13 +39,10 @@ Texture::Texture(Graphics & gfx, const char* fileName)
 	srvd.Format = td.Format;
 	srvd.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 	srvd.Texture2D.MostDetailedMip = 0;
-	srvd.Texture2D.MipLevels = 1;
+	srvd.Texture2D.MipLevels = -1;
 
 	//Create the shader resource view for the texture
 	GFX_THROW_FAILED(GetDevice(gfx)->CreateShaderResourceView(pTexture.Get(), &srvd, &_pTextureView));
-
-	//Generate mipmaps for the texture
-	GetContext(gfx)->GenerateMips(_pTextureView.Get());
 
 	//release the targa data
 	delete[] _pTargaData;
@@ -54,6 +51,12 @@ Texture::Texture(Graphics & gfx, const char* fileName)
 
 Texture::~Texture()
 {
+	//release the targa data
+	if (_pTargaData != nullptr)
+	{
+		delete[] _pTargaData;
+		_pTargaData = nullptr;
+	}
 }
 
 void Texture::Bind(Graphics& gfx) noexcept
@@ -70,8 +73,7 @@ ID3D11ShaderResourceView* Texture::GetTextureView() const noexcept
 //MUST have an alpha channel, 24bit targas will be rejected
 void Texture::LoadTarga(const char* fileName, int& width, int& height)
 {
-	HRESULT hr;
-	int bpp, imageSize, index, i, j, k;
+	int bpp, imageSize, index, targaIndex;
 	FILE* filePtr;
 	TargaHeader targaFileHeader;
 	unsigned char* targaImage;
@@ -90,7 +92,7 @@ void Texture::LoadTarga(const char* fileName, int& width, int& height)
 	//Check that its 32 bit and not 24
 	TEX_THROW_FAILED(bpp != 32);
 
-	//Calc the size of the 32bit image data
+	//Calc the size of the 32bit image data, 4 channels for each pixel
 	imageSize = width * height * 4;
 
 	//allocate memory for targa image
@@ -108,25 +110,25 @@ void Texture::LoadTarga(const char* fileName, int& width, int& height)
 	//init the index into the targa destination data array
 	index = 0;
 
-	//Initialize the index into the targa image data
-	k = (width * height * 4) - (width * 4);
+	//Initialize the index into the targa image data. Go to the last row and shift to the start of that row
+	targaIndex = (width * height * 4) - (width * 4) + (9*4); //9*4 cause fucked offset for some reason
 
 	//Now copy the targa image data into the targa destination array in the correct order since the targa format is stored upside down
-	for (j = 0; j < height; j++)
+	for (int i = 0; i < height; i++)
 	{
-		for (i = 0; i < width; i++)
+		for (int j = 0; j < width; j++)
 		{
-			_pTargaData[index + 0] = targaImage[k + 2]; //Red
-			_pTargaData[index + 1] = targaImage[k + 1]; //Green
-			_pTargaData[index + 2] = targaImage[k + 0]; //Blue
-			_pTargaData[index + 3] = targaImage[k + 3]; //Alpha
+			_pTargaData[index + 0] = targaImage[targaIndex + 2]; //Red
+			_pTargaData[index + 1] = targaImage[targaIndex + 1]; //Green
+			_pTargaData[index + 2] = targaImage[targaIndex + 0]; //Blue
+			_pTargaData[index + 3] = targaImage[targaIndex + 3]; //Alpha
 
 			//Increment the indexes into the targa data
-			k += 4;
+			targaIndex += 4;
 			index += 4;
 		}
 		//Decrement down to the next row as we reading from upside down
-		k -= (width * 8);
+		targaIndex -= (width * 8);
 	}
 
 	//Release the loaded in data as its stored in our local array

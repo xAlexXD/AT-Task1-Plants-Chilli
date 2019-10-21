@@ -10,6 +10,16 @@ Sheet::Sheet(Graphics& gfx,
 	std::uniform_real_distribution<float>& worldRot) :
 	_transform(std::make_unique<GameObjectTransform>(rng, rDist, localRotDelta, worldRotDelta, worldRot))
 {
+	Init(gfx);
+}
+
+Sheet::Sheet(Graphics& gfx) : _transform(std::make_unique<GameObjectTransform>())
+{
+	Init(gfx);
+}
+
+void Sheet::Init(Graphics& gfx)
+{
 	if (!IsStaticInitialized())
 	{
 		//Vertex buffer with struct for tex uvs

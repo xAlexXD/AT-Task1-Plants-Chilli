@@ -1,8 +1,14 @@
 #include "GameObjectTransform.h"
 
+GameObjectTransform::GameObjectTransform()
+{
+	DirectX::XMStoreFloat3x3(&_modelTransform, DirectX::XMMatrixScaling(1.0f, 1.0f, 1.0f));
+}
+
 GameObjectTransform::GameObjectTransform(std::mt19937& rng, std::uniform_real_distribution<float>& rDist, std::uniform_real_distribution<float>& localRotDelta, std::uniform_real_distribution<float>& worldRotDelta, std::uniform_real_distribution<float>& worldRot) :
 	_r(rDist(rng)), _theta(worldRot(rng)), _phi(worldRot(rng)), _chi(worldRot(rng)), _dRoll(localRotDelta(rng)), _dPitch(localRotDelta(rng)), _dYaw(localRotDelta(rng)), _dTheta(worldRotDelta(rng)), _dPhi(worldRotDelta(rng)), _dChi(worldRotDelta(rng))
 {
+	DirectX::XMStoreFloat3x3(&_modelTransform, DirectX::XMMatrixScaling(1.0f, 1.0f, 1.0f));
 }
 
 GameObjectTransform::~GameObjectTransform()

@@ -5,7 +5,7 @@
 class GameObjectTransform 
 {
 public:
-	GameObjectTransform() = default;
+	GameObjectTransform();
 	GameObjectTransform(const GameObjectTransform&) = delete;
 	GameObjectTransform& operator=(const GameObjectTransform&) = delete;
 	

@@ -10,8 +10,8 @@ Graphics::Graphics(HWND hWnd, unsigned int width, unsigned int height)
 {
 	//Descriptor for swap chain
 	DXGI_SWAP_CHAIN_DESC scd = {};
-	scd.BufferDesc.Width = width; //Looks at the window and figure it out
-	scd.BufferDesc.Height = height;
+	scd.BufferDesc.Width = 0; //Looks at the window and figure it out
+	scd.BufferDesc.Height = 0;
 	scd.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
 	scd.BufferDesc.RefreshRate.Numerator = 0; //pick whatever freshrate you need to
 	scd.BufferDesc.RefreshRate.Denominator = 0;
