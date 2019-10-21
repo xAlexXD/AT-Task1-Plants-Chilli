@@ -27,6 +27,30 @@ public:
 		}
 	}
 
+	// asserts face-independent vertices w/ normals cleared to zero
+	//Works out the normals of a single vert by cross product and applies that normal to all 3 verts
+	void SetNormalsIndependentFlat()
+	{
+		using namespace DirectX;
+
+		assert(_indices.size() % 3 == 0 && _indices.size() > 0);
+		for (size_t i = 0; i < _indices.size(); i += 3)
+		{
+			auto& v0 = _vertices[_indices[i]];
+			auto& v1 = _vertices[_indices[i + 1]];
+			auto& v2 = _vertices[_indices[i + 2]];
+			const auto p0 = XMLoadFloat3(&v0.pos);
+			const auto p1 = XMLoadFloat3(&v1.pos);
+			const auto p2 = XMLoadFloat3(&v2.pos);
+
+			const auto n = XMVector3Normalize(XMVector3Cross((p1 - p0), (p2 - p0)));
+
+			XMStoreFloat3(&v0.n, n);
+			XMStoreFloat3(&v1.n, n);
+			XMStoreFloat3(&v2.n, n);
+		}
+	}
+
 
 public:
 	std::vector<T> _vertices;

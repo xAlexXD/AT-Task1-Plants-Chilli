@@ -25,7 +25,7 @@ SolidSphere::SolidSphere(Graphics & gfx, float radius) : _transform(std::make_un
 
 		struct PSColorConstant
 		{
-			DirectX::XMFLOAT3 color = { 1.0f,1.0f,1.0f };
+			DirectX::XMFLOAT3 color = { 1.0f,0.0f,0.0f };
 			float padding;	//Need to add padding of 8 bits to make it match shader colour definition
 		} colorConst;
 		AddStaticBind(std::make_unique<PixelConstantBuffer<PSColorConstant>>(gfx, colorConst));

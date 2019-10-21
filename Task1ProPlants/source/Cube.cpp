@@ -2,7 +2,6 @@
 #include "BindableBase.h"
 #include "GraphicsThrowMacros.h"
 #include "CubePrim.h"
-#include "PrismPrim.h"
 
 Cube::Cube(Graphics& gfx,
 	DirectX::XMFLOAT3 pos,
@@ -18,9 +17,11 @@ Cube::Cube(Graphics& gfx,
 		struct Vertex
 		{
 			DirectX::XMFLOAT3 pos;
+			DirectX::XMFLOAT3 n;
 		};
 
-		auto model = CubePrim::Make<Vertex>();
+		auto model = CubePrim::MakeIndependent<Vertex>();
+		model.SetNormalsIndependentFlat();
 		//READD LINE BELOW IF YOU WANT TO DO DEFORMATIONS ON A BASE OBJECT TO APPLY TO ALL INSTACES
 		//model.Transform(DirectX::XMMatrixScaling(1.0f, 1.0f, 1.0f));
 
@@ -28,44 +29,26 @@ Cube::Cube(Graphics& gfx,
 		AddStaticIndexBuffer(std::make_unique<IndexBuffer>(gfx, model._indices));
 
 		//Create and bind the vertex shader
-		auto pVs = std::make_unique<VertexShader>(gfx, L"VertexShader.cso");
+		auto pVs = std::make_unique<VertexShader>(gfx, L"PhongVertexShader.cso");
 		auto pVsBc = pVs->GetBytecode();
 		AddStaticBind(std::move(pVs));
 
 		//Create and bind the pixel shader
-		AddStaticBind(std::make_unique<PixelShader>(gfx, L"PixelShader.cso"));
+		AddStaticBind(std::make_unique<PixelShader>(gfx, L"PhongPixelShader.cso"));
 
 		//Create pixel Color constant buffer
-		struct ColorConstantBuffer
+		struct PSLightConstants
 		{
-			struct
-			{
-				float r;
-				float g;
-				float b;
-				float a;
-			} face_colors[8];
+			DirectX::XMVECTOR pos;
 		};
 
-		const ColorConstantBuffer ccb =
-		{
-			{
-				{1.0f, 0.0f, 1.0f},
-				{1.0f, 0.0f, 0.0f},
-				{0.0f, 1.0f, 0.0f},
-				{0.0f, 0.0f, 1.0f},
-				{1.0f, 1.0f, 0.0f},
-				{0.0f, 1.0f, 1.0f},
-				{1.0f, 1.0f, 1.0f},
-				{0.0f, 0.0f, 0.0f},
-			}
-		};
-		AddStaticBind(std::make_unique<PixelConstantBuffer<ColorConstantBuffer>>(gfx, ccb));
+		AddStaticBind(std::make_unique<PixelConstantBuffer<PSLightConstants>>(gfx));
 
 		//Create and bind Input layout -- uses bytecode from vertex shader
 		const std::vector<D3D11_INPUT_ELEMENT_DESC> ied =
 		{
 			{"Position", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"Normal",0,DXGI_FORMAT_R32G32B32_FLOAT,0, D3D11_APPEND_ALIGNED_ELEMENT,D3D11_INPUT_PER_VERTEX_DATA,0 },
 		};
 		AddStaticBind(std::make_unique<InputLayout>(gfx, ied, pVsBc));
 

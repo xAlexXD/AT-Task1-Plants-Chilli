@@ -1,10 +1,12 @@
 #include "..\includes\App.h"
-#include "TexturedCube.h"
-#include "Sheet.h"
 #include <memory>
 #include "imgui.h"
 
-App::App() : _wnd(1280, 720, "AT Task1 Proc Plants")
+#include "Sheet.h"
+#include "TexturedCube.h"
+#include "Cube.h"
+
+App::App() : _wnd(1280, 720, "AT Task1 Proc Plants"), _light(_wnd.Gfx())
 {
 	std::mt19937 rng(std::random_device{}());
 	std::uniform_real_distribution<float> position(-10.0f, 10.0f); //Chosing a random dist between 0 and 2PI aka full radius for radians
@@ -13,7 +15,7 @@ App::App() : _wnd(1280, 720, "AT Task1 Proc Plants")
 
 	for (size_t i = 0; i < 20; i++)
 	{
-		_cubes.push_back(std::make_unique<TexturedCube>(_wnd.Gfx(), 
+		_cubes.push_back(std::make_unique<Cube>(_wnd.Gfx(), 
 			DirectX::XMFLOAT3(position(rng), position(rng), position(rng)),
 			DirectX::XMFLOAT3(localRot(rng), localRot(rng), localRot(rng)),
 			DirectX::XMFLOAT3(0.0f,0.0f,0.0f),
@@ -65,6 +67,9 @@ void App::DoFrame()
 	_wnd.Gfx().BeginFrame(0.07f, 0.0f, 0.12f);
 	_wnd.Gfx().SetCamera(_cam.GetMatrix());
 
+	//Bind the light in the pipeline
+	_light.Bind(_wnd.Gfx());
+
 	//updates the game objects in the scene
 	for (auto& cube : _cubes)
 	{
@@ -77,6 +82,9 @@ void App::DoFrame()
 		sheet->Update(_wnd._keyboard.KeyIsPressed(VK_SPACE) ? 0.0f : dt);
 		sheet->Draw(_wnd.Gfx());
 	}
+
+	//Draw the light as it has a model representing it
+	_light.Draw(_wnd.Gfx());
 
 	//Simple box to adjust speed of simulation
 	if (ImGui::Begin("Simulation Speed"))
@@ -91,6 +99,7 @@ void App::DoFrame()
 	ImGui::End();
 
 	_cam.SpawnImguiControlWindow();
+	_light.SpawnControlWindow();
 
 	//present
 	_wnd.Gfx().EndFrame();
