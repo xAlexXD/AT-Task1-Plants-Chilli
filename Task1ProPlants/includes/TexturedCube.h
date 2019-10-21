@@ -5,11 +5,11 @@
 class TexturedCube : public DrawablesBase<TexturedCube>
 {
 public:
-	TexturedCube(Graphics& gfx, std::mt19937& rng,
-		std::uniform_real_distribution<float>& rDist,
-		std::uniform_real_distribution<float>& localRotDelta,
-		std::uniform_real_distribution<float>& worldRotDelta,
-		std::uniform_real_distribution<float>& worldRot
+	TexturedCube(Graphics& gfx, 
+		DirectX::XMFLOAT3 pos, 
+		DirectX::XMFLOAT3 rot, 
+		DirectX::XMFLOAT3 posDelta, 
+		DirectX::XMFLOAT3 rotDelta
 	);
 
 	TexturedCube(Graphics& gfx);

@@ -4,12 +4,12 @@
 #include "CubePrim.h"
 #include "PrismPrim.h"
 
-Cube::Cube(Graphics& gfx, std::mt19937& rng,
-	std::uniform_real_distribution<float>& rDist,
-	std::uniform_real_distribution<float>& localRotDelta,
-	std::uniform_real_distribution<float>& worldRotDelta,
-	std::uniform_real_distribution<float>& worldRot) :
-	_transform(std::make_unique<GameObjectTransform>(rng, rDist, localRotDelta, worldRotDelta, worldRot))
+Cube::Cube(Graphics& gfx,
+	DirectX::XMFLOAT3 pos,
+	DirectX::XMFLOAT3 rot,
+	DirectX::XMFLOAT3 posDelta,
+	DirectX::XMFLOAT3 rotDelta) :
+	_transform(std::make_unique<GameObjectTransform>(pos, rot, posDelta, rotDelta))
 {
 	//If the static instances for the object have already been set up skip, otherwise create them
 	if (!IsStaticInitialized())

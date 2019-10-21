@@ -2,19 +2,13 @@
 #include "DrawablesBase.h"
 #include "GameObjectTransform.h"
 
-class Cube : public DrawablesBase<Cube>
+class SolidSphere : public DrawablesBase<SolidSphere>
 {
 public:
-	Cube(Graphics& gfx,
-		DirectX::XMFLOAT3 pos,
-		DirectX::XMFLOAT3 rot,
-		DirectX::XMFLOAT3 posDelta,
-		DirectX::XMFLOAT3 rotDelta
-	);
-
+	SolidSphere(Graphics& gfx, float radius);
 	void Update(float dt) noexcept override;
+	void SetPos(DirectX::XMFLOAT3 pos) noexcept;
 	DirectX::XMMATRIX GetTransformXM() const noexcept override;
-
 private:
 	std::unique_ptr<GameObjectTransform> _transform;
 };

@@ -43,6 +43,7 @@
     <ClCompile Include="source\PrimTopology.cpp" />
     <ClCompile Include="source\Sampler.cpp" />
     <ClCompile Include="source\Sheet.cpp" />
+    <ClCompile Include="source\SolidSphere.cpp" />
     <ClCompile Include="source\Texture.cpp" />
     <ClCompile Include="source\TexturedCube.cpp" />
     <ClCompile Include="source\Timer.cpp" />
@@ -89,6 +90,7 @@
     <ClInclude Include="includes\PrismPrim.h" />
     <ClInclude Include="includes\Sampler.h" />
     <ClInclude Include="includes\Sheet.h" />
+    <ClInclude Include="includes\SolidSphere.h" />
     <ClInclude Include="includes\SpherePrim.h" />
     <ClInclude Include="includes\Texture.h" />
     <ClInclude Include="includes\TexturedCube.h" />
@@ -113,6 +115,18 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">4.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="shaders\SolidPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="shaders\SolidVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="shaders\TexturedPixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>

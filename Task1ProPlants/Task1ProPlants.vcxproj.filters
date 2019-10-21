@@ -138,6 +138,9 @@
     <ClCompile Include="source\TexturedCube.cpp">
       <Filter>Source Files\Drawables</Filter>
     </ClCompile>
+    <ClCompile Include="source\SolidSphere.cpp">
+      <Filter>Source Files\Drawables</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes\WindowsCustomInclude.h">
@@ -215,9 +218,6 @@
     <ClInclude Include="includes\MathClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="includes\IndexedTriangleList.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="includes\CubePrim.h">
       <Filter>Header Files\Primitives</Filter>
     </ClInclude>
@@ -278,6 +278,12 @@
     <ClInclude Include="includes\TexturedCube.h">
       <Filter>Header Files\Drawables</Filter>
     </ClInclude>
+    <ClInclude Include="includes\IndexedTriangleList.h">
+      <Filter>Header Files\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\SolidSphere.h">
+      <Filter>Header Files\Drawables</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\DXGetErrorDescription.inl">
@@ -301,6 +307,12 @@
       <Filter>Shader Files</Filter>
     </FxCompile>
     <FxCompile Include="shaders\TexturedPixelShader.hlsl">
+      <Filter>Shader Files</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\SolidVertexShader.hlsl">
+      <Filter>Shader Files</Filter>
+    </FxCompile>
+    <FxCompile Include="shaders\SolidPixelShader.hlsl">
       <Filter>Shader Files</Filter>
     </FxCompile>
   </ItemGroup>

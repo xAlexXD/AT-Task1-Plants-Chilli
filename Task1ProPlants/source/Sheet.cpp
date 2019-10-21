@@ -3,12 +3,11 @@
 #include "PlanePrim.h"
 
 Sheet::Sheet(Graphics& gfx, 
-	std::mt19937& rng, 
-	std::uniform_real_distribution<float>& rDist, 
-	std::uniform_real_distribution<float>& localRotDelta, 
-	std::uniform_real_distribution<float>& worldRotDelta, 
-	std::uniform_real_distribution<float>& worldRot) :
-	_transform(std::make_unique<GameObjectTransform>(rng, rDist, localRotDelta, worldRotDelta, worldRot))
+	DirectX::XMFLOAT3 pos,
+	DirectX::XMFLOAT3 rot,
+	DirectX::XMFLOAT3 posDelta,
+	DirectX::XMFLOAT3 rotDelta) :
+	_transform(std::make_unique<GameObjectTransform>(pos, rot, posDelta, rotDelta))
 {
 	Init(gfx);
 }
