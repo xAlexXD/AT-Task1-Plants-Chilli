@@ -16,10 +16,16 @@ private:
 	struct PointLightConstBuffer
 	{
 		DirectX::XMFLOAT3 pos;
-		float padding;			////Padding to make it a float4 for simd transformations
+		DirectX::XMFLOAT3 materialColor;
+		DirectX::XMFLOAT3 ambient;
+		DirectX::XMFLOAT3 diffuseColor;
+		float diffuseIntensity;
+		float attConst;
+		float attLin;
+		float attQuad;
 	};
 	
-	DirectX::XMFLOAT3 _pos = { 0.0f, 0.0f, 0.0f };
+	PointLightConstBuffer _cbData;
 	mutable SolidSphere _mesh;
 	mutable PixelConstantBuffer<PointLightConstBuffer> _cBuf;
 };
