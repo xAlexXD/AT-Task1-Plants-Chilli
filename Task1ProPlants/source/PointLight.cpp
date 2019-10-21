@@ -37,4 +37,5 @@ void PointLight::Bind(Graphics& gfx) const noexcept
 {
 	const PointLightConstBuffer buf = { _pos };
 	_cBuf.Update(gfx, buf);
+	_cBuf.Bind(gfx);
 }

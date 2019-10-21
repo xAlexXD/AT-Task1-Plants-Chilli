@@ -36,14 +36,6 @@ Cube::Cube(Graphics& gfx,
 		//Create and bind the pixel shader
 		AddStaticBind(std::make_unique<PixelShader>(gfx, L"PhongPixelShader.cso"));
 
-		//Create pixel Color constant buffer
-		struct PSLightConstants
-		{
-			DirectX::XMVECTOR pos;
-		};
-
-		AddStaticBind(std::make_unique<PixelConstantBuffer<PSLightConstants>>(gfx));
-
 		//Create and bind Input layout -- uses bytecode from vertex shader
 		const std::vector<D3D11_INPUT_ELEMENT_DESC> ied =
 		{
