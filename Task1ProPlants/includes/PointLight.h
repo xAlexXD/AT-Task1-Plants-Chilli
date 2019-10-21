@@ -13,12 +13,14 @@ public:
 	void Bind(Graphics& gfx) const noexcept;
 
 private:
+	//Allign is added because the shader expects float 3s in 16 bytes with the last value aka W in the xyzw as 0;
+	//Since we packed together multiple float 3s back to back they need to be spaced out as 16 bytes so this error doesnt throw shader side
 	struct PointLightConstBuffer
 	{
-		DirectX::XMFLOAT3 pos;
-		DirectX::XMFLOAT3 materialColor;
-		DirectX::XMFLOAT3 ambient;
-		DirectX::XMFLOAT3 diffuseColor;
+		alignas(16) DirectX::XMFLOAT3 pos;
+		alignas(16) DirectX::XMFLOAT3 materialColor;
+		alignas(16) DirectX::XMFLOAT3 ambient;
+		alignas(16) DirectX::XMFLOAT3 diffuseColor;
 		float diffuseIntensity;
 		float attConst;
 		float attLin;
