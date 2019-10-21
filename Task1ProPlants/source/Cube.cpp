@@ -60,8 +60,11 @@ Cube::Cube(Graphics& gfx,
 	//Add per instance colouring
 	struct PSMaterialConstant
 	{
-		DirectX::XMFLOAT3 color;
-		float padding;
+		alignas(16) DirectX::XMFLOAT3 color;
+		float specularIntensity = 0.6f;
+		float specularPower = 30.0f;
+		float padding[2];
+		
 	} colorConst;
 	colorConst.color = matCol;
 	AddBind(std::make_unique<PixelConstantBuffer<PSMaterialConstant>>(gfx, colorConst, 1u));

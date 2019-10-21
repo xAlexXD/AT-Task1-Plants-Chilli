@@ -10,11 +10,11 @@ TransConstBuffer::TransConstBuffer(Graphics& gfx, const Drawable& parent, UINT s
 
 void TransConstBuffer::Bind(Graphics& gfx) noexcept
 {
-	const auto model = _parent.GetTransformXM();
+	const auto modelView = _parent.GetTransformXM() * gfx.GetCamera();
 	const Transforms tf =
 	{
-		DirectX::XMMatrixTranspose(model), 
-		DirectX::XMMatrixTranspose(model * gfx.GetCamera() * gfx.GetProjection())
+		DirectX::XMMatrixTranspose(modelView), 
+		DirectX::XMMatrixTranspose(modelView * gfx.GetProjection())
 
 	};
 

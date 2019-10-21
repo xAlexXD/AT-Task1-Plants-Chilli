@@ -10,7 +10,7 @@ public:
 	void SpawnControlWindow() noexcept;
 	void Reset() noexcept;
 	void Draw(Graphics& gfx) const;
-	void Bind(Graphics& gfx) const noexcept;
+	void Bind(Graphics& gfx, DirectX::FXMMATRIX view) const noexcept;
 
 private:
 	//Allign is added because the shader expects float 3s in 16 bytes with the last value aka W in the xyzw as 0;
