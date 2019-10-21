@@ -15,6 +15,18 @@ void PointLight::SpawnControlWindow() noexcept
 		ImGui::SliderFloat("X", &_cbData.pos.x, -60.0f, 60.0f, "%.1f");
 		ImGui::SliderFloat("Y", &_cbData.pos.y, -60.0f, 60.0f, "%.1f");
 		ImGui::SliderFloat("Z", &_cbData.pos.z, -60.0f, 60.0f, "%.1f");
+
+		ImGui::Text("Intensity / Colour");
+		ImGui::SliderFloat("Intensity", &_cbData.diffuseIntensity, 0.01f, 2.0f, "%.2");
+		ImGui::ColorEdit3("Diffuse Colour", &_cbData.diffuseColor.x);
+		ImGui::ColorEdit3("Ambient Colour", &_cbData.ambient.x);
+		ImGui::ColorEdit3("Material Colour", &_cbData.materialColor.x);
+
+		ImGui::Text("Falloff");
+		ImGui::SliderFloat("Constant", &_cbData.attConst, 0.05f, 10.0f, "%.2");
+		ImGui::SliderFloat("Linear", &_cbData.attLin, 0.0001f, 4.0f, "%.4");
+		ImGui::SliderFloat("Quadratic", &_cbData.attQuad, 0.0000001f, 10.0f, "%.7");
+
 		if (ImGui::Button("Reset"))
 		{
 			Reset();
@@ -33,8 +45,8 @@ void PointLight::Reset() noexcept
 		{ 1.0f, 1.0f, 1.0f },		//diffuseCol
 		1.0f,						//diffuseIntensity
 		1.0f,						//Attenuation const
-		0.045f,						//Attenuation lin
-		0.0075f						//Attenuation Quad
+		0.045f,						//Attenuation linear
+		0.0075f						//Attenuation Quadratic
 	};
 }
 
