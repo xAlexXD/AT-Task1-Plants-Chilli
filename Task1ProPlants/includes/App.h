@@ -21,6 +21,7 @@ private:
 	float _dtSpeedFactor = 1.0f;
 	std::vector<std::unique_ptr<class Cube>> _cubes;
 	std::vector<std::unique_ptr<class Cylinder>> _cylinders;
+	std::vector<std::unique_ptr<class Pyramid>> _pyramids;
 	Camera _cam;
 	PointLight _light;
 };

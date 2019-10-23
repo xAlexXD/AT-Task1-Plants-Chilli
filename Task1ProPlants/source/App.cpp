@@ -6,6 +6,7 @@
 #include "TexturedCube.h"
 #include "Cube.h"
 #include "Cylinder.h"
+#include "Pyramid.h"
 
 App::App() : _wnd(1280, 720, "AT Task1 Proc Plants"), _light(_wnd.Gfx())
 {
@@ -30,6 +31,18 @@ App::App() : _wnd(1280, 720, "AT Task1 Proc Plants"), _light(_wnd.Gfx())
 	for (size_t i = 0; i < 20; i++)
 	{
 		_cylinders.push_back(std::make_unique<Cylinder>(_wnd.Gfx(),
+			DirectX::XMFLOAT3(position(rng), position(rng), position(rng)),
+			DirectX::XMFLOAT3(localRot(rng), localRot(rng), localRot(rng)),
+			DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f),
+			DirectX::XMFLOAT3(localRotDelta(rng), localRotDelta(rng), localRotDelta(rng)),
+			DirectX::XMFLOAT3(matColour(rng), matColour(rng), matColour(rng)),
+			tessalation(rng)
+			));
+	}
+
+	for (size_t i = 0; i < 20; i++)
+	{
+		_pyramids.push_back(std::make_unique<Pyramid>(_wnd.Gfx(),
 			DirectX::XMFLOAT3(position(rng), position(rng), position(rng)),
 			DirectX::XMFLOAT3(localRot(rng), localRot(rng), localRot(rng)),
 			DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f),
@@ -86,6 +99,12 @@ void App::DoFrame()
 	{
 		cylinder->Update(_wnd._keyboard.KeyIsPressed(VK_SPACE) ? 0.0f : dt);
 		cylinder->Draw(_wnd.Gfx());
+	}
+
+	for (auto& pyramid : _pyramids)
+	{
+		pyramid->Update(_wnd._keyboard.KeyIsPressed(VK_SPACE) ? 0.0f : dt);
+		pyramid->Draw(_wnd.Gfx());
 	}
 
 	//Draw the light as it has a model representing it
