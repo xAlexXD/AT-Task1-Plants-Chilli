@@ -1,7 +1,7 @@
 #include "..\includes\Pyramid.h"
 #include <array>
 #include "BindableBase.h"
-#include "PrismPrim.h"
+#include "ConePrim.h"
 
 Pyramid::Pyramid(Graphics& gfx, 
 	DirectX::XMFLOAT3 pos, 
@@ -14,34 +14,11 @@ Pyramid::Pyramid(Graphics& gfx,
 {
 	if (!IsStaticInitialized())
 	{
-		struct Vertex
-		{
-			DirectX::XMFLOAT3 pos;
-			DirectX::XMFLOAT3 n;
-			std::array<char, 4> color;
-			char padding;
-		};
-		auto model = PrismPrim::MakeTesselatedIndependentFaces<Vertex>(tessalation);
-		// set vertex colors for mesh
-		for (auto& v : model._vertices)
-		{
-			v.color = { (char)40,(char)40,(char)255 };
-		}
-		model._vertices.front().color = { (char)255,(char)20,(char)20 }; // very first vertex is the cone tip
-		// squash mesh a bit in the z direction
-		model.Transform(DirectX::XMMatrixScaling(1.0f, 1.0f, 0.7f));
-		// add normals
-		model.SetNormalsIndependentFlat();
-
-		AddStaticBind(std::make_unique<VertexBuffer>(gfx, model._vertices));
-
 		auto pvs = std::make_unique<VertexShader>(gfx, L"BlendedPhongVertexShader.cso");
 		auto pvsbc = pvs->GetBytecode();
 		AddStaticBind(std::move(pvs));
 
 		AddStaticBind(std::make_unique<PixelShader>(gfx, L"BlendedPhongPixelShader.cso"));
-
-		AddStaticIndexBuffer(std::make_unique<IndexBuffer>(gfx, model._indices));
 
 		const std::vector<D3D11_INPUT_ELEMENT_DESC> ied =
 		{
@@ -52,13 +29,42 @@ Pyramid::Pyramid(Graphics& gfx,
 		AddStaticBind(std::make_unique<InputLayout>(gfx, ied, pvsbc));
 
 		AddStaticBind(std::make_unique<PrimTopology>(gfx, D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST));
-	}
-	else
-	{
-		SetIndexFromStatic();
+
+		struct PSMaterialConstant
+		{
+			float specularIntensity = 0.6f;
+			float specularPower = 30.0f;
+			float padding[2];
+		} colorConst;
+		AddStaticBind(std::make_unique<PixelConstantBuffer<PSMaterialConstant>>(gfx, colorConst, 1u));
 	}
 
 	AddBind(std::make_unique<TransConstBuffer>(gfx, *this));
+
+	struct Vertex
+	{
+		DirectX::XMFLOAT3 pos;
+		DirectX::XMFLOAT3 n;
+		std::array<char, 4> color;
+		char padding;
+	};
+	auto model = ConePrim::MakeTesselatedIndependentFaces<Vertex>(tessalation);
+	// set vertex colors for mesh (tip red blending to blue base)
+	for (auto& v : model._vertices)
+	{
+		v.color = { (char)10,(char)10,(char)255 };
+	}
+	for (int i = 0; i < tessalation; i++)
+	{
+		model._vertices[i * 3].color = { (char)255,(char)10,(char)10 };
+	}
+	// squash mesh a bit in the z direction
+	model.Transform(DirectX::XMMatrixScaling(1.0f, 1.0f, 0.7f));
+	// add normals
+	model.SetNormalsIndependentFlat();
+
+	AddBind(std::make_unique<VertexBuffer>(gfx, model._vertices));
+	AddIndexBuffer(std::make_unique<IndexBuffer>(gfx, model._indices));
 }
 
 void Pyramid::Update(float dt) noexcept
