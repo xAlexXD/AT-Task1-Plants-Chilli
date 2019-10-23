@@ -1,21 +1,26 @@
 #include "..\includes\TransConstBuffer.h"
 
-TransConstBuffer::TransConstBuffer(Graphics& gfx, const Drawable& parent) : _parent(parent)
+TransConstBuffer::TransConstBuffer(Graphics& gfx, const Drawable& parent, UINT slot) : _parent(parent)
 {
 	if (!_pVcBuf)
 	{
-		_pVcBuf = std::make_unique<VertexConstantBuffer<DirectX::XMMATRIX>>(gfx);
+		_pVcBuf = std::make_unique<VertexConstantBuffer<Transforms>>(gfx, slot);
 	}
 }
 
 void TransConstBuffer::Bind(Graphics& gfx) noexcept
 {
-	_pVcBuf->Update(
-		gfx,
-		DirectX::XMMatrixTranspose(_parent.GetTransformXM() * gfx.GetCamera() * gfx.GetProjection())
-	);
+	const auto modelView = _parent.GetTransformXM() * gfx.GetCamera();
+	const Transforms tf =
+	{
+		DirectX::XMMatrixTranspose(modelView), 
+		DirectX::XMMatrixTranspose(modelView * gfx.GetProjection())
+
+	};
+
+	_pVcBuf->Update(gfx, tf);
 	_pVcBuf->Bind(gfx);
 }
 
 //Declaration for private static variable, needed so the linker can find where it is ?
-std::unique_ptr<VertexConstantBuffer<DirectX::XMMATRIX>> TransConstBuffer::_pVcBuf;
+std::unique_ptr<VertexConstantBuffer<TransConstBuffer::Transforms>> TransConstBuffer::_pVcBuf;

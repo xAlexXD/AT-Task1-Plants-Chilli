@@ -5,11 +5,12 @@
 class TexturedCube : public DrawablesBase<TexturedCube>
 {
 public:
-	TexturedCube(Graphics& gfx, std::mt19937& rng,
-		std::uniform_real_distribution<float>& rDist,
-		std::uniform_real_distribution<float>& localRotDelta,
-		std::uniform_real_distribution<float>& worldRotDelta,
-		std::uniform_real_distribution<float>& worldRot
+	TexturedCube(Graphics& gfx, 
+		DirectX::XMFLOAT3 pos, 
+		DirectX::XMFLOAT3 rot, 
+		DirectX::XMFLOAT3 posDelta, 
+		DirectX::XMFLOAT3 rotDelta,
+		const char* textureName
 	);
 
 	TexturedCube(Graphics& gfx);
@@ -18,7 +19,7 @@ public:
 	DirectX::XMMATRIX GetTransformXM() const noexcept override;
 
 private:
-	void Init(Graphics& gfx);
+	void Init(Graphics& gfx, const char* textureName = nullptr);
 
 	std::unique_ptr<GameObjectTransform> _transform;
 };

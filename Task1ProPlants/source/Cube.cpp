@@ -2,14 +2,14 @@
 #include "BindableBase.h"
 #include "GraphicsThrowMacros.h"
 #include "CubePrim.h"
-#include "PrismPrim.h"
 
-Cube::Cube(Graphics& gfx, std::mt19937& rng,
-	std::uniform_real_distribution<float>& rDist,
-	std::uniform_real_distribution<float>& localRotDelta,
-	std::uniform_real_distribution<float>& worldRotDelta,
-	std::uniform_real_distribution<float>& worldRot) :
-	_transform(std::make_unique<GameObjectTransform>(rng, rDist, localRotDelta, worldRotDelta, worldRot))
+Cube::Cube(Graphics& gfx,
+	DirectX::XMFLOAT3 pos,
+	DirectX::XMFLOAT3 rot,
+	DirectX::XMFLOAT3 posDelta,
+	DirectX::XMFLOAT3 rotDelta,
+	DirectX::XMFLOAT3 matCol) :
+	_transform(std::make_unique<GameObjectTransform>(pos, rot, posDelta, rotDelta))
 {
 	//If the static instances for the object have already been set up skip, otherwise create them
 	if (!IsStaticInitialized())
@@ -18,9 +18,11 @@ Cube::Cube(Graphics& gfx, std::mt19937& rng,
 		struct Vertex
 		{
 			DirectX::XMFLOAT3 pos;
+			DirectX::XMFLOAT3 n;
 		};
 
-		auto model = CubePrim::Make<Vertex>();
+		auto model = CubePrim::MakeIndependent<Vertex>();
+		model.SetNormalsIndependentFlat();
 		//READD LINE BELOW IF YOU WANT TO DO DEFORMATIONS ON A BASE OBJECT TO APPLY TO ALL INSTACES
 		//model.Transform(DirectX::XMMatrixScaling(1.0f, 1.0f, 1.0f));
 
@@ -28,44 +30,18 @@ Cube::Cube(Graphics& gfx, std::mt19937& rng,
 		AddStaticIndexBuffer(std::make_unique<IndexBuffer>(gfx, model._indices));
 
 		//Create and bind the vertex shader
-		auto pVs = std::make_unique<VertexShader>(gfx, L"VertexShader.cso");
+		auto pVs = std::make_unique<VertexShader>(gfx, L"PhongVertexShader.cso");
 		auto pVsBc = pVs->GetBytecode();
 		AddStaticBind(std::move(pVs));
 
 		//Create and bind the pixel shader
-		AddStaticBind(std::make_unique<PixelShader>(gfx, L"PixelShader.cso"));
-
-		//Create pixel Color constant buffer
-		struct ColorConstantBuffer
-		{
-			struct
-			{
-				float r;
-				float g;
-				float b;
-				float a;
-			} face_colors[8];
-		};
-
-		const ColorConstantBuffer ccb =
-		{
-			{
-				{1.0f, 0.0f, 1.0f},
-				{1.0f, 0.0f, 0.0f},
-				{0.0f, 1.0f, 0.0f},
-				{0.0f, 0.0f, 1.0f},
-				{1.0f, 1.0f, 0.0f},
-				{0.0f, 1.0f, 1.0f},
-				{1.0f, 1.0f, 1.0f},
-				{0.0f, 0.0f, 0.0f},
-			}
-		};
-		AddStaticBind(std::make_unique<PixelConstantBuffer<ColorConstantBuffer>>(gfx, ccb));
+		AddStaticBind(std::make_unique<PixelShader>(gfx, L"PhongPixelShader.cso"));
 
 		//Create and bind Input layout -- uses bytecode from vertex shader
 		const std::vector<D3D11_INPUT_ELEMENT_DESC> ied =
 		{
 			{"Position", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+			{"Normal",0,DXGI_FORMAT_R32G32B32_FLOAT,0, D3D11_APPEND_ALIGNED_ELEMENT,D3D11_INPUT_PER_VERTEX_DATA,0 },
 		};
 		AddStaticBind(std::make_unique<InputLayout>(gfx, ied, pVsBc));
 
@@ -80,6 +56,18 @@ Cube::Cube(Graphics& gfx, std::mt19937& rng,
 	////This gets initialised normally because this needs to be unique per cube, for different transforms
 	//Create transform constant buffer bind -- this one slighly special, need a reference to this class to be able to call the transform function and use that data
 	AddBind(std::make_unique<TransConstBuffer>(gfx, *this));
+
+	//Add per instance colouring
+	struct PSMaterialConstant
+	{
+		DirectX::XMFLOAT3 color;
+		float specularIntensity = 0.6f;
+		float specularPower = 30.0f;
+		float padding[3];
+		
+	} colorConst;
+	colorConst.color = matCol;
+	AddBind(std::make_unique<PixelConstantBuffer<PSMaterialConstant>>(gfx, colorConst, 1u));
 
 	//Adjust this to change the per instance scaling
 	DirectX::XMStoreFloat3x3(&_transform->GetModelTransform(), DirectX::XMMatrixScaling(1.0f, 1.0f, 1.0f));

@@ -3,6 +3,7 @@
 #include "Timer.h"
 #include "ImguiManager.h"
 #include "Camera.h"
+#include "PointLight.h"
 
 class App
 {
@@ -19,7 +20,9 @@ private:
 
 	float _dtSpeedFactor = 1.0f;
 	std::vector<std::unique_ptr<class TexturedCube>> _cubes;
-	std::vector<std::unique_ptr<class Sheet>> _sheets;
+	std::vector<std::unique_ptr<class Cylinder>> _cylinders;
+	std::vector<std::unique_ptr<class Pyramid>> _pyramids;
 	Camera _cam;
+	PointLight _light;
 };
 
