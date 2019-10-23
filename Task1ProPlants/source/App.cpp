@@ -4,7 +4,6 @@
 #include "MathClass.h"
 
 #include "TexturedCube.h"
-#include "Cube.h"
 #include "Cylinder.h"
 #include "Pyramid.h"
 
@@ -19,12 +18,12 @@ App::App() : _wnd(1280, 720, "AT Task1 Proc Plants"), _light(_wnd.Gfx())
 
 	for (size_t i = 0; i < 20; i++)
 	{
-		_cubes.push_back(std::make_unique<Cube>(_wnd.Gfx(), 
+		_cubes.push_back(std::make_unique<TexturedCube>(_wnd.Gfx(), 
 			DirectX::XMFLOAT3(position(rng), position(rng), position(rng)),
 			DirectX::XMFLOAT3(localRot(rng), localRot(rng), localRot(rng)),
 			DirectX::XMFLOAT3(0.0f,0.0f,0.0f),
 			DirectX::XMFLOAT3(localRotDelta(rng), localRotDelta(rng), localRotDelta(rng)),
-			DirectX::XMFLOAT3(matColour(rng), matColour(rng), matColour(rng))
+			i % 2 == 0 ? "sheb.tga" : "UWE_Logo.tga"
 		));
 	}
 

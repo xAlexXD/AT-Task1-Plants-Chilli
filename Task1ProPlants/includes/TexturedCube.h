@@ -9,7 +9,8 @@ public:
 		DirectX::XMFLOAT3 pos, 
 		DirectX::XMFLOAT3 rot, 
 		DirectX::XMFLOAT3 posDelta, 
-		DirectX::XMFLOAT3 rotDelta
+		DirectX::XMFLOAT3 rotDelta,
+		const char* textureName
 	);
 
 	TexturedCube(Graphics& gfx);
@@ -18,7 +19,7 @@ public:
 	DirectX::XMMATRIX GetTransformXM() const noexcept override;
 
 private:
-	void Init(Graphics& gfx);
+	void Init(Graphics& gfx, const char* textureName = nullptr);
 
 	std::unique_ptr<GameObjectTransform> _transform;
 };
