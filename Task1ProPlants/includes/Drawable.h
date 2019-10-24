@@ -22,6 +22,21 @@ public:
 protected:
 	void AddBind(std::unique_ptr<Bindable> bind);
 	void AddIndexBuffer(std::unique_ptr<IndexBuffer> iBuf) noexcept;
+	Bindable* GetPointerToLastBindable() noexcept;
+
+	//template<class B>
+	//bool GetBindablePointer(B* ref)
+	//{
+	//	for (const auto& b : _binds)
+	//	{
+	//		if (const auto p = dynamic_cast<B*>(b.get()))
+	//		{
+	//			ref = p;
+	//			return true;
+	//		}
+	//	}
+	//	return false;
+	//}
 
 private:
 	virtual const std::vector<std::unique_ptr<Bindable>>& GetStaticBinds() const noexcept = 0;
@@ -29,4 +44,3 @@ private:
 	const class IndexBuffer* _pIndexBuffer = nullptr;
 	std::vector<std::unique_ptr<Bindable>> _binds;
 };
-

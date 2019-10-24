@@ -29,3 +29,8 @@ void Drawable::AddIndexBuffer(std::unique_ptr<IndexBuffer> iBuf) noexcept
 	_pIndexBuffer = iBuf.get();
 	_binds.push_back(std::move(iBuf));
 }
+
+Bindable* Drawable::GetPointerToLastBindable() noexcept
+{
+	return _binds.back().get();
+}
