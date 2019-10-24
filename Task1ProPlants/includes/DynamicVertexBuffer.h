@@ -44,12 +44,12 @@ public:
 		const UINT offset = 0u;
 		GetContext(gfx)->IASetVertexBuffers(0u, 1u, _pVertexBuffer.GetAddressOf(), &_stride, &offset);
 	}
-	void RemapVertexBuffer(Graphics& gfx) noexcept
+	void RemapVertexBuffer(Graphics& gfx)
 	{
-		D3D11_MAPPED_SUBRESOURCE resource;
-		GetContext(gfx)->Map(_pVertexBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &resource);
-		memcpy(resource.pData, _vertices.data(), sizeof(V) * _vertices.size());
-		GetContext(gfx)->Unmap(_pVertexBuffer.Get(), 0);
+		D3D11_MAPPED_SUBRESOURCE msr;
+		GetContext(gfx)->Map(_pVertexBuffer.Get(), 0u, D3D11_MAP_WRITE_DISCARD, 0u, &msr);
+		memcpy(msr.pData, _vertices.data(), sizeof(V) * _vertices.size());
+		GetContext(gfx)->Unmap(_pVertexBuffer.Get(), 0u);
 	}
 
 	void SpawnImguiControlWindow()

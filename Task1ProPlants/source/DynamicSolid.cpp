@@ -67,5 +67,5 @@ void DynamicSolid::Update(float dt) noexcept
 
 DirectX::XMMATRIX DynamicSolid::GetTransformXM() const noexcept
 {
-	return DirectX::XMMATRIX();
+	return _transform->GetGameObjectTransformXM();
 }
