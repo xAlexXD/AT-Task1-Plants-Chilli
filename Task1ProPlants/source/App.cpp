@@ -55,7 +55,7 @@ App::App() : _wnd(1280, 720, "AT Task1 Proc Plants"), _light(_wnd.Gfx())
 	//_cubes.push_back(std::make_unique<TexturedCube>(_wnd.Gfx()));
 	_dynamicCube = std::make_unique<DynamicSolid>(
 			_wnd.Gfx(),
-			DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f),
+			DirectX::XMFLOAT3(0.0f, -5.0f, 20.0f),
 			DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f),
 			DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f),
 			DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f),

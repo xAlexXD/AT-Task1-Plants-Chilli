@@ -9,7 +9,7 @@ template<class V>
 class DynamicVertexBuffer : public Bindable
 {
 public:
-	DynamicVertexBuffer(Graphics& gfx, const std::vector<V>& verts) : _stride(sizeof(V))
+	DynamicVertexBuffer(Graphics& gfx, std::vector<V>& verts) : _stride(sizeof(V))
 	{
 		HRESULT hr;
 
@@ -64,13 +64,15 @@ public:
 
 			assert("Not a modulus of 3 in vertex buffer" && _vertices.size() % 3 == 0);
 
-			for (int i = 0; i < _vertices.size(); i += 3)
+			for (int i = 0; i < _vertices.size(); i++)
 			{
-				std::vector<float> triangle(3u);
-				triangle[0] = _vertices[i].pos.x;
-				triangle[1] = _vertices[i + 1].pos.y;
-				triangle[2] = _vertices[i + 2].pos.z;
-				_vertDirty =  ImGui::InputFloat3("Jef", triangle.data(), "%.1f") || _vertDirty;
+				//float vec3[3] = { _vertices[i].pos.x, _vertices[i].pos.y, _vertices[i].pos.z };
+				ImGui::Text("Triangle %i", i);
+				//if (ImGui::InputFloat3(" :XYZ", reinterpret_cast<float*>(&_vertices[i].pos), "%.2f", 0)) { _vertDirty = true; }
+
+				if(ImGui::InputFloat("X: ", reinterpret_cast<float*>(&_vertices[i].pos.x), 0.25f, 0.0f, "%.2f", 0)) { _vertDirty = true; }
+				if(ImGui::InputFloat("Y: ", reinterpret_cast<float*>(&_vertices[i].pos.y), 0.25f, 0.0f, "%.2f", 0)) { _vertDirty = true; }
+				if(ImGui::InputFloat("Z: ", reinterpret_cast<float*>(&_vertices[i].pos.z), 0.25f, 0.0f, "%.2f", 0)) { _vertDirty = true; }
 			}
 		}
 		ImGui::End();
@@ -89,3 +91,9 @@ protected:
 	std::vector<V> _vertices;
 	std::vector<V> _originalVertices;
 };
+
+//template<class V>
+//std::vector<V> DynamicVertexBuffer<V>::_vertices;
+//
+//template<class V>
+//std::vector<V> DynamicVertexBuffer<V>::_originalVertices;
