@@ -69,3 +69,8 @@ DirectX::XMMATRIX DynamicSolid::GetTransformXM() const noexcept
 {
 	return _transform->GetGameObjectTransformXM();
 }
+
+void DynamicSolid::SpawnImguiVerticesWindow() noexcept
+{
+	_vertexBuffer->SpawnImguiControlWindow();
+}

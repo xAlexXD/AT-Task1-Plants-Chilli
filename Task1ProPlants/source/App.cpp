@@ -137,6 +137,7 @@ void App::DoFrame()
 
 	_cam.SpawnImguiControlWindow();
 	_light.SpawnControlWindow();
+	_dynamicCube->SpawnImguiVerticesWindow();
 
 	//present
 	_wnd.Gfx().EndFrame();

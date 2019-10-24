@@ -17,6 +17,7 @@ public:
 
 	void Update(float dt) noexcept override;
 	DirectX::XMMATRIX GetTransformXM() const noexcept override;
+	void SpawnImguiVerticesWindow() noexcept;
 
 private:
 	struct Vertex

@@ -63,12 +63,13 @@ public:
 			}
 
 			assert("Not a modulus of 3 in vertex buffer" && _vertices.size() % 3 == 0);
-			std::vector<float> triangle;
-			triangle.reserve(3u);
 
 			for (int i = 0; i < _vertices.size(); i += 3)
 			{
-				triangle(&_vertices[i], &_vertices[i + 1], &_vertices[i + 2]);
+				std::vector<float> triangle(3u);
+				triangle[0] = _vertices[i].pos.x;
+				triangle[1] = _vertices[i + 1].pos.y;
+				triangle[2] = _vertices[i + 2].pos.z;
 				_vertDirty =  ImGui::InputFloat3("Jef", triangle.data(), "%.1f") || _vertDirty;
 			}
 		}
@@ -77,7 +78,7 @@ public:
 
 	void Reset() noexcept
 	{
-		_vertices(_originalVertices.begin(), _originalVertices.end());
+		_vertices.assign(_originalVertices.begin(), _originalVertices.end());
 		_vertDirty = true;
 	}
 
