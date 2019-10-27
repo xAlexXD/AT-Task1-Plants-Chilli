@@ -49,18 +49,19 @@ DirectX::XMMATRIX GameObjectTransform::GetTransformXM() const noexcept
 
 DirectX::XMMATRIX GameObjectTransform::GetTransformWithWorldOffsetXM(DirectX::XMFLOAT3 parentPos) const noexcept
 {
-	//First transform offset to the parent object and rotates around that parent
+	//First transform offsets camera away from origin, then rotates around the origin in pitch and yaw
 	const auto pos = DirectX::XMVector3Transform(
-		DirectX::XMVectorSet(0.0f, 0.0f, _xWorldRot, 0.0f),
-		DirectX::XMMatrixRotationRollPitchYaw(_yWorldRot, -_zWorldRot, 0.0f)
+		DirectX::XMVectorSet(0.0f, 0.0f, 0.1f, 0.0f),
+		DirectX::XMMatrixRotationRollPitchYaw(_yWorldRot, -_zWorldRot, _xWorldRot)
 	);
 
-	//Applies local rotation to the world rotation calc'd previously
+	//Applies the local rotation to the world rotation calc'd previously
 	return DirectX::XMMatrixLookAtLH(
-		pos, DirectX::XMVectorSet(parentPos.x, parentPos.y, parentPos.z, 0.0f),
+		pos, DirectX::XMVectorZero(),
 		DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f)
 	) *
-		DirectX::XMMatrixRotationRollPitchYaw(_yRot, -_zRot, _xRot);
+		DirectX::XMMatrixRotationRollPitchYaw(_yRot, -_zRot, _xRot) *
+		DirectX::XMMatrixTranslation(_xPos, _yPos, _zPos);
 }
 
 DirectX::XMFLOAT3X3& GameObjectTransform::GetModelTransform() noexcept
