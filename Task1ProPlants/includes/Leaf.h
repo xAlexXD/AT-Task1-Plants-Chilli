@@ -5,6 +5,7 @@
 
 class Leaf : public DrawablesBase<Leaf>
 {
+public:
 	Leaf(Graphics& gfx,
 		DirectX::XMFLOAT3 pos,
 		DirectX::XMFLOAT3 rot,
@@ -12,22 +13,22 @@ class Leaf : public DrawablesBase<Leaf>
 		DirectX::XMFLOAT3 rotDelta,
 		DirectX::XMFLOAT3 worldRot,
 		DirectX::XMFLOAT3 worldDelta,
-		DirectX::XMFLOAT3& parentPos
+		DirectX::XMFLOAT3* parentPos
 	);
 
 	void Update(float dt) noexcept override;
 	DirectX::XMMATRIX GetTransformXM() const noexcept override;
 
 private:
-	struct Vertex
+	struct TexturedVertex
 	{
 		DirectX::XMFLOAT3 pos;
 		DirectX::XMFLOAT3 n;
 		DirectX::XMFLOAT2 tc;
 	};
 
-	DirectX::XMFLOAT3 _parentsPos;
+	DirectX::XMFLOAT3* _parentsPos = nullptr;
 	std::unique_ptr<GameObjectTransform> _transform = nullptr;
-	DynamicVertexBuffer<Vertex>* _vertexBuffer = nullptr;
+	DynamicVertexBuffer<TexturedVertex>* _vertexBuffer = nullptr;
 };
 

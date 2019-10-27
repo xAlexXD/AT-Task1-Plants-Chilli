@@ -18,11 +18,11 @@ private:
 	Window _wnd;
 	Timer _timer;
 
+	DirectX::XMFLOAT3 _worldOrigin = { 0.1f, 0.1f, 0.1f };
+
 	float _dtSpeedFactor = 1.0f;
-	std::vector<std::unique_ptr<class TexturedCube>> _cubes;
-	std::vector<std::unique_ptr<class Cylinder>> _cylinders;
-	std::vector<std::unique_ptr<class Pyramid>> _pyramids;
 	std::unique_ptr<class DynamicSolid> _dynamicCube;
+	std::unique_ptr<class Leaf> _leaf;
 	Camera _cam;
 	PointLight _light;
 };

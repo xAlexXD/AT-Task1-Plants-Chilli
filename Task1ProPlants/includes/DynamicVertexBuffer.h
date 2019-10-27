@@ -19,7 +19,7 @@ public:
 		bd.Usage = D3D11_USAGE_DYNAMIC;
 		bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 		bd.MiscFlags = 0u;
-		bd.ByteWidth = UINT(sizeof(V) * 1000u);			//Allocating a shit ton more space for safety of adding or removing verts
+		bd.ByteWidth = UINT(sizeof(V) * 200u);			//Allocating a shit ton more space for safety of adding or removing verts
 		bd.StructureByteStride = sizeof(V);
 
 		//Initialise the internal pointer to the stored vertex array

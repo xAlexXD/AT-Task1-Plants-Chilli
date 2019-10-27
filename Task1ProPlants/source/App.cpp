@@ -7,6 +7,7 @@
 #include "Cylinder.h"
 #include "Pyramid.h"
 #include "DynamicSolid.h"
+#include "Leaf.h"
 
 App::App() : _wnd(1280, 720, "AT Task1 Proc Plants"), _light(_wnd.Gfx())
 {
@@ -16,6 +17,16 @@ App::App() : _wnd(1280, 720, "AT Task1 Proc Plants"), _light(_wnd.Gfx())
 	std::uniform_real_distribution<float> localRotDelta(0.0f, PI * 2.0f);
 	std::uniform_real_distribution<float> matColour(0.0f, 1.0f);
 	std::uniform_int_distribution<int> tessalation(3, 30);
+
+	_leaf = std::make_unique<Leaf>( _wnd.Gfx(),
+		DirectX::XMFLOAT3(0.0f,0.0f,0.0f),
+		DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f),
+		DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f),
+		DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f),
+		DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f),
+		DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f),
+		&_worldOrigin
+	);
 
 	_wnd.Gfx().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 720.0f / 1280.0f, 0.5f, 100.0f));
 }
@@ -52,11 +63,14 @@ void App::DoFrame()
 	_light.Bind(_wnd.Gfx(), _wnd.Gfx().GetCamera());
 
 	//updates the game objects in the scene
-	for (auto& cube : _cubes)
-	{
-		cube->Update(_wnd._keyboard.KeyIsPressed(VK_SPACE) ? 0.0f : dt);
-		cube->Draw(_wnd.Gfx());
-	}
+	//for (auto& cube : _cubes)
+	//{
+	//	cube->Update(_wnd._keyboard.KeyIsPressed(VK_SPACE) ? 0.0f : dt);
+	//	cube->Draw(_wnd.Gfx());
+	//}
+
+	_leaf->Update(dt);
+	_leaf->Draw(_wnd.Gfx());
 
 	//Draw the light as it has a model representing it
 	_light.Draw(_wnd.Gfx());
