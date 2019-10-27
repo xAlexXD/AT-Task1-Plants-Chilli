@@ -17,50 +17,6 @@ App::App() : _wnd(1280, 720, "AT Task1 Proc Plants"), _light(_wnd.Gfx())
 	std::uniform_real_distribution<float> matColour(0.0f, 1.0f);
 	std::uniform_int_distribution<int> tessalation(3, 30);
 
-	//for (size_t i = 0; i < 20; i++)
-	//{
-	//	_cubes.push_back(std::make_unique<TexturedCube>(_wnd.Gfx(), 
-	//		DirectX::XMFLOAT3(position(rng), position(rng), position(rng)),
-	//		DirectX::XMFLOAT3(localRot(rng), localRot(rng), localRot(rng)),
-	//		DirectX::XMFLOAT3(0.0f,0.0f,0.0f),
-	//		DirectX::XMFLOAT3(localRotDelta(rng), localRotDelta(rng), localRotDelta(rng)),
-	//		i % 2 == 0 ? "sheb.tga" : "UWE_Logo.tga"
-	//	));
-	//}
-
-	//for (size_t i = 0; i < 20; i++)
-	//{
-	//	_cylinders.push_back(std::make_unique<Cylinder>(_wnd.Gfx(),
-	//		DirectX::XMFLOAT3(position(rng), position(rng), position(rng)),
-	//		DirectX::XMFLOAT3(localRot(rng), localRot(rng), localRot(rng)),
-	//		DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f),
-	//		DirectX::XMFLOAT3(localRotDelta(rng), localRotDelta(rng), localRotDelta(rng)),
-	//		DirectX::XMFLOAT3(matColour(rng), matColour(rng), matColour(rng)),
-	//		tessalation(rng)
-	//		));
-	//}
-
-	//for (size_t i = 0; i < 20; i++)
-	//{
-	//	_pyramids.push_back(std::make_unique<Pyramid>(_wnd.Gfx(),
-	//		DirectX::XMFLOAT3(position(rng), position(rng), position(rng)),
-	//		DirectX::XMFLOAT3(localRot(rng), localRot(rng), localRot(rng)),
-	//		DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f),
-	//		DirectX::XMFLOAT3(localRotDelta(rng), localRotDelta(rng), localRotDelta(rng)),
-	//		DirectX::XMFLOAT3(matColour(rng), matColour(rng), matColour(rng)),
-	//		tessalation(rng)
-	//		));
-	//}
-
-	//_cubes.push_back(std::make_unique<TexturedCube>(_wnd.Gfx()));
-	_dynamicCube = std::make_unique<DynamicSolid>(
-			_wnd.Gfx(),
-			DirectX::XMFLOAT3(0.0f, -5.0f, 20.0f),
-			DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f),
-			DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f),
-			DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f),
-			DirectX::XMFLOAT3(matColour(rng), matColour(rng), matColour(rng))
-		);
 	
 	_wnd.Gfx().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 720.0f / 1280.0f, 0.5f, 100.0f));
 }
@@ -97,26 +53,11 @@ void App::DoFrame()
 	_light.Bind(_wnd.Gfx(), _wnd.Gfx().GetCamera());
 
 	//updates the game objects in the scene
-	//for (auto& cube : _cubes)
-	//{
-	//	cube->Update(_wnd._keyboard.KeyIsPressed(VK_SPACE) ? 0.0f : dt);
-	//	cube->Draw(_wnd.Gfx());
-	//}
-
-	//for (auto& cylinder : _cylinders)
-	//{
-	//	cylinder->Update(_wnd._keyboard.KeyIsPressed(VK_SPACE) ? 0.0f : dt);
-	//	cylinder->Draw(_wnd.Gfx());
-	//}
-
-	//for (auto& pyramid : _pyramids)
-	//{
-	//	pyramid->Update(_wnd._keyboard.KeyIsPressed(VK_SPACE) ? 0.0f : dt);
-	//	pyramid->Draw(_wnd.Gfx());
-	//}
-
-	_dynamicCube->Update(_wnd._keyboard.KeyIsPressed(VK_SPACE) ? 0.0f : dt);
-	_dynamicCube->Draw(_wnd.Gfx());
+	for (auto& cube : _cubes)
+	{
+		cube->Update(_wnd._keyboard.KeyIsPressed(VK_SPACE) ? 0.0f : dt);
+		cube->Draw(_wnd.Gfx());
+	}
 
 	//Draw the light as it has a model representing it
 	_light.Draw(_wnd.Gfx());
@@ -137,7 +78,6 @@ void App::DoFrame()
 
 	_cam.SpawnImguiControlWindow();
 	_light.SpawnControlWindow();
-	_dynamicCube->SpawnImguiVerticesWindow();
 
 	//present
 	_wnd.Gfx().EndFrame();
