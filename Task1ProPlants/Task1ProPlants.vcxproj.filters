@@ -153,6 +153,9 @@
     <ClCompile Include="source\DynamicSolid.cpp">
       <Filter>Source Files\Drawables</Filter>
     </ClCompile>
+    <ClCompile Include="source\Leaf.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes\WindowsCustomInclude.h">
@@ -310,6 +313,9 @@
     </ClInclude>
     <ClInclude Include="includes\DynamicVertexBuffer.h">
       <Filter>Header Files\Bindables</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Leaf.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

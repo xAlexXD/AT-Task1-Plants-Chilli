@@ -67,7 +67,7 @@ void DynamicSolid::Update(float dt) noexcept
 
 DirectX::XMMATRIX DynamicSolid::GetTransformXM() const noexcept
 {
-	return _transform->GetGameObjectTransformXM();
+	return _transform->GetTransformXM();
 }
 
 void DynamicSolid::SpawnImguiVerticesWindow() noexcept

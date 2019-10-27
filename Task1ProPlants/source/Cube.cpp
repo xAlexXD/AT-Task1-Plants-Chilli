@@ -80,5 +80,5 @@ void Cube::Update(float dt) noexcept
 
 DirectX::XMMATRIX Cube::GetTransformXM() const noexcept
 {
- 	return _transform->GetGameObjectTransformXM();
+ 	return _transform->GetTransformXM();
 }

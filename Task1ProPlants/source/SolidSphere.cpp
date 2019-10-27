@@ -58,5 +58,5 @@ void SolidSphere::SetPos(DirectX::XMFLOAT3 pos) noexcept
 
 DirectX::XMMATRIX SolidSphere::GetTransformXM() const noexcept
 {
-	return _transform->GetGameObjectTransformXM();
+	return _transform->GetTransformXM();
 }

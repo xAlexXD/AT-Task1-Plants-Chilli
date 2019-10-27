@@ -83,5 +83,5 @@ void Sheet::Update(float dt) noexcept
 
 DirectX::XMMATRIX Sheet::GetTransformXM() const noexcept
 {
-	return _transform->GetGameObjectTransformXM();
+	return _transform->GetTransformXM();
 }

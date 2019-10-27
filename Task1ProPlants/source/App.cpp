@@ -17,7 +17,6 @@ App::App() : _wnd(1280, 720, "AT Task1 Proc Plants"), _light(_wnd.Gfx())
 	std::uniform_real_distribution<float> matColour(0.0f, 1.0f);
 	std::uniform_int_distribution<int> tessalation(3, 30);
 
-	
 	_wnd.Gfx().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 720.0f / 1280.0f, 0.5f, 100.0f));
 }
 
@@ -61,18 +60,6 @@ void App::DoFrame()
 
 	//Draw the light as it has a model representing it
 	_light.Draw(_wnd.Gfx());
-
-	//Simple box to adjust speed of simulation
-	if (ImGui::Begin("Simulation Speed"))
-	{
-		//Small text box using c style print fs to pass in parameters
-		ImGui::Text("Application Average: %.3f ms || Framerate: %.1f FPS", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-
-		//Slider to adjust the factors value
-		ImGui::SliderFloat("Speed Modifer", &_dtSpeedFactor, 0.0f, 4.0f);
-	}
-	//After processing a window for imgui always end
-	ImGui::End();
 
 	//ImGui::ShowDemoWindow();
 

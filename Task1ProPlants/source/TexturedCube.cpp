@@ -26,7 +26,7 @@ void TexturedCube::Update(float dt) noexcept
 
 DirectX::XMMATRIX TexturedCube::GetTransformXM() const noexcept
 {
-	return _transform->GetGameObjectTransformXM();
+	return _transform->GetTransformXM();
 }
 
 void TexturedCube::Init(Graphics& gfx, const char* textureName)

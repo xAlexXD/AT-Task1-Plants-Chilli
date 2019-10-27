@@ -68,5 +68,5 @@ void Cylinder::Update(float dt) noexcept
 
 DirectX::XMMATRIX Cylinder::GetTransformXM() const noexcept
 {
-	return _transform->GetGameObjectTransformXM();
+	return _transform->GetTransformXM();
 }

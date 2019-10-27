@@ -74,5 +74,5 @@ void Pyramid::Update(float dt) noexcept
 
 DirectX::XMMATRIX Pyramid::GetTransformXM() const noexcept
 {
-	return _transform->GetGameObjectTransformXM();
+	return _transform->GetTransformXM();
 }
