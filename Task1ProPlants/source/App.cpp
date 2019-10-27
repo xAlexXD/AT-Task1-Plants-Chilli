@@ -79,6 +79,7 @@ void App::DoFrame()
 
 	_cam.SpawnImguiControlWindow();
 	_light.SpawnControlWindow();
+	_leaf->SpawnImGuiWindow();
 
 	//present
 	_wnd.Gfx().EndFrame();

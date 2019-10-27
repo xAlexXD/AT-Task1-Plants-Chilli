@@ -1,4 +1,5 @@
 #include "GameObjectTransform.h"
+#include "imgui.h"
 
 GameObjectTransform::GameObjectTransform()
 {
@@ -65,6 +66,28 @@ DirectX::XMMATRIX GameObjectTransform::GetTransformWithWorldOffsetXM(DirectX::XM
 DirectX::XMFLOAT3X3& GameObjectTransform::GetModelTransform() noexcept
 {
 	return _modelTransform;
+}
+
+void GameObjectTransform::SpawnImGuiWindow() noexcept
+{
+	if (ImGui::Begin("Model Transform Info"))
+	{
+		//ImGui::Text("Position");
+		//ImGui::SliderFloat("X", &_xPos, 0.1f, 20.0f, "%.1f");
+		//ImGui::SliderFloat("Y", &_yPos, 0.1f, 20.0f, "%.1f");
+		//ImGui::SliderFloat("Z", &_zPos, 0.1f, 20.0f, "%.1f");
+
+		//ImGui::Text("Local Rotation");
+		//ImGui::SliderAngle("X", &_xRot, -180.0f, 180.0f);
+		//ImGui::SliderAngle("Y", &_yRot, -180.0f, 180.0f);
+		//ImGui::SliderAngle("Z", &_zRot, -180.0f, 180.0f);
+
+		ImGui::Text("World Rotation");
+		ImGui::SliderAngle("X", &_xWorldRot, -180.0f, 180.0f);
+		ImGui::SliderAngle("Y", &_yWorldRot, -180.0f, 180.0f);
+		ImGui::SliderAngle("Z", &_zWorldRot, -180.0f, 180.0f);
+	}
+	ImGui::End();
 }
 
 void GameObjectTransform::SetPosition(DirectX::XMFLOAT3 pos)

@@ -68,5 +68,10 @@ void Leaf::Update(float dt) noexcept
 
 DirectX::XMMATRIX Leaf::GetTransformXM() const noexcept
 {
-	return _transform->GetTransformXM();
+	return _transform->GetTransformWithWorldOffsetXM(*_parentsPos);
+}
+
+void Leaf::SpawnImGuiWindow() noexcept
+{
+	_transform->SpawnImGuiWindow();
 }

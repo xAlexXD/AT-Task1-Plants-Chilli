@@ -40,7 +40,7 @@ void Camera::SpawnImguiControlWindow() noexcept
 
 void Camera::Reset() noexcept
 {
-	r = 20.0f;
+	r = 5.0f;
 	theta = 0.0f;
 	phi = 0.0f;
 	pitch = 0.0f;

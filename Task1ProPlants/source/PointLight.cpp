@@ -38,10 +38,10 @@ void PointLight::Reset() noexcept
 {
 	_cbData =
 	{
-		{ 0.0f, 0.0f, 0.0f },		//Position
+		{ 0.0f, 0.0f, -21.0f },		//Position
 		{ 0.05f, 0.05f, 0.05f },	//Ambient
 		{ 1.0f, 1.0f, 1.0f },		//diffuseCol
-		1.0f,						//diffuseIntensity
+		1.6f,						//diffuseIntensity
 		1.0f,						//Attenuation const
 		0.045f,						//Attenuation linear
 		0.0075f						//Attenuation Quadratic

@@ -18,6 +18,7 @@ public:
 	DirectX::XMMATRIX GetTransformWithWorldOffsetXM(DirectX::XMFLOAT3 parentPos) const noexcept;
 	DirectX::XMFLOAT3X3& GetModelTransform() noexcept;
 	
+	void SpawnImGuiWindow() noexcept;
 
 	void SetPosition(DirectX::XMFLOAT3 pos);
 	void SetLocalRotation(DirectX::XMFLOAT3 rot);
