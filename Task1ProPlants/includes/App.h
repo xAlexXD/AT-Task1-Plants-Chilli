@@ -22,6 +22,7 @@ private:
 	std::vector<std::unique_ptr<class TexturedCube>> _cubes;
 	std::vector<std::unique_ptr<class Cylinder>> _cylinders;
 	std::vector<std::unique_ptr<class Pyramid>> _pyramids;
+	std::unique_ptr<class DynamicSolid> _dynamicCube;
 	Camera _cam;
 	PointLight _light;
 };
