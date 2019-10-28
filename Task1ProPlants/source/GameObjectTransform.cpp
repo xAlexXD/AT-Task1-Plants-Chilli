@@ -47,20 +47,11 @@ DirectX::XMMATRIX GameObjectTransform::GetTransformXM() const noexcept
 		DirectX::XMMatrixTranslation(_xPos, _yPos, _zPos);						//Translates the cube in that pos
 }
 
-DirectX::XMMATRIX GameObjectTransform::GetTransformWithWorldOffsetXM(DirectX::XMFLOAT3 parentPos) const noexcept
+DirectX::XMMATRIX GameObjectTransform::GetTransformWithWorldOffsetXM(DirectX::XMFLOAT3 pivotOffset) const noexcept
 {
-	//First transform offsets camera away from origin, then rotates around the origin in pitch and yaw
-	const auto pos = DirectX::XMVector3Transform(
-		DirectX::XMVectorSet(0.0f, 0.0f, 0.1f, 0.0f),
-		DirectX::XMMatrixRotationRollPitchYaw(_yWorldRot, -_zWorldRot, _xWorldRot)
-	);
-
-	//Applies the local rotation to the world rotation calc'd previously
-	return DirectX::XMMatrixLookAtLH(
-		pos, DirectX::XMVectorZero(),
-		DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f)
-	) *
-		DirectX::XMMatrixRotationRollPitchYaw(_yRot, -_zRot, _xRot) *
+	return DirectX::XMMatrixRotationRollPitchYaw(_yRot, _zRot, _xRot) *
+		DirectX::XMMatrixTranslation(pivotOffset.x, pivotOffset.y, pivotOffset.z) *
+		DirectX::XMMatrixRotationRollPitchYaw(_yWorldRot, _zWorldRot, _xWorldRot) *
 		DirectX::XMMatrixTranslation(_xPos, _yPos, _zPos);
 }
 
@@ -73,20 +64,20 @@ void GameObjectTransform::SpawnImGuiWindow() noexcept
 {
 	if (ImGui::Begin("Model Transform Info"))
 	{
-		//ImGui::Text("Position");
-		//ImGui::SliderFloat("X", &_xPos, 0.1f, 20.0f, "%.1f");
-		//ImGui::SliderFloat("Y", &_yPos, 0.1f, 20.0f, "%.1f");
-		//ImGui::SliderFloat("Z", &_zPos, 0.1f, 20.0f, "%.1f");
+		ImGui::Text("Position");
+		ImGui::SliderFloat("X Pos", &_xPos, 0.1f, 20.0f, "%.1f");
+		ImGui::SliderFloat("Y Pos", &_yPos, 0.1f, 20.0f, "%.1f");
+		ImGui::SliderFloat("Z Pos", &_zPos, 0.1f, 20.0f, "%.1f");
 
-		//ImGui::Text("Local Rotation");
-		//ImGui::SliderAngle("X", &_xRot, -180.0f, 180.0f);
-		//ImGui::SliderAngle("Y", &_yRot, -180.0f, 180.0f);
-		//ImGui::SliderAngle("Z", &_zRot, -180.0f, 180.0f);
+		ImGui::Text("Local Rotation");
+		ImGui::SliderAngle("X LRot", &_xRot, -180.0f, 180.0f);
+		ImGui::SliderAngle("Y LRot", &_yRot, -180.0f, 180.0f);
+		ImGui::SliderAngle("Z LRot", &_zRot, -180.0f, 180.0f);
 
 		ImGui::Text("World Rotation");
-		ImGui::SliderAngle("X", &_xWorldRot, -180.0f, 180.0f);
-		ImGui::SliderAngle("Y", &_yWorldRot, -180.0f, 180.0f);
-		ImGui::SliderAngle("Z", &_zWorldRot, -180.0f, 180.0f);
+		ImGui::SliderAngle("X WRot", &_xWorldRot, -180.0f, 180.0f);
+		ImGui::SliderAngle("Y WRot", &_yWorldRot, -180.0f, 180.0f);
+		ImGui::SliderAngle("Z WRot", &_zWorldRot, -180.0f, 180.0f);
 	}
 	ImGui::End();
 }
