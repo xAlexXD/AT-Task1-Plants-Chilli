@@ -60,6 +60,11 @@ DirectX::XMFLOAT3X3& GameObjectTransform::GetModelTransform() noexcept
 	return _modelTransform;
 }
 
+DirectX::XMFLOAT3 GameObjectTransform::GetPosition() noexcept
+{
+	return DirectX::XMFLOAT3(_xPos, _yPos, _zPos);
+}
+
 void GameObjectTransform::SpawnImGuiWindow() noexcept
 {
 	if (ImGui::Begin("Model Transform Info"))
@@ -82,30 +87,37 @@ void GameObjectTransform::SpawnImGuiWindow() noexcept
 	ImGui::End();
 }
 
-void GameObjectTransform::SetPosition(DirectX::XMFLOAT3 pos)
+void GameObjectTransform::SetPosition(DirectX::XMFLOAT3 pos) noexcept
 {
 	_xPos = pos.x;
 	_yPos = pos.y;
 	_zPos = pos.z;
 }
 
-void GameObjectTransform::SetLocalRotation(DirectX::XMFLOAT3 rot)
+void GameObjectTransform::SetLocalRotation(DirectX::XMFLOAT3 rot) noexcept
 {
 	_xRot = rot.x;
 	_yRot = rot.y;
 	_zRot = rot.z;
 }
 
-void GameObjectTransform::SetPositionDelta(DirectX::XMFLOAT3 posDelta)
+void GameObjectTransform::SetPositionDelta(DirectX::XMFLOAT3 posDelta) noexcept
 {
 	_xPosDelta = posDelta.x;
 	_yPosDelta = posDelta.y;
 	_zPosDelta = posDelta.z;
 }
 
-void GameObjectTransform::SetLocalRotationDelta(DirectX::XMFLOAT3 rotDelta)
+void GameObjectTransform::SetLocalRotationDelta(DirectX::XMFLOAT3 rotDelta) noexcept
 {
 	_xRotDelta = rotDelta.x;
 	_yRotDelta = rotDelta.y;
 	_zRotDelta = rotDelta.z;
+}
+
+void GameObjectTransform::SetWorldRotation(DirectX::XMFLOAT3 rot) noexcept
+{
+	_xWorldRot = rot.x;
+	_yWorldRot = rot.y;
+	_zWorldRot = rot.z;
 }

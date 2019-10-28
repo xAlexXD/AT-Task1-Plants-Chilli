@@ -17,13 +17,15 @@ public:
 	DirectX::XMMATRIX GetTransformXM() const noexcept;
 	DirectX::XMMATRIX GetTransformWithPivotOffsetXM(DirectX::XMFLOAT3 pivotOffset) const noexcept;
 	DirectX::XMFLOAT3X3& GetModelTransform() noexcept;
+	DirectX::XMFLOAT3 GetPosition() noexcept;
 	
 	void SpawnImGuiWindow() noexcept;
 
-	void SetPosition(DirectX::XMFLOAT3 pos);
-	void SetLocalRotation(DirectX::XMFLOAT3 rot);
-	void SetPositionDelta(DirectX::XMFLOAT3 posDelta);
-	void SetLocalRotationDelta(DirectX::XMFLOAT3 rotDelta);
+	void SetPosition(DirectX::XMFLOAT3 pos) noexcept;
+	void SetLocalRotation(DirectX::XMFLOAT3 rot) noexcept;
+	void SetPositionDelta(DirectX::XMFLOAT3 posDelta) noexcept;
+	void SetLocalRotationDelta(DirectX::XMFLOAT3 rotDelta) noexcept;
+	void SetWorldRotation(DirectX::XMFLOAT3 rot) noexcept;
 
 private:
 	//Model transformation, used for scaling

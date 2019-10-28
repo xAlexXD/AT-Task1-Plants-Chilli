@@ -70,6 +70,20 @@ DirectX::XMMATRIX Leaf::GetTransformXM() const noexcept
 	return _transform->GetTransformWithPivotOffsetXM(_pivotPos);
 }
 
+void Leaf::SetPosition(DirectX::XMFLOAT3 pos) noexcept
+{
+	_transform->SetPosition(pos);
+}
+
+void Leaf::SetLocalRot(DirectX::XMFLOAT3 rot) noexcept
+{
+	_transform->SetLocalRotation(rot);
+}
+
+void Leaf::SetPivotRot(DirectX::XMFLOAT3 rot) noexcept
+{
+}
+
 void Leaf::SpawnImGuiWindow() noexcept
 {
 	_transform->SpawnImGuiWindow();
