@@ -47,7 +47,7 @@ DirectX::XMMATRIX GameObjectTransform::GetTransformXM() const noexcept
 		DirectX::XMMatrixTranslation(_xPos, _yPos, _zPos);						//Translates the cube in that pos
 }
 
-DirectX::XMMATRIX GameObjectTransform::GetTransformWithWorldOffsetXM(DirectX::XMFLOAT3 pivotOffset) const noexcept
+DirectX::XMMATRIX GameObjectTransform::GetTransformWithPivotOffsetXM(DirectX::XMFLOAT3 pivotOffset) const noexcept
 {
 	return DirectX::XMMatrixRotationRollPitchYaw(_yRot, _zRot, _xRot) *
 		DirectX::XMMatrixTranslation(pivotOffset.x, pivotOffset.y, pivotOffset.z) *

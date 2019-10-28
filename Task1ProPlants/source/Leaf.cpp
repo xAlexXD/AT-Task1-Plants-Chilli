@@ -8,9 +8,8 @@ Leaf::Leaf(Graphics& gfx,
 	DirectX::XMFLOAT3 posDelta, 
 	DirectX::XMFLOAT3 rotDelta, 
 	DirectX::XMFLOAT3 worldRot, 
-	DirectX::XMFLOAT3 worldDelta,
-	DirectX::XMFLOAT3* parentPos) :
-	_transform(std::make_unique<GameObjectTransform>(pos, rot, posDelta, rotDelta, worldRot, worldDelta)), _parentsPos(parentPos)
+	DirectX::XMFLOAT3 worldDelta) :
+	_transform(std::make_unique<GameObjectTransform>(pos, rot, posDelta, rotDelta, worldRot, worldDelta))
 {
 	auto model = PlanePrim::Make<TexturedVertex>();
 	model.Transform(DirectX::XMMatrixRotationZ(PI * 0.25f));
@@ -68,8 +67,7 @@ void Leaf::Update(float dt) noexcept
 
 DirectX::XMMATRIX Leaf::GetTransformXM() const noexcept
 {
-	return _transform->GetTransformWithWorldOffsetXM(*_parentsPos);
-	//return _transform->GetTransformXM();
+	return _transform->GetTransformWithPivotOffsetXM(_pivotPos);
 }
 
 void Leaf::SpawnImGuiWindow() noexcept

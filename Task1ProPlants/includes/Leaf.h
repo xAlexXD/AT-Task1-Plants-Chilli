@@ -12,8 +12,7 @@ public:
 		DirectX::XMFLOAT3 posDelta,
 		DirectX::XMFLOAT3 rotDelta,
 		DirectX::XMFLOAT3 worldRot,
-		DirectX::XMFLOAT3 worldDelta,
-		DirectX::XMFLOAT3* parentPos
+		DirectX::XMFLOAT3 worldDelta
 	);
 
 	void Update(float dt) noexcept override;
@@ -29,7 +28,7 @@ private:
 		DirectX::XMFLOAT2 tc;
 	};
 
-	DirectX::XMFLOAT3* _parentsPos = nullptr;
+	DirectX::XMFLOAT3 _pivotPos = {0.0f, 1.5f, 0.0f};
 	std::unique_ptr<GameObjectTransform> _transform = nullptr;
 	DynamicVertexBuffer<TexturedVertex>* _vertexBuffer = nullptr;
 };

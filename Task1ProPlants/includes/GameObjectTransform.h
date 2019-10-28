@@ -15,7 +15,7 @@ public:
 
 	void Update(float dt) noexcept;
 	DirectX::XMMATRIX GetTransformXM() const noexcept;
-	DirectX::XMMATRIX GetTransformWithWorldOffsetXM(DirectX::XMFLOAT3 pivotOffset) const noexcept;
+	DirectX::XMMATRIX GetTransformWithPivotOffsetXM(DirectX::XMFLOAT3 pivotOffset) const noexcept;
 	DirectX::XMFLOAT3X3& GetModelTransform() noexcept;
 	
 	void SpawnImGuiWindow() noexcept;
