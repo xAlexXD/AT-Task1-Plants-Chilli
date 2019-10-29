@@ -12,7 +12,9 @@
 
 App::App() : _wnd(1280, 720, "AT Task1 Proc Plants"), _light(_wnd.Gfx())
 {
-	_leaves = std::make_unique<Leaves>(_wnd.Gfx(), 0.0f, 4);
+	DirectX::XMFLOAT3 zero = {};
+	_leaves = std::make_unique<Leaves>(_wnd.Gfx(), 4);
+	//_leaf = std::make_unique<Leaf>(_wnd.Gfx(), zero, zero, zero, zero, zero, zero);
 	_wnd.Gfx().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 720.0f / 1280.0f, 0.5f, 100.0f));
 }
 
@@ -51,6 +53,9 @@ void App::DoFrame()
 	_leaves->Update(dt);
 	_leaves->DrawLeaves(_wnd.Gfx());
 
+	//_leaf->Update(dt);
+	//_leaf->Draw(_wnd.Gfx());
+
 	//Draw the light as it has a model representing it
 	_light.Draw(_wnd.Gfx());
 
@@ -59,6 +64,7 @@ void App::DoFrame()
 	_cam.SpawnImguiControlWindow();
 	_light.SpawnControlWindow();
 	_leaves->SpawnImGuiWindow();
+	//_leaf->SpawnImGuiWindow();
 
 	//present
 	_wnd.Gfx().EndFrame();

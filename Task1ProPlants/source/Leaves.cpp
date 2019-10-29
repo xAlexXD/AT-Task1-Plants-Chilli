@@ -3,9 +3,8 @@
 #include <string>
 
 Leaves::Leaves(Graphics& gfx, 
-	float yOffset, 
 	unsigned int leafCount) :
-	_leafHeight(yOffset), _leafCount(leafCount)
+	_leafCount(leafCount)
 {
 	_leafVector.reserve(30);
 	DirectX::XMFLOAT3 zero = { 0.0f, 0.0f, 0.0f };
@@ -28,15 +27,20 @@ void Leaves::Update(float dt) noexcept
 		//Tilt the leaf
 		f3 = leafTransform->GetLocalRotation();
 		f3.y = _leafTilt;
+		f3.x = _leafXRot;
+		f3.z = _leafYRot;
 		leafTransform->SetLocalRotation(f3);
 		//Rotate the leaf around the center
 		f3 = leafTransform->GetWorldRotation();
 		f3.x = divisions * i;
+		f3.y = _leavesXRot;
+		f3.z = _leavesYRot;
 		leafTransform->SetWorldRotation(f3);
 		//Position the leaf
 		f3 = leafTransform->GetPosition();
-		f3.x = _leafOffset;
-		f3.z = _leafHeight;
+		f3.x = _x;
+		f3.y = _y;
+		f3.z = _z;
 		leafTransform->SetPosition(f3);
 	}
 }
@@ -69,10 +73,29 @@ void Leaves::SpawnImGuiWindow() noexcept
 			_leafCount = _leafCount == 0 ? _leafCount : _leafCount - 1;
 		}
 
-		ImGui::Text("Leaf Options");
-		ImGui::SliderFloat("Leaf Height", &_leafHeight, -10.0f, 10.0f, "%.2f");
-		ImGui::SliderFloat("Leaf Spread", &_leafOffset, 0.0f, 10.0f, "%.1f");
+		ImGui::Text("Individual Leaf Options");
 		ImGui::SliderAngle("Leaf Tilt", &_leafTilt, -180.0f, 180.0f);
+		ImGui::SliderAngle("Leaf Rotation X", &_leafXRot, -180.0f, 180.0f);
+		ImGui::SliderAngle("Leaf Rotation Z", &_leafYRot, -180.0f, 180.0f);
+
+		ImGui::Text("Grouped Leaf Options");
+		ImGui::SliderFloat("X Pos", &_x, -10.0f, 10.0f, "%.2f");
+		ImGui::SliderFloat("Y Pos", &_y, -10.0f, 10.0f, "%.2f");
+		ImGui::SliderFloat("Z Pos", &_z, -10.0f, 10.0f, "%.2f");
+		ImGui::SliderAngle("Bunch Rotation X", &_leavesXRot, -180.0f, 180.0f);
+		ImGui::SliderAngle("Bunch Rotation Y", &_leavesYRot, -180.0f, 180.0f);
+
+		if (ImGui::Button("Reset"))
+		{
+			_leafTilt = 0.0f;
+			_leafXRot = 0.0f;
+			_leafYRot = 0.0f;
+			_leavesXRot = 0.0f;
+			_leavesYRot = 0.0f;
+			_x = 0.0f;
+			_y = 0.0f;
+			_z = 0.0f;
+		}
 	}
 	ImGui::End();
 }

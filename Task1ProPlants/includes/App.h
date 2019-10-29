@@ -21,6 +21,7 @@ private:
 	float _dtSpeedFactor = 1.0f;
 	std::unique_ptr<class DynamicSolid> _dynamicCube;
 	std::unique_ptr<class Leaves> _leaves;
+	std::unique_ptr<class Leaf> _leaf;
 	Camera _cam;
 	PointLight _light;
 };

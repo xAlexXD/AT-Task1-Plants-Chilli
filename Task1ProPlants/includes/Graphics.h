@@ -68,6 +68,7 @@ private:
 	Microsoft::WRL::ComPtr<ID3D11DeviceContext> _pContext;
 	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> _pTarget;
 	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> _pDepthStencilView;
+	Microsoft::WRL::ComPtr<ID3D11RasterizerState> _pRasterState;
 
 	bool _imguiEnabled = true;
 	DirectX::XMMATRIX _cameraMatrix;

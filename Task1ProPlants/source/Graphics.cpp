@@ -90,6 +90,19 @@ Graphics::Graphics(HWND hWnd, unsigned int width, unsigned int height)
 	//Bind the depth stencil view to OM
 	_pContext->OMSetRenderTargets(1u, _pTarget.GetAddressOf(), _pDepthStencilView.Get());
 
+	//Set rasterizer state
+	D3D11_RASTERIZER_DESC rd = {};
+	rd.FillMode = D3D11_FILL_SOLID;
+	rd.CullMode = D3D11_CULL_NONE;
+	rd.FrontCounterClockwise = false;
+	rd.AntialiasedLineEnable = false;
+	rd.MultisampleEnable = false;
+	rd.ScissorEnable = false;
+	rd.DepthClipEnable = true;
+
+	GFX_THROW_FAILED(_pDevice->CreateRasterizerState(&rd, &_pRasterState));
+	_pContext->RSSetState(_pRasterState.Get());
+
 	//Configure viewport
 	D3D11_VIEWPORT vp;
 	vp.Width = width;
