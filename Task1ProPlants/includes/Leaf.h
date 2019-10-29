@@ -18,9 +18,7 @@ public:
 	void Update(float dt) noexcept override;
 	DirectX::XMMATRIX GetTransformXM() const noexcept override;
 
-	void SetPosition(DirectX::XMFLOAT3 pos) noexcept;
-	void SetLocalRot(DirectX::XMFLOAT3 rot) noexcept;
-	void SetPivotRot(DirectX::XMFLOAT3 rot) noexcept;
+	GameObjectTransform* GetLeafTransform() noexcept;
 
 	void SpawnImGuiWindow() noexcept;
 

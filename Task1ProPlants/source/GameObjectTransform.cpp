@@ -1,5 +1,6 @@
 #include "GameObjectTransform.h"
 #include "imgui.h"
+#include <string>
 
 GameObjectTransform::GameObjectTransform()
 {
@@ -49,9 +50,10 @@ DirectX::XMMATRIX GameObjectTransform::GetTransformXM() const noexcept
 
 DirectX::XMMATRIX GameObjectTransform::GetTransformWithPivotOffsetXM(DirectX::XMFLOAT3 pivotOffset) const noexcept
 {
-	return DirectX::XMMatrixRotationRollPitchYaw(_yRot, _zRot, _xRot) *
+	return DirectX::XMLoadFloat3x3(&_modelTransform) *
+		DirectX::XMMatrixRotationRollPitchYaw(_yRot, -_zRot, _xRot) *
 		DirectX::XMMatrixTranslation(pivotOffset.x, pivotOffset.y, pivotOffset.z) *
-		DirectX::XMMatrixRotationRollPitchYaw(_yWorldRot, _zWorldRot, _xWorldRot) *
+		DirectX::XMMatrixRotationRollPitchYaw(_yWorldRot, -_zWorldRot, _xWorldRot) *
 		DirectX::XMMatrixTranslation(_xPos, _yPos, _zPos);
 }
 
@@ -65,14 +67,24 @@ DirectX::XMFLOAT3 GameObjectTransform::GetPosition() noexcept
 	return DirectX::XMFLOAT3(_xPos, _yPos, _zPos);
 }
 
+DirectX::XMFLOAT3 GameObjectTransform::GetLocalRotation() noexcept
+{
+	return DirectX::XMFLOAT3(_xRot, _yRot, _zRot);
+}
+
+DirectX::XMFLOAT3 GameObjectTransform::GetWorldRotation() noexcept
+{
+	return DirectX::XMFLOAT3(_xWorldRot, _yWorldRot, _zWorldRot);
+}
+
 void GameObjectTransform::SpawnImGuiWindow() noexcept
 {
 	if (ImGui::Begin("Model Transform Info"))
 	{
 		ImGui::Text("Position");
-		ImGui::SliderFloat("X Pos", &_xPos, 0.1f, 20.0f, "%.1f");
-		ImGui::SliderFloat("Y Pos", &_yPos, 0.1f, 20.0f, "%.1f");
-		ImGui::SliderFloat("Z Pos", &_zPos, 0.1f, 20.0f, "%.1f");
+		ImGui::SliderFloat("X Pos", &_xPos, -20.0f, 20.0f, "%.1f");
+		ImGui::SliderFloat("Y Pos", &_yPos, -20.0f, 20.0f, "%.1f");
+		ImGui::SliderFloat("Z Pos", &_zPos, -20.0f, 20.0f, "%.1f");
 
 		ImGui::Text("Local Rotation");
 		ImGui::SliderAngle("X LRot", &_xRot, -180.0f, 180.0f);
@@ -83,8 +95,35 @@ void GameObjectTransform::SpawnImGuiWindow() noexcept
 		ImGui::SliderAngle("X WRot", &_xWorldRot, -180.0f, 180.0f);
 		ImGui::SliderAngle("Y WRot", &_yWorldRot, -180.0f, 180.0f);
 		ImGui::SliderAngle("Z WRot", &_zWorldRot, -180.0f, 180.0f);
+
+		if (ImGui::Button("Reset To Zero"))
+		{
+			ResetToZero();
+		}
 	}
 	ImGui::End();
+}
+
+void GameObjectTransform::ResetToZero() noexcept
+{
+	_xPos = 0.0f;
+	_yPos = 0.0f;
+	_zPos = 0.0f;
+	_xRot = 0.0f;
+	_yRot = 0.0f;
+	_zRot = 0.0f;
+	_xWorldRot = 0.0f;
+	_yWorldRot = 0.0f;
+	_zWorldRot = 0.0f;
+	_xPosDelta = 0.0f;
+	_yPosDelta = 0.0f;
+	_zPosDelta = 0.0f;
+	_xRotDelta = 0.0f;
+	_yRotDelta = 0.0f;
+	_zRotDelta = 0.0f;
+	_xWorldRotDelta = 0.0f;
+	_yWorldRotDelta = 0.0f;
+	_zWorldRotDelta = 0.0f;
 }
 
 void GameObjectTransform::SetPosition(DirectX::XMFLOAT3 pos) noexcept

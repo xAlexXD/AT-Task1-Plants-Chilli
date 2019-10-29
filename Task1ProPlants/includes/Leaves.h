@@ -1,6 +1,5 @@
 #pragma once
 #include "DrawablesBase.h"
-#include "GameObjectTransform.h"
 #include "Leaf.h"
 
 
@@ -8,24 +7,28 @@ class Leaves
 {
 public:
 	Leaves(Graphics& gfx,
-		DirectX::XMFLOAT3 pos,
-		DirectX::XMFLOAT3 rot,
-		DirectX::XMFLOAT3 posDelta,
-		DirectX::XMFLOAT3 rotDelta,
-		DirectX::XMFLOAT3 worldRot,
-		DirectX::XMFLOAT3 worldDelta,
+		float yOffset,
 		unsigned int leafCount
 	);
 
 	void Update(float dt) noexcept;
 	void DrawLeaves(Graphics& gfx) noexcept;
+	void SpawnImGuiWindow() noexcept;
 
 private:
-	std::unique_ptr<GameObjectTransform> _transform;
-	std::vector<Leaf> _leafVector;
-	unsigned int _leafCount = 0.0f;
-	float _leafPitch = 0.0f;
-	float _leafYaw = 0.0f;
-	float _leafOffset = 1.0f;
+	std::vector<std::unique_ptr<Leaf>> _leafVector;
+	unsigned int _leafLimit = 30u;
+	unsigned int _leafCount = 0u;
+	float _leafTilt = 0.0f;
+	float _leafHeight = 0.0f;
+	float _leafOffset = 0.0f;
 };
+/*
+YLrot to tilt the Leaf
 
+XWRot to rotate around the stem
+
+Z to move it up and down
+
+X to space it from the center
+*/

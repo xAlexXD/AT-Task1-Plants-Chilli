@@ -8,25 +8,11 @@
 #include "Pyramid.h"
 #include "DynamicSolid.h"
 #include "Leaf.h"
+#include "Leaves.h"
 
 App::App() : _wnd(1280, 720, "AT Task1 Proc Plants"), _light(_wnd.Gfx())
 {
-	std::mt19937 rng(std::random_device{}());
-	std::uniform_real_distribution<float> position(-10.0f, 10.0f); //Chosing a random dist between 0 and 2PI aka full radius for radians
-	std::uniform_real_distribution<float> localRot(0.0f, PI * 2.0f); //Chosing a random dist between 0 and 2PI aka full radius for radians
-	std::uniform_real_distribution<float> localRotDelta(0.0f, PI * 2.0f);
-	std::uniform_real_distribution<float> matColour(0.0f, 1.0f);
-	std::uniform_int_distribution<int> tessalation(3, 30);
-
-	_leaf = std::make_unique<Leaf>( _wnd.Gfx(),
-		DirectX::XMFLOAT3(0.0f,0.0f,0.0f),
-		DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f),
-		DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f),
-		DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f),
-		DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f),
-		DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f)
-	);
-
+	_leaves = std::make_unique<Leaves>(_wnd.Gfx(), 0.0f, 4);
 	_wnd.Gfx().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 720.0f / 1280.0f, 0.5f, 100.0f));
 }
 
@@ -61,15 +47,9 @@ void App::DoFrame()
 	//Bind the light in the pipeline
 	_light.Bind(_wnd.Gfx(), _wnd.Gfx().GetCamera());
 
-	//updates the game objects in the scene
-	//for (auto& cube : _cubes)
-	//{
-	//	cube->Update(_wnd._keyboard.KeyIsPressed(VK_SPACE) ? 0.0f : dt);
-	//	cube->Draw(_wnd.Gfx());
-	//}
-
-	_leaf->Update(dt);
-	_leaf->Draw(_wnd.Gfx());
+	//Update and draw leaves
+	_leaves->Update(dt);
+	_leaves->DrawLeaves(_wnd.Gfx());
 
 	//Draw the light as it has a model representing it
 	_light.Draw(_wnd.Gfx());
@@ -78,7 +58,7 @@ void App::DoFrame()
 
 	_cam.SpawnImguiControlWindow();
 	_light.SpawnControlWindow();
-	_leaf->SpawnImGuiWindow();
+	_leaves->SpawnImGuiWindow();
 
 	//present
 	_wnd.Gfx().EndFrame();

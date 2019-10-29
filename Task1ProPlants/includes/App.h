@@ -18,11 +18,9 @@ private:
 	Window _wnd;
 	Timer _timer;
 
-	DirectX::XMFLOAT3 _worldOrigin = { 0.0f, 1.5f, 0.0f };
-
 	float _dtSpeedFactor = 1.0f;
 	std::unique_ptr<class DynamicSolid> _dynamicCube;
-	std::unique_ptr<class Leaf> _leaf;
+	std::unique_ptr<class Leaves> _leaves;
 	Camera _cam;
 	PointLight _light;
 };

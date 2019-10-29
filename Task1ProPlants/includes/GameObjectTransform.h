@@ -1,6 +1,5 @@
 #pragma once
 #include <DirectXMath.h>
-#include <random>
 
 class GameObjectTransform 
 {
@@ -18,8 +17,11 @@ public:
 	DirectX::XMMATRIX GetTransformWithPivotOffsetXM(DirectX::XMFLOAT3 pivotOffset) const noexcept;
 	DirectX::XMFLOAT3X3& GetModelTransform() noexcept;
 	DirectX::XMFLOAT3 GetPosition() noexcept;
+	DirectX::XMFLOAT3 GetLocalRotation() noexcept;
+	DirectX::XMFLOAT3 GetWorldRotation() noexcept;
 	
 	void SpawnImGuiWindow() noexcept;
+	void ResetToZero() noexcept;
 
 	void SetPosition(DirectX::XMFLOAT3 pos) noexcept;
 	void SetLocalRotation(DirectX::XMFLOAT3 rot) noexcept;
