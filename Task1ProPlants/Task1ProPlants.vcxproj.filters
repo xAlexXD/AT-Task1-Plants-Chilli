@@ -159,6 +159,9 @@
     <ClCompile Include="source\Leaf.cpp">
       <Filter>Source Files\Drawables</Filter>
     </ClCompile>
+    <ClCompile Include="source\Stem.cpp">
+      <Filter>Source Files\Drawables</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes\WindowsCustomInclude.h">
@@ -321,6 +324,9 @@
       <Filter>Header Files\Drawables</Filter>
     </ClInclude>
     <ClInclude Include="includes\Leaf.h">
+      <Filter>Header Files\Drawables</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Stem.h">
       <Filter>Header Files\Drawables</Filter>
     </ClInclude>
   </ItemGroup>
