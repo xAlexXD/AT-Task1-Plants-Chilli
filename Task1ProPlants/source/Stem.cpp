@@ -11,7 +11,7 @@ Stem::Stem(Graphics& gfx,
 	DirectX::XMFLOAT3 worldDelta) :
 	_transform(std::make_unique<GameObjectTransform>(pos, rot, posDelta, rotDelta, worldRot, worldDelta))
 {
-	auto model = PrismPrim::MakeTesselatedIndependentCapNormals<StemVertex>(24);
+	auto model = PrismPrim::MakeTesselatedIndependentCapNormals<StemVertex>(5);
 	model.Transform(DirectX::XMMatrixScaling(0.1f, 0.1f, 1.75f));
 	model.SetNormalsIndependentFlat();
 

@@ -7,6 +7,7 @@ class Leaf : public DrawablesBase<Leaf>
 {
 public:
 	Leaf(Graphics& gfx,
+		const char* textureName,
 		DirectX::XMFLOAT3 pos,
 		DirectX::XMFLOAT3 rot,
 		DirectX::XMFLOAT3 posDelta,

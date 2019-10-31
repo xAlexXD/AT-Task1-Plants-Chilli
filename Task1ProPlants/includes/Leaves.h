@@ -7,7 +7,9 @@ class Leaves
 {
 public:
 	Leaves(Graphics& gfx,
-		unsigned int leafCount
+		unsigned int leafCount,
+		const char* textureName,
+		const char* bunchName
 	);
 
 	void Update(float dt) noexcept;
@@ -23,9 +25,11 @@ private:
 	float _leafYRot = 0.0f;
 	float _leavesXRot = 0.0f;
 	float _leavesYRot = 0.0f;
+	float _leavesZRot = 0.0f;
 	float _x = 0.0f;
 	float _y = 0.0f;
 	float _z = 0.0f;
+	const std::string _bunchName;
 };
 /*
 YLrot to tilt the Leaf

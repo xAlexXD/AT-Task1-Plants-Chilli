@@ -3,15 +3,17 @@
 #include <string>
 
 Leaves::Leaves(Graphics& gfx, 
-	unsigned int leafCount) :
-	_leafCount(leafCount)
+	unsigned int leafCount,
+	const char* textureName,
+	const char* bunchName) :
+	_leafCount(leafCount), _bunchName(bunchName)
 {
 	_leafVector.reserve(30);
 	DirectX::XMFLOAT3 zero = { 0.0f, 0.0f, 0.0f };
 
 	for (int i = 0; i < _leafLimit; i++)
 	{
-		_leafVector.push_back(std::make_unique<Leaf>(gfx, zero, zero, zero, zero, zero, zero));
+		_leafVector.push_back(std::make_unique<Leaf>(gfx, textureName, zero, zero, zero, zero, zero, zero));
 	}
 }
 
@@ -32,9 +34,9 @@ void Leaves::Update(float dt) noexcept
 		leafTransform->SetLocalRotation(f3);
 		//Rotate the leaf around the center
 		f3 = leafTransform->GetWorldRotation();
-		f3.x = divisions * i;
-		f3.y = _leavesXRot;
-		f3.z = _leavesYRot;
+		f3.x = divisions * i + _leavesXRot;
+		f3.y = _leavesYRot;
+		f3.z = _leavesZRot;
 		leafTransform->SetWorldRotation(f3);
 		//Position the leaf
 		f3 = leafTransform->GetPosition();
@@ -58,40 +60,71 @@ void Leaves::DrawLeaves(Graphics& gfx) noexcept
 
 void Leaves::SpawnImGuiWindow() noexcept
 {
-	if (ImGui::Begin("Leaves Customisation"))
+	std::string stringForNames = "";
+	stringForNames = _bunchName + " Customisation";
+
+	if (ImGui::Begin(stringForNames.c_str()))
 	{
-		std::string leafAmount = "Leaf Amount: " + std::to_string(_leafCount);
-		ImGui::Text(leafAmount.c_str());
-		leafAmount = "Limit: " + std::to_string(_leafLimit);
-		ImGui::Text(leafAmount.c_str());
-		if (ImGui::Button("+"))
+		stringForNames = _bunchName + " amount: " + std::to_string(_leafCount);
+		ImGui::Text(stringForNames.c_str());
+
+		stringForNames = _bunchName + " limit: " + std::to_string(_leafLimit);
+		ImGui::Text(stringForNames.c_str());
+
+		stringForNames = "Add " + _bunchName;
+		if (ImGui::Button(stringForNames.c_str()))
 		{
 			_leafCount = _leafCount == _leafLimit ? _leafCount : _leafCount + 1;
 		}
-		if (ImGui::Button("-"))
+
+		stringForNames = "Remove " + _bunchName;
+		if (ImGui::Button(stringForNames.c_str()))
 		{
 			_leafCount = _leafCount == 0 ? _leafCount : _leafCount - 1;
 		}
 
-		ImGui::Text("Individual Leaf Options");
-		ImGui::SliderAngle("Leaf Tilt", &_leafTilt, -180.0f, 180.0f);
-		ImGui::SliderAngle("Leaf Rotation X", &_leafXRot, -180.0f, 180.0f);
-		ImGui::SliderAngle("Leaf Rotation Z", &_leafYRot, -180.0f, 180.0f);
+		stringForNames = "Individual " + _bunchName + " Options";
+		ImGui::Text(stringForNames.c_str());
 
-		ImGui::Text("Grouped Leaf Options");
-		ImGui::SliderFloat("X Pos", &_x, -10.0f, 10.0f, "%.2f");
-		ImGui::SliderFloat("Y Pos", &_y, -10.0f, 10.0f, "%.2f");
-		ImGui::SliderFloat("Z Pos", &_z, -10.0f, 10.0f, "%.2f");
-		ImGui::SliderAngle("Bunch Rotation X", &_leavesXRot, -180.0f, 180.0f);
-		ImGui::SliderAngle("Bunch Rotation Y", &_leavesYRot, -180.0f, 180.0f);
+		stringForNames = _bunchName + " Tilt";
+		ImGui::SliderAngle(stringForNames.c_str(), &_leafTilt, -180.0f, 180.0f);
 
-		if (ImGui::Button("Reset"))
+		stringForNames = _bunchName + " Rotation X";
+		ImGui::SliderAngle(stringForNames.c_str(), &_leafXRot, -180.0f, 180.0f);
+
+		stringForNames = _bunchName + " Rotation Z";
+		ImGui::SliderAngle(stringForNames.c_str(), &_leafYRot, -180.0f, 180.0f);
+
+		stringForNames = "Grouped " + _bunchName + " Options";
+		ImGui::Text(stringForNames.c_str());
+
+		stringForNames = _bunchName + " Grouped X Pos";
+		ImGui::SliderFloat(stringForNames.c_str(), &_x, -10.0f, 10.0f, "%.2f");
+
+		stringForNames = _bunchName + " Grouped Y Pos";
+		ImGui::SliderFloat(stringForNames.c_str(), &_y, -10.0f, 10.0f, "%.2f");
+
+		stringForNames = _bunchName + " Grouped Z Pos";
+		ImGui::SliderFloat(stringForNames.c_str(), &_z, -10.0f, 10.0f, "%.2f");
+
+		stringForNames = _bunchName + " Grouped X Rotation";
+		ImGui::SliderAngle(stringForNames.c_str(), &_leavesXRot, -180.0f, 180.0f);
+
+		stringForNames = _bunchName + " Grouped Y Rotation";
+		ImGui::SliderAngle(stringForNames.c_str(), &_leavesYRot, -180.0f, 180.0f);
+
+		stringForNames = _bunchName + " Grouped Z Rotation";
+		ImGui::SliderAngle(stringForNames.c_str(), &_leavesZRot, -180.0f, 180.0f);
+
+		stringForNames = _bunchName + " Reset";
+		if (ImGui::Button(stringForNames.c_str()))
 		{
 			_leafTilt = 0.0f;
 			_leafXRot = 0.0f;
 			_leafYRot = 0.0f;
 			_leavesXRot = 0.0f;
 			_leavesYRot = 0.0f;
+			_leavesZRot = 0.0f;
 			_x = 0.0f;
 			_y = 0.0f;
 			_z = 0.0f;

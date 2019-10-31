@@ -1,8 +1,10 @@
 #include "..\includes\Leaf.h"
+#include <sstream>
 #include "BindableBase.h"
 #include "PlanePrim.h"
 
 Leaf::Leaf(Graphics& gfx, 
+	const char* textureName,
 	DirectX::XMFLOAT3 pos, 
 	DirectX::XMFLOAT3 rot, 
 	DirectX::XMFLOAT3 posDelta, 
@@ -20,10 +22,15 @@ Leaf::Leaf(Graphics& gfx,
 	model._vertices[2].tc = { 0.5f, 0.0f };
 	model.SetNormalsIndependentFlat();
 
+
+
 	AddBind(std::make_unique<DynamicVertexBuffer<TexturedVertex>>(gfx, model._vertices));
 	_vertexBuffer = reinterpret_cast<DynamicVertexBuffer<TexturedVertex>*>(GetPointerToLastBindable());
 
-	AddBind(std::make_unique<Texture>(gfx, "./textures/leaf.tga"));
+	std::ostringstream path;
+	path << "./textures/" << textureName;
+
+	AddBind(std::make_unique<Texture>(gfx, path.str().c_str()));
 	AddBind(std::make_unique<Sampler>(gfx));
 
 	auto pvs = std::make_unique<VertexShader>(gfx, L"TexturedPhongVertexShader.cso");
