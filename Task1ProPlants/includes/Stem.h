@@ -21,13 +21,14 @@ public:
 	void SpawnImGuiWindow() noexcept;
 
 private:
-	struct StemVertex
+	struct TexturedVertex
 	{
 		DirectX::XMFLOAT3 pos;
 		DirectX::XMFLOAT3 n;
+		DirectX::XMFLOAT2 tc;
 	};
 
 	std::unique_ptr<GameObjectTransform> _transform = nullptr;
-	DynamicVertexBuffer<StemVertex>* _vertexBuffer = nullptr;
+	DynamicVertexBuffer<TexturedVertex>* _vertexBuffer = nullptr;
 };
 

@@ -11,25 +11,34 @@ Stem::Stem(Graphics& gfx,
 	DirectX::XMFLOAT3 worldDelta) :
 	_transform(std::make_unique<GameObjectTransform>(pos, rot, posDelta, rotDelta, worldRot, worldDelta))
 {
-	auto model = PrismPrim::MakeTesselatedIndependentCapNormals<StemVertex>(5);
+	auto model = PrismPrim::MakeTesselatedIndependentCapNormals<TexturedVertex>(5);
 	model.Transform(DirectX::XMMatrixScaling(0.1f, 0.1f, 1.75f));
+
+	for (int i = 0; i < model._vertices.size(); i++)
+	{
+		model._vertices[i].tc = { 0.0f, 0.0f };
+	}
 	model.SetNormalsIndependentFlat();
 
-	AddBind(std::make_unique<DynamicVertexBuffer<StemVertex>>(gfx, model._vertices));
-	_vertexBuffer = reinterpret_cast<DynamicVertexBuffer<StemVertex>*>(GetPointerToLastBindable());
+	AddBind(std::make_unique<Texture>(gfx, "./textures/green.tga"));
+	AddBind(std::make_unique<Sampler>(gfx));
+
+	AddBind(std::make_unique<DynamicVertexBuffer<TexturedVertex>>(gfx, model._vertices));
+	_vertexBuffer = reinterpret_cast<DynamicVertexBuffer<TexturedVertex>*>(GetPointerToLastBindable());
 
 	AddIndexBuffer(std::make_unique<IndexBuffer>(gfx, model._indices));
 
-	auto pvs = std::make_unique<VertexShader>(gfx, L"PhongVertexShader.cso");
+	auto pvs = std::make_unique<VertexShader>(gfx, L"TexturedPhongVertexShader.cso");
 	auto pvsbc = pvs->GetBytecode();
 	AddBind(std::move(pvs));
 
-	AddBind(std::make_unique<PixelShader>(gfx, L"PhongPixelShader.cso"));
+	AddBind(std::make_unique<PixelShader>(gfx, L"TexturedPhongPixelShader.cso"));
 
 	const std::vector<D3D11_INPUT_ELEMENT_DESC> ied =
 	{
 		{ "Position",0,DXGI_FORMAT_R32G32B32_FLOAT,0,0,D3D11_INPUT_PER_VERTEX_DATA,0 },
-		{ "Normal",0,DXGI_FORMAT_R32G32B32_FLOAT,0,D3D11_APPEND_ALIGNED_ELEMENT,D3D11_INPUT_PER_VERTEX_DATA,0 }
+		{ "Normal",0,DXGI_FORMAT_R32G32B32_FLOAT,0,D3D11_APPEND_ALIGNED_ELEMENT,D3D11_INPUT_PER_VERTEX_DATA,0 },
+		{ "TexCoord",0,DXGI_FORMAT_R32G32_FLOAT,0,D3D11_APPEND_ALIGNED_ELEMENT,D3D11_INPUT_PER_VERTEX_DATA,0 },
 	};
 	AddBind(std::make_unique<InputLayout>(gfx, ied, pvsbc));
 
@@ -37,12 +46,10 @@ Stem::Stem(Graphics& gfx,
 
 	struct PSMaterialConstant
 	{
-		DirectX::XMFLOAT3 color;
 		float specularIntensity = 0.6f;
 		float specularPower = 30.0f;
 		float padding[3];
 	} colorConst;
-	colorConst.color = DirectX::XMFLOAT3(0.3f, 1.0f, 0.3f);
 	AddBind(std::make_unique<PixelConstantBuffer<PSMaterialConstant>>(gfx, colorConst, 1u));
 
 	////This gets initialised normally because this needs to be unique per cube, for different transforms

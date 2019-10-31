@@ -329,6 +329,9 @@
     <ClInclude Include="includes\Stem.h">
       <Filter>Header Files\Drawables</Filter>
     </ClInclude>
+    <ClInclude Include="includes\ObjExporter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\DXGetErrorDescription.inl">

@@ -82,7 +82,58 @@ GameObjectTransform* Leaf::GetLeafTransform() noexcept
 	return _transform.get();
 }
 
-void Leaf::SpawnImGuiWindow() noexcept
+void Leaf::TempImguiWindow(Graphics& gfx) noexcept
+{
+	if (ImGui::Begin("Temp Window"))
+	{
+		if (ImGui::Button("Update out vert"))
+		{
+			UpdateOutVertices(gfx);
+		}
+	}
+	ImGui::End();
+}
+
+void Leaf::SpawnImGuiWindow(Graphics& gfx) noexcept
 {
 	_transform->SpawnImGuiWindow();
+	TempImguiWindow(gfx);
+}
+
+void Leaf::UpdateOutVertices(Graphics& gfx)
+{
+	//Get buffer from dynamic vertex buffer
+	_vertexBuffer->ReadVertsOut(gfx);
+	std::vector<TexturedVertex> vert = _vertexBuffer->GetVerts();
+	_vertOut.clear();
+	_vertOut.reserve(vert.size());
+	for (size_t i = 0; i < vert.size(); i++)
+	{
+		_vertOut.push_back(vert[i]);
+	}
+
+	const auto modelView = DirectX::XMMatrixTranspose(GetTransformXM() * gfx.GetCamera());
+	const auto modelViewProj = DirectX::XMMatrixTranspose(GetTransformXM() * gfx.GetCamera() * gfx.GetProjection());
+
+	//Apply the transforms the vertex shader would
+	for (auto& vertex : _vertOut)
+	{
+		//Multiply the positions by the model view projection
+		DirectX::XMFLOAT4 temp = { vertex.pos.x, vertex.pos.y, vertex.pos.z, 0.0f };
+		auto tempVec = DirectX::XMLoadFloat4(&temp);
+		tempVec = DirectX::XMVector4Transform(tempVec, modelViewProj);
+		DirectX::XMStoreFloat4(&temp, tempVec);
+		vertex.pos.x = temp.x;
+		vertex.pos.y = temp.y;
+		vertex.pos.z = temp.z;
+
+		//Adjust the normals based on the modelView
+		temp = { vertex.n.x, vertex.n.y, vertex.n.z, 0.0f };
+		tempVec = DirectX::XMLoadFloat4(&temp);
+		tempVec = DirectX::XMVector4Transform(tempVec, modelView);
+		DirectX::XMStoreFloat4(&temp, tempVec);
+		vertex.n.x = temp.x;
+		vertex.n.y = temp.y;
+		vertex.n.z = temp.z;
+	}
 }

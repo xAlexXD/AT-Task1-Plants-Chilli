@@ -96,6 +96,7 @@
     <ClInclude Include="includes\Leaves.h" />
     <ClInclude Include="includes\MathClass.h" />
     <ClInclude Include="includes\Mouse.h" />
+    <ClInclude Include="includes\ObjExporter.h" />
     <ClInclude Include="includes\PixelShader.h" />
     <ClInclude Include="includes\PlanePrim.h" />
     <ClInclude Include="includes\PointLight.h" />

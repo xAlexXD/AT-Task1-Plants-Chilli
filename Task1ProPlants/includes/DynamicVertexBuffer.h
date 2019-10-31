@@ -8,8 +8,17 @@
 template<class V>
 class DynamicVertexBuffer : public Bindable
 {
+protected:
+	bool _vertDirty = false;
+	UINT _stride;
+	UINT _initialLength;
+	Microsoft::WRL::ComPtr<ID3D11Buffer> _pVertexBuffer;
+	Microsoft::WRL::ComPtr<ID3D11Buffer> _pCopyBuffer;
+	std::vector<V> _vertices;
+	std::vector<V> _originalVertices;
+
 public:
-	DynamicVertexBuffer(Graphics& gfx, std::vector<V>& verts) : _stride(sizeof(V))
+	DynamicVertexBuffer(Graphics& gfx, std::vector<V>& verts) : _stride(sizeof(V)), _initialLength(verts.size())
 	{
 		HRESULT hr;
 
@@ -22,6 +31,13 @@ public:
 		bd.ByteWidth = UINT(sizeof(V) * 50u);			//Allocating a shit ton more space for safety of adding or removing verts
 		bd.StructureByteStride = sizeof(V);
 
+		D3D11_BUFFER_DESC bd2 = {};
+		bd2.Usage = D3D11_USAGE_STAGING;
+		bd2.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
+		bd2.ByteWidth = UINT(sizeof(V) * 50u);
+		bd2.StructureByteStride = sizeof(V);
+
+		_vertices.reserve(1000);
 		//Initialise the internal pointer to the stored vertex array
 		_vertices.assign(verts.begin(), verts.end());
 		_originalVertices.assign(verts.begin(), verts.end());
@@ -31,6 +47,7 @@ public:
 		sd.pSysMem = _vertices.data();
 
 		GFX_THROW_FAILED(GetDevice(gfx)->CreateBuffer(&bd, &sd, &_pVertexBuffer));
+		GFX_THROW_FAILED(GetDevice(gfx)->CreateBuffer(&bd2, nullptr, &_pCopyBuffer));
 	}
 
 	void Bind(Graphics& gfx) noexcept override
@@ -52,28 +69,31 @@ public:
 		GetContext(gfx)->Unmap(_pVertexBuffer.Get(), 0u);
 	}
 
+	void ReadVertsOut(Graphics& gfx)
+	{
+		GetContext(gfx)->CopyResource(_pCopyBuffer.Get(), _pVertexBuffer.Get());
+
+		D3D11_MAPPED_SUBRESOURCE sr = {};
+		GetContext(gfx)->Map(_pCopyBuffer.Get(), 0u, D3D11_MAP_READ, 0u, &sr);
+		V* data = reinterpret_cast<V*>(sr.pData);
+		_vertices.clear();
+		_vertices.reserve(_initialLength);
+		for (int i = 0; i < _initialLength; i++)
+		{
+			_vertices.push_back(data[i]);
+		}
+		GetContext(gfx)->Unmap(_pCopyBuffer.Get(), 0u);
+	}
+
+	std::vector<V> GetVerts()
+	{
+		return _vertices;
+	}
+
 	void SpawnImguiControlWindow()
 	{
 		if (ImGui::Begin("Vertex Buffer"))
 		{
-			ImGui::Text("Vertices");
-			if (ImGui::Button("Reset"))
-			{
-				Reset();
-			}
-
-			assert("Not a modulus of 3 in vertex buffer" && _vertices.size() % 3 == 0);
-
-			for (int i = 0; i < _vertices.size(); i++)
-			{
-				//float vec3[3] = { _vertices[i].pos.x, _vertices[i].pos.y, _vertices[i].pos.z };
-				ImGui::Text("Triangle %i", i);
-				//if (ImGui::InputFloat3(" :XYZ", reinterpret_cast<float*>(&_vertices[i].pos), "%.2f", 0)) { _vertDirty = true; }
-
-				if(ImGui::InputFloat("X: ", reinterpret_cast<float*>(&_vertices[i].pos.x), 0.25f, 0.0f, "%.2f", 0)) { _vertDirty = true; }
-				if(ImGui::InputFloat("Y: ", reinterpret_cast<float*>(&_vertices[i].pos.y), 0.25f, 0.0f, "%.2f", 0)) { _vertDirty = true; }
-				if(ImGui::InputFloat("Z: ", reinterpret_cast<float*>(&_vertices[i].pos.z), 0.25f, 0.0f, "%.2f", 0)) { _vertDirty = true; }
-			}
 		}
 		ImGui::End();
 	}
@@ -83,13 +103,6 @@ public:
 		_vertices.assign(_originalVertices.begin(), _originalVertices.end());
 		_vertDirty = true;
 	}
-
-protected:
-	bool _vertDirty = false;
-	UINT _stride;
-	Microsoft::WRL::ComPtr<ID3D11Buffer> _pVertexBuffer;
-	std::vector<V> _vertices;
-	std::vector<V> _originalVertices;
 };
 
 //template<class V>

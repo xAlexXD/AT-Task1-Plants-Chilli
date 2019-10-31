@@ -21,9 +21,11 @@ public:
 
 	GameObjectTransform* GetLeafTransform() noexcept;
 
-	void SpawnImGuiWindow() noexcept;
+	void SpawnImGuiWindow(Graphics& gfx) noexcept;
 
 private:
+	void TempImguiWindow(Graphics& gfx) noexcept;
+
 	struct TexturedVertex
 	{
 		DirectX::XMFLOAT3 pos;
@@ -31,8 +33,12 @@ private:
 		DirectX::XMFLOAT2 tc;
 	};
 
+	void UpdateOutVertices(Graphics& gfx);
+
 	DirectX::XMFLOAT3 _pivotPos = {0.0f, 1.5f, 0.0f};
 	std::unique_ptr<GameObjectTransform> _transform = nullptr;
 	DynamicVertexBuffer<TexturedVertex>* _vertexBuffer = nullptr;
+
+	std::vector<TexturedVertex> _vertOut;
 };
 

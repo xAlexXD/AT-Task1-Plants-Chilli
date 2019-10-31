@@ -10,7 +10,7 @@ Graphics::Graphics(HWND hWnd, unsigned int width, unsigned int height)
 {
 	//Descriptor for swap chain
 	DXGI_SWAP_CHAIN_DESC scd = {};
-	scd.BufferDesc.Width = width; //Looks at the window and figure it out
+	scd.BufferDesc.Width = width;
 	scd.BufferDesc.Height = height;
 	scd.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
 	scd.BufferDesc.RefreshRate.Numerator = 0; //pick whatever freshrate you need to
@@ -195,7 +195,6 @@ void Graphics::SetProjection(DirectX::FXMMATRIX proj) noexcept
 {
 	_projectionMatrix = proj;
 }
-
 
 //Exception handling below here
 Graphics::HrException::HrException(int line, const char* file, HRESULT hr) noexcept
