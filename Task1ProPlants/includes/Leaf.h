@@ -6,6 +6,13 @@
 class Leaf : public DrawablesBase<Leaf>
 {
 public:
+	struct TexturedVertex
+	{
+		DirectX::XMFLOAT3 pos;
+		DirectX::XMFLOAT3 n;
+		DirectX::XMFLOAT2 tc;
+	};
+
 	Leaf(Graphics& gfx,
 		const char* textureName,
 		DirectX::XMFLOAT3 pos,
@@ -19,26 +26,20 @@ public:
 	void Update(float dt) noexcept override;
 	DirectX::XMMATRIX GetTransformXM() const noexcept override;
 
+
 	GameObjectTransform* GetLeafTransform() noexcept;
 
 	void SpawnImGuiWindow(Graphics& gfx) noexcept;
+	void UpdateOutVertices(Graphics& gfx);
+
+	std::vector<TexturedVertex> _vertOut;
+	std::vector<int> _indexOut;
 
 private:
 	void TempImguiWindow(Graphics& gfx) noexcept;
 
-	struct TexturedVertex
-	{
-		DirectX::XMFLOAT3 pos;
-		DirectX::XMFLOAT3 n;
-		DirectX::XMFLOAT2 tc;
-	};
-
-	void UpdateOutVertices(Graphics& gfx);
-
 	DirectX::XMFLOAT3 _pivotPos = {0.0f, 1.5f, 0.0f};
 	std::unique_ptr<GameObjectTransform> _transform = nullptr;
 	DynamicVertexBuffer<TexturedVertex>* _vertexBuffer = nullptr;
-
-	std::vector<TexturedVertex> _vertOut;
 };
 

@@ -20,7 +20,7 @@ private:
 
 	float _dtSpeedFactor = 1.0f;
 	//std::unique_ptr<class Stem> _stem;
-	//std::vector<std::unique_ptr<class Leaves>> _bunches;
+	std::vector<std::unique_ptr<class Leaves>> _bunches;
 	std::unique_ptr<class Leaf> _leaf;
 	Camera _cam;
 	PointLight _light;

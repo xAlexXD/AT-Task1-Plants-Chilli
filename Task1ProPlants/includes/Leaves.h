@@ -14,7 +14,9 @@ public:
 
 	void Update(float dt) noexcept;
 	void DrawLeaves(Graphics& gfx) noexcept;
-	void SpawnImGuiWindow() noexcept;
+	void SpawnImGuiWindow(Graphics& gfx) noexcept;
+
+	void UpdateLocalVertAndInd(Graphics& gfx);
 
 private:
 	std::vector<std::unique_ptr<Leaf>> _leafVector;
@@ -30,6 +32,9 @@ private:
 	float _y = 0.0f;
 	float _z = 0.0f;
 	const std::string _bunchName;
+
+	std::vector<Leaf::TexturedVertex> _leafVerts;
+	std::vector<int> _leafIndices;
 };
 /*
 YLrot to tilt the Leaf

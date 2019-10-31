@@ -22,7 +22,13 @@ Leaf::Leaf(Graphics& gfx,
 	model._vertices[2].tc = { 0.5f, 0.0f };
 	model.SetNormalsIndependentFlat();
 
+	_vertOut.reserve(model._vertices.size());
+	_indexOut.reserve(model._indices.size());
 
+	for (auto& index : model._indices)
+	{
+		_indexOut.push_back(index);
+	}
 
 	AddBind(std::make_unique<DynamicVertexBuffer<TexturedVertex>>(gfx, model._vertices));
 	_vertexBuffer = reinterpret_cast<DynamicVertexBuffer<TexturedVertex>*>(GetPointerToLastBindable());

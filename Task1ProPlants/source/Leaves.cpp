@@ -58,7 +58,7 @@ void Leaves::DrawLeaves(Graphics& gfx) noexcept
 	}
 }
 
-void Leaves::SpawnImGuiWindow() noexcept
+void Leaves::SpawnImGuiWindow(Graphics& gfx) noexcept
 {
 	std::string stringForNames = "";
 	stringForNames = _bunchName + " Customisation";
@@ -129,6 +129,42 @@ void Leaves::SpawnImGuiWindow() noexcept
 			_y = 0.0f;
 			_z = 0.0f;
 		}
+
+		stringForNames = "Update Local Buffers For " + _bunchName;
+		if (ImGui::Button(stringForNames.c_str()))
+		{
+			UpdateLocalVertAndInd(gfx);
+		}
 	}
 	ImGui::End();
+}
+
+void Leaves::UpdateLocalVertAndInd(Graphics& gfx)
+{
+	//For each leaf in the bunch
+		//Take the current size of verts and cache it for this run
+			//For each vert push it onto the local backup
+			//For each index push it onto the local backup but add the offset of the current size of verts
+
+	//Reserve the size required as the leafs wont ever get more of less verts
+	_leafVerts.reserve(_leafCount * 4u);
+	_leafIndices.reserve(_leafCount * 6u);
+
+	unsigned int currentRunSize = 0;
+	for (int i = 0; i < _leafCount; i++)
+	{
+		_leafVector[i]->UpdateOutVertices(gfx);
+
+		for (size_t j = 0; j < _leafVector[i]->_vertOut.size(); j++)
+		{
+			_leafVerts.push_back(_leafVector[i]->_vertOut[j]);
+		}
+
+		for (size_t j = 0; j < _leafVector[i]->_indexOut.size(); j++)
+		{
+			_leafIndices.push_back(_leafVector[i]->_indexOut[j] + currentRunSize);
+		}
+
+		currentRunSize = _leafVerts.size();
+	}
 }
