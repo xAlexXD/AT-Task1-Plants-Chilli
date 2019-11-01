@@ -6,6 +6,13 @@
 class Stem : public DrawablesBase<Stem>
 {
 public:
+	struct TexturedVertex
+	{
+		DirectX::XMFLOAT3 pos;
+		DirectX::XMFLOAT3 n;
+		DirectX::XMFLOAT2 tc;
+	};
+
 	Stem(Graphics& gfx,
 		DirectX::XMFLOAT3 pos,
 		DirectX::XMFLOAT3 rot,
@@ -18,17 +25,16 @@ public:
 	void Update(float dt) noexcept override;
 	DirectX::XMMATRIX GetTransformXM() const noexcept override;
 
-	void SpawnImGuiWindow() noexcept;
+	void SpawnImGuiWindow(Graphics& gfx) noexcept;
+
+	void UpdateLocalVertsAndInds(Graphics& gfx);
 
 private:
-	struct TexturedVertex
-	{
-		DirectX::XMFLOAT3 pos;
-		DirectX::XMFLOAT3 n;
-		DirectX::XMFLOAT2 tc;
-	};
 
 	std::unique_ptr<GameObjectTransform> _transform = nullptr;
 	DynamicVertexBuffer<TexturedVertex>* _vertexBuffer = nullptr;
+
+	std::vector<Stem::TexturedVertex> _vertOut;
+	std::vector<int> _indexOut;
 };
 

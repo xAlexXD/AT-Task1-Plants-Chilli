@@ -12,8 +12,8 @@ App::App() : _wnd(1280, 720, "AT Task1 Proc Plants"), _light(_wnd.Gfx())
 	DirectX::XMFLOAT3 zero = {};
 	//_leaf = std::make_unique<Leaf>(_wnd.Gfx(), "leaf.tga", zero, zero, zero, zero, zero, zero);
 	_bunches.push_back(std::make_unique<Leaves>(_wnd.Gfx(), 4, "leaf.tga", "Leaf"));
-	//_bunches.push_back(std::make_unique<Leaves>(_wnd.Gfx(), 4, "pinkPetal.tga", "Petal"));
-	//_stem = std::make_unique<Stem>(_wnd.Gfx(), DirectX::XMFLOAT3(0.0f, 0.0f, 1.75f), zero, zero, zero, zero, zero);
+	_bunches.push_back(std::make_unique<Leaves>(_wnd.Gfx(), 4, "pinkPetal.tga", "Petal"));
+	_stem = std::make_unique<Stem>(_wnd.Gfx(), DirectX::XMFLOAT3(0.0f, 0.0f, 1.75f), zero, zero, zero, zero, zero);
 	_wnd.Gfx().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 720.0f / 1280.0f, 0.5f, 100.0f));
 }
 
@@ -55,8 +55,8 @@ void App::DoFrame()
 		bunch->DrawLeaves(_wnd.Gfx());
 	}
 
-	//_stem->Update(dt);
-	//_stem->Draw(_wnd.Gfx());
+	_stem->Update(dt);
+	_stem->Draw(_wnd.Gfx());
 
 	//_leaf->Update(dt);
 	//_leaf->Draw(_wnd.Gfx());
@@ -73,6 +73,8 @@ void App::DoFrame()
 	{
 		bunch->SpawnImGuiWindow(_wnd.Gfx());
 	}
+
+	_stem->SpawnImGuiWindow(_wnd.Gfx());
 
 	//_leaf->SpawnImGuiWindow(_wnd.Gfx());
 

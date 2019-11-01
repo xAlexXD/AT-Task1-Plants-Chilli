@@ -48,7 +48,7 @@ Stem::Stem(Graphics& gfx,
 	{
 		float specularIntensity = 0.6f;
 		float specularPower = 30.0f;
-		float padding[3];
+		float padding[2];
 	} colorConst;
 	AddBind(std::make_unique<PixelConstantBuffer<PSMaterialConstant>>(gfx, colorConst, 1u));
 
@@ -70,6 +70,52 @@ DirectX::XMMATRIX Stem::GetTransformXM() const noexcept
 	return _transform->GetTransformXM();
 }
 
-void Stem::SpawnImGuiWindow() noexcept
+void Stem::SpawnImGuiWindow(Graphics& gfx) noexcept
 {
+	if (ImGui::Begin("Stem Window"))
+	{
+		if (ImGui::Button("Update Local Data"))
+		{
+			UpdateLocalVertsAndInds(gfx);
+		}
+	}
+	ImGui::End();
+}
+
+void Stem::UpdateLocalVertsAndInds(Graphics& gfx)
+{
+	//Get buffer from dynamic vertex buffer
+	_vertexBuffer->ReadVertsOut(gfx);
+	std::vector<Stem::TexturedVertex> vert = _vertexBuffer->GetVerts();
+	_vertOut.clear();
+	_vertOut.reserve(vert.size());
+	for (size_t i = 0; i < vert.size(); i++)
+	{
+		_vertOut.push_back(vert[i]);
+	}
+
+	const auto modelView = DirectX::XMMatrixTranspose(GetTransformXM() * gfx.GetCamera());
+	const auto modelViewProj = DirectX::XMMatrixTranspose(GetTransformXM() * gfx.GetCamera() * gfx.GetProjection());
+
+	//Apply the transforms the vertex shader would
+	for (auto& vertex : _vertOut)
+	{
+		//Multiply the positions by the model view projection
+		DirectX::XMFLOAT4 temp = { vertex.pos.x, vertex.pos.y, vertex.pos.z, 0.0f };
+		auto tempVec = DirectX::XMLoadFloat4(&temp);
+		tempVec = DirectX::XMVector4Transform(tempVec, modelViewProj);
+		DirectX::XMStoreFloat4(&temp, tempVec);
+		vertex.pos.x = temp.x;
+		vertex.pos.y = temp.y;
+		vertex.pos.z = temp.z;
+
+		//Adjust the normals based on the modelView
+		temp = { vertex.n.x, vertex.n.y, vertex.n.z, 0.0f };
+		tempVec = DirectX::XMLoadFloat4(&temp);
+		tempVec = DirectX::XMVector4Transform(tempVec, modelView);
+		DirectX::XMStoreFloat4(&temp, tempVec);
+		vertex.n.x = temp.x;
+		vertex.n.y = temp.y;
+		vertex.n.z = temp.z;
+	}
 }
