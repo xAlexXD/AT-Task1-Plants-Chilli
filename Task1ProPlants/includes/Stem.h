@@ -2,17 +2,11 @@
 #include "DrawablesBase.h"
 #include "DynamicVertexBuffer.h"
 #include "GameObjectTransform.h"
+#include "StructDefs.h"
 
 class Stem : public DrawablesBase<Stem>
 {
 public:
-	struct TexturedVertex
-	{
-		DirectX::XMFLOAT3 pos;
-		DirectX::XMFLOAT3 n;
-		DirectX::XMFLOAT2 tc;
-	};
-
 	Stem(Graphics& gfx,
 		DirectX::XMFLOAT3 pos,
 		DirectX::XMFLOAT3 rot,
@@ -29,12 +23,12 @@ public:
 
 	void UpdateLocalVertsAndInds(Graphics& gfx);
 
+	std::vector<TexturedVertex> _vertOut;
+	std::vector<int> _indexOut;
+
 private:
 
 	std::unique_ptr<GameObjectTransform> _transform = nullptr;
 	DynamicVertexBuffer<TexturedVertex>* _vertexBuffer = nullptr;
-
-	std::vector<Stem::TexturedVertex> _vertOut;
-	std::vector<int> _indexOut;
 };
 

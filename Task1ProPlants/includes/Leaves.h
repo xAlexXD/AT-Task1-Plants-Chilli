@@ -1,6 +1,7 @@
 #pragma once
 #include "DrawablesBase.h"
 #include "Leaf.h"
+#include "StructDefs.h"
 
 
 class Leaves
@@ -18,6 +19,9 @@ public:
 
 	void UpdateLocalVertAndInd(Graphics& gfx);
 
+	std::vector<TexturedVertex> _leafVerts;
+	std::vector<int> _leafIndices;
+
 private:
 	std::vector<std::unique_ptr<Leaf>> _leafVector;
 	unsigned int _leafLimit = 30u;
@@ -32,9 +36,6 @@ private:
 	float _y = 0.0f;
 	float _z = 0.0f;
 	const std::string _bunchName;
-
-	std::vector<Leaf::TexturedVertex> _leafVerts;
-	std::vector<int> _leafIndices;
 };
 /*
 YLrot to tilt the Leaf

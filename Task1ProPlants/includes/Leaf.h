@@ -2,17 +2,11 @@
 #include "DrawablesBase.h"
 #include "DynamicVertexBuffer.h"
 #include "GameObjectTransform.h"
+#include "StructDefs.h"
 
 class Leaf : public DrawablesBase<Leaf>
 {
 public:
-	struct TexturedVertex
-	{
-		DirectX::XMFLOAT3 pos;
-		DirectX::XMFLOAT3 n;
-		DirectX::XMFLOAT2 tc;
-	};
-
 	Leaf(Graphics& gfx,
 		const char* textureName,
 		DirectX::XMFLOAT3 pos,
@@ -25,7 +19,6 @@ public:
 
 	void Update(float dt) noexcept override;
 	DirectX::XMMATRIX GetTransformXM() const noexcept override;
-
 
 	GameObjectTransform* GetLeafTransform() noexcept;
 

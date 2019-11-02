@@ -108,6 +108,7 @@
     <ClInclude Include="includes\SolidSphere.h" />
     <ClInclude Include="includes\SpherePrim.h" />
     <ClInclude Include="includes\Stem.h" />
+    <ClInclude Include="includes\StructDefs.h" />
     <ClInclude Include="includes\Texture.h" />
     <ClInclude Include="includes\TexturedCube.h" />
     <ClInclude Include="includes\Timer.h" />

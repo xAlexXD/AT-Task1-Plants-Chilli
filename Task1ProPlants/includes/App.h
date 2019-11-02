@@ -4,6 +4,7 @@
 #include "ImguiManager.h"
 #include "Camera.h"
 #include "PointLight.h"
+#include "ObjExporter.h"
 
 class App
 {
@@ -13,6 +14,9 @@ public:
 	int Go();
 private:
 	void DoFrame();
+	void GatherModelDataAndExport() noexcept;
+	void SpawnExporterWindow() noexcept;
+
 private:
 	ImguiManager _imgui;
 	Window _wnd;
@@ -24,5 +28,6 @@ private:
 	std::unique_ptr<class Leaf> _leaf;
 	Camera _cam;
 	PointLight _light;
+	ObjExporter _exporter;
 };
 

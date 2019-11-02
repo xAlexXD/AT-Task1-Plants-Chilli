@@ -86,7 +86,7 @@ void Stem::UpdateLocalVertsAndInds(Graphics& gfx)
 {
 	//Get buffer from dynamic vertex buffer
 	_vertexBuffer->ReadVertsOut(gfx);
-	std::vector<Stem::TexturedVertex> vert = _vertexBuffer->GetVerts();
+	std::vector<TexturedVertex> vert = _vertexBuffer->GetVerts();
 	_vertOut.clear();
 	_vertOut.reserve(vert.size());
 	for (size_t i = 0; i < vert.size(); i++)

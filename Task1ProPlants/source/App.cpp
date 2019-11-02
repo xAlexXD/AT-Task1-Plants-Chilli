@@ -6,6 +6,7 @@
 #include "Leaf.h"
 #include "Leaves.h"
 #include "Stem.h"
+#include "StructDefs.h"
 
 App::App() : _wnd(1280, 720, "AT Task1 Proc Plants"), _light(_wnd.Gfx())
 {
@@ -78,6 +79,65 @@ void App::DoFrame()
 
 	//_leaf->SpawnImGuiWindow(_wnd.Gfx());
 
+	SpawnExporterWindow();
+
 	//present
 	_wnd.Gfx().EndFrame();
+}
+
+void App::GatherModelDataAndExport() noexcept
+{
+	std::vector<TexturedVertex> modelVertices;
+	std::vector<int> modelIndices;
+
+	int currentOffsetVert = 0;
+
+	//Stem
+	_stem->UpdateLocalVertsAndInds(_wnd.Gfx());
+
+	for (size_t i = 0; i < _stem->_vertOut.size(); i++)
+	{
+		modelVertices.push_back(_stem->_vertOut[i]);
+	}
+
+	for (size_t i = 0; i < _stem->_indexOut.size(); i++)
+	{
+		modelIndices.push_back(_stem->_indexOut[i] + currentOffsetVert);
+	}
+
+	currentOffsetVert += _stem->_vertOut.size();
+
+	//Leaves and petals
+	for (auto& bunch : _bunches)
+	{
+		//for each bunch, add the verts and inds to the grouped vectors
+		bunch->UpdateLocalVertAndInd(_wnd.Gfx());
+
+		for (size_t i = 0; i < bunch->_leafVerts.size(); i++)
+		{
+			modelVertices.push_back(bunch->_leafVerts[i]);
+		}
+
+		for (size_t i = 0; i < bunch->_leafIndices.size(); i++)
+		{
+			modelIndices.push_back(bunch->_leafIndices[i]);
+		}
+
+		currentOffsetVert += bunch->_leafVerts.size();
+	}
+
+	//Push them into the obj exporter
+	return;
+}
+
+void App::SpawnExporterWindow() noexcept
+{
+	if (ImGui::Begin("Exporter Window"))
+	{
+		if (ImGui::Button("Export to .obj"))
+		{
+			GatherModelDataAndExport();
+		}
+	}
+	ImGui::End();
 }
