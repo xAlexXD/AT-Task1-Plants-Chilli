@@ -20,6 +20,12 @@ Stem::Stem(Graphics& gfx,
 	}
 	model.SetNormalsIndependentFlat();
 
+	_indexOut.reserve(model._indices.size());
+	for (auto& index : model._indices)
+	{
+		_indexOut.push_back(index);
+	}
+
 	AddBind(std::make_unique<Texture>(gfx, "./textures/green.tga"));
 	AddBind(std::make_unique<Sampler>(gfx));
 

@@ -75,7 +75,7 @@ void App::DoFrame()
 		bunch->SpawnImGuiWindow(_wnd.Gfx());
 	}
 
-	_stem->SpawnImGuiWindow(_wnd.Gfx());
+	//_stem->SpawnImGuiWindow(_wnd.Gfx());
 
 	//_leaf->SpawnImGuiWindow(_wnd.Gfx());
 
@@ -120,7 +120,7 @@ void App::GatherModelDataAndExport() noexcept
 
 		for (size_t i = 0; i < bunch->_leafIndices.size(); i++)
 		{
-			modelIndices.push_back(bunch->_leafIndices[i]);
+			modelIndices.push_back(bunch->_leafIndices[i] + currentOffsetVert);
 		}
 
 		currentOffsetVert += bunch->_leafVerts.size();
