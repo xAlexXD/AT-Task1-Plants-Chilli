@@ -127,7 +127,7 @@ void App::GatherModelDataAndExport() noexcept
 	}
 
 	//Push them into the obj exporter
-	return;
+	_exporter.ExportToObj(std::move(modelVertices), std::move(modelIndices));
 }
 
 void App::SpawnExporterWindow() noexcept

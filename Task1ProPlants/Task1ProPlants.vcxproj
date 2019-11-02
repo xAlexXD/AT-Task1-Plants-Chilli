@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="includes\ObjExporter.cpp" />
     <ClCompile Include="source\App.cpp" />
     <ClCompile Include="source\Bindable.cpp" />
     <ClCompile Include="source\Camera.cpp" />
