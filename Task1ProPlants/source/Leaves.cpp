@@ -165,6 +165,6 @@ void Leaves::UpdateLocalVertAndInd(Graphics& gfx)
 			_leafIndices.push_back(_leafVector[i]->_indexOut[j] + currentRunSize);
 		}
 
-		currentRunSize += _leafVerts.size();
+		currentRunSize += _leafVerts.size() - 1;
 	}
 }

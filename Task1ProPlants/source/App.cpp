@@ -105,7 +105,7 @@ void App::GatherModelDataAndExport() noexcept
 		modelIndices.push_back(_stem->_indexOut[i] + currentOffsetVert);
 	}
 
-	currentOffsetVert += _stem->_vertOut.size();
+	currentOffsetVert += _stem->_vertOut.size() - 1;
 
 	//Leaves and petals
 	for (auto& bunch : _bunches)
@@ -123,7 +123,7 @@ void App::GatherModelDataAndExport() noexcept
 			modelIndices.push_back(bunch->_leafIndices[i] + currentOffsetVert);
 		}
 
-		currentOffsetVert += bunch->_leafVerts.size();
+		currentOffsetVert += bunch->_leafVerts.size() - 1;
 	}
 
 	//Push them into the obj exporter
