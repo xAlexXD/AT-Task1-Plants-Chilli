@@ -91,8 +91,7 @@ void Stem::SpawnImGuiWindow(Graphics& gfx) noexcept
 void Stem::UpdateLocalVertsAndInds(Graphics& gfx)
 {
 	//Get buffer from dynamic vertex buffer
-	_vertexBuffer->ReadVertsOut(gfx);
-	std::vector<TexturedVertex> vert = _vertexBuffer->GetVerts();
+	std::vector<TexturedVertex> vert = _vertexBuffer->GetOriginalVerts();
 	_vertOut.clear();
 	_vertOut.reserve(vert.size());
 	for (size_t i = 0; i < vert.size(); i++)
@@ -100,8 +99,8 @@ void Stem::UpdateLocalVertsAndInds(Graphics& gfx)
 		_vertOut.push_back(vert[i]);
 	}
 
-	const auto modelView = DirectX::XMMatrixTranspose(GetTransformXM() * gfx.GetCamera());
-	const auto modelViewProj = DirectX::XMMatrixTranspose(GetTransformXM() * gfx.GetCamera() * gfx.GetProjection());
+	const auto modelView = GetTransformXM() * gfx.GetCamera();
+	const auto modelViewProj = modelView * gfx.GetProjection();
 
 	//Apply the transforms the vertex shader would
 	for (auto& vertex : _vertOut)

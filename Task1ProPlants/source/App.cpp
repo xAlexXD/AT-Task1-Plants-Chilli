@@ -93,19 +93,19 @@ void App::GatherModelDataAndExport() noexcept
 	int currentOffsetVert = 0;
 
 	//Stem
-	_stem->UpdateLocalVertsAndInds(_wnd.Gfx());
+	//_stem->UpdateLocalVertsAndInds(_wnd.Gfx());
 
-	for (size_t i = 0; i < _stem->_vertOut.size(); i++)
-	{
-		modelVertices.push_back(_stem->_vertOut[i]);
-	}
+	//for (size_t i = 0; i < _stem->_vertOut.size(); i++)
+	//{
+	//	modelVertices.push_back(_stem->_vertOut[i]);
+	//}
 
-	for (size_t i = 0; i < _stem->_indexOut.size(); i++)
-	{
-		modelIndices.push_back(_stem->_indexOut[i] + currentOffsetVert);
-	}
+	//for (size_t i = 0; i < _stem->_indexOut.size(); i++)
+	//{
+	//	modelIndices.push_back(_stem->_indexOut[i] + currentOffsetVert);
+	//}
 
-	currentOffsetVert += _stem->_vertOut.size() - 1;
+	//currentOffsetVert = modelVertices.size() - 1;
 
 	//Leaves and petals
 	for (auto& bunch : _bunches)
@@ -123,7 +123,7 @@ void App::GatherModelDataAndExport() noexcept
 			modelIndices.push_back(bunch->_leafIndices[i] + currentOffsetVert);
 		}
 
-		currentOffsetVert += bunch->_leafVerts.size() - 1;
+		currentOffsetVert = modelVertices.size();
 	}
 
 	//Push them into the obj exporter

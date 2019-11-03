@@ -29,12 +29,27 @@ void ObjExporter::ExportToObj(std::vector<TexturedVertex> verts, std::vector<int
 
 		//Finally the faces For some reason it starts at 1 instead of zero
 		outFile << "# Faces: \n";
-		for (size_t i = 0; i < inds.size(); i+=3)
+		std::vector<int> objModifedInds;
+		objModifedInds.reserve(inds.size());
+		
+		//Obj inds start at 1 instead of zero
+		for (auto& index : inds)
+		{
+			objModifedInds.push_back(index + 1);
+		}
+
+		//Add extra triangles to draw the backfaces too
+		for (size_t i = 0; i < objModifedInds.size(); i+=3)
 		{
 			outFile << "f" << " "
-				<< inds[i] + 1 << "/" << inds[i] + 1 << "/" << inds[i] + 1 << " "
-				<< inds[i + 1] + 1 << "/" << inds[i + 1] + 1 << "/" << inds[i + 1] + 1 << " "
-				<< inds[i + 2] + 1 << "/" << inds[i + 2] + 1 << "/" << inds[i + 2] + 1 << "\n";
+				<< objModifedInds[i] << "/" << objModifedInds[i] << "/" << objModifedInds[i] << " "
+				<< objModifedInds[i + 1] << "/" << objModifedInds[i + 1] << "/" << objModifedInds[i + 1] << " "
+				<< objModifedInds[i + 2] << "/" << objModifedInds[i + 2] << "/" << objModifedInds[i + 2] << "\n";
+
+			//outFile << "f" << " "
+			//	<< objModifedInds[i + 2] << "/" << objModifedInds[i + 2] << "/" << objModifedInds[i + 2] << " "
+			//	<< objModifedInds[i + 1] << "/" << objModifedInds[i + 1] << "/" << objModifedInds[i + 1] << " "
+			//	<< objModifedInds[i] << "/" << objModifedInds[i] << "/" << objModifedInds[i] << "\n";
 		}
 
 		outFile.close();

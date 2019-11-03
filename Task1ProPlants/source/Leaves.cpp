@@ -147,6 +147,8 @@ void Leaves::UpdateLocalVertAndInd(Graphics& gfx)
 			//For each index push it onto the local backup but add the offset of the current size of verts
 
 	//Reserve the size required as the leafs wont ever get more of less verts
+	_leafVerts.clear();
+	_leafIndices.clear();
 	_leafVerts.reserve(_leafCount * 4u);
 	_leafIndices.reserve(_leafCount * 6u);
 
@@ -165,6 +167,6 @@ void Leaves::UpdateLocalVertAndInd(Graphics& gfx)
 			_leafIndices.push_back(_leafVector[i]->_indexOut[j] + currentRunSize);
 		}
 
-		currentRunSize += _leafVerts.size() - 1;
+		currentRunSize = _leafVerts.size();
 	}
 }

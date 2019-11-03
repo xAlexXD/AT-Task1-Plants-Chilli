@@ -90,6 +90,11 @@ public:
 		return _vertices;
 	}
 
+	std::vector<V> GetOriginalVerts()
+	{
+		return _originalVertices;
+	}
+
 	void SpawnImguiControlWindow()
 	{
 		if (ImGui::Begin("Vertex Buffer"))
