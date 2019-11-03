@@ -117,7 +117,7 @@ void Leaf::UpdateOutVertices(Graphics& gfx)
 		_vertOut.push_back(vert[i]);
 	}
 
-	const auto modelView = GetTransformXM() * gfx.GetCamera();
+	const auto modelView = GetTransformXM();
 	const auto modelViewProj = modelView * gfx.GetProjection();
 
 	//Apply the transforms the vertex shader would
@@ -128,7 +128,7 @@ void Leaf::UpdateOutVertices(Graphics& gfx)
 		auto tempVec = DirectX::XMLoadFloat4(&temp);
 		tempVec = DirectX::XMVector4Transform(tempVec, modelViewProj);
 		DirectX::XMStoreFloat4(&temp, tempVec);
-		vertex.pos.x = temp.x;
+		vertex.pos.x = -temp.x;
 		vertex.pos.y = temp.y;
 		vertex.pos.z = temp.z;
 

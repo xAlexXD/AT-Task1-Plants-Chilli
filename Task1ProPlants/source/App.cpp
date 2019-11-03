@@ -43,7 +43,7 @@ void App::DoFrame()
 	auto dt = _timer.Mark() * _dtSpeedFactor;
 
 	//Start DirectX frame
-	_wnd.Gfx().BeginFrame(0.07f, 0.0f, 0.12f);
+	_wnd.Gfx().BeginFrame(0.7f, 0.73f, 0.78f);
 	_wnd.Gfx().SetCamera(_cam.GetMatrix());
 
 	//Bind the light in the pipeline
@@ -93,19 +93,19 @@ void App::GatherModelDataAndExport() noexcept
 	int currentOffsetVert = 0;
 
 	//Stem
-	//_stem->UpdateLocalVertsAndInds(_wnd.Gfx());
+	_stem->UpdateLocalVertsAndInds(_wnd.Gfx());
 
-	//for (size_t i = 0; i < _stem->_vertOut.size(); i++)
-	//{
-	//	modelVertices.push_back(_stem->_vertOut[i]);
-	//}
+	for (size_t i = 0; i < _stem->_vertOut.size(); i++)
+	{
+		modelVertices.push_back(_stem->_vertOut[i]);
+	}
 
-	//for (size_t i = 0; i < _stem->_indexOut.size(); i++)
-	//{
-	//	modelIndices.push_back(_stem->_indexOut[i] + currentOffsetVert);
-	//}
+	for (size_t i = 0; i < _stem->_indexOut.size(); i++)
+	{
+		modelIndices.push_back(_stem->_indexOut[i] + currentOffsetVert);
+	}
 
-	//currentOffsetVert = modelVertices.size() - 1;
+	currentOffsetVert = modelVertices.size();
 
 	//Leaves and petals
 	for (auto& bunch : _bunches)
