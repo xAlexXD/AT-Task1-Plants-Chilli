@@ -3,7 +3,7 @@
 
 void ObjExporter::ExportToObj(std::vector<TexturedVertex> verts, std::vector<int> inds) noexcept
 {
-	std::ofstream outFile("Flower.obj");
+	std::ofstream outFile("./exports/Flower.obj");
 	if (outFile.is_open())
 	{
 		//Start with verts
