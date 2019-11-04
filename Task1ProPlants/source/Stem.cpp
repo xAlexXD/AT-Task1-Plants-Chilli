@@ -27,6 +27,7 @@ Stem::Stem(Graphics& gfx,
 	}
 
 	AddBind(std::make_unique<Texture>(gfx, "./textures/green.tga"));
+	_texName = "green.tga";
 	AddBind(std::make_unique<Sampler>(gfx));
 
 	AddBind(std::make_unique<DynamicVertexBuffer<TexturedVertex>>(gfx, model._vertices));

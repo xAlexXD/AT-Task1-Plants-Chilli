@@ -87,47 +87,56 @@ void App::DoFrame()
 
 void App::GatherModelDataAndExport() noexcept
 {
-	std::vector<TexturedVertex> modelVertices;
-	std::vector<int> modelIndices;
+	//Create a vector of vert vectors, ind vectors and texture string vectors
+	std::vector<std::vector<TexturedVertex>> vecOfVertVecs(3, std::vector<TexturedVertex>());
+	std::vector<std::vector<int>> vecOfIndVecs(3, std::vector<int>());
+	std::vector<std::string> vecOfTexNames;
+
+	//Reserve 3 in each for now as they will store the stem and the two bunches
+	vecOfVertVecs.reserve(3);
+	vecOfIndVecs.reserve(3);
+	vecOfTexNames.reserve(3);
 
 	int currentOffsetVert = 0;
 
 	//Stem
 	_stem->UpdateLocalVertsAndInds(_wnd.Gfx());
+	vecOfTexNames.push_back(_stem->_texName);
 
 	for (size_t i = 0; i < _stem->_vertOut.size(); i++)
 	{
-		modelVertices.push_back(_stem->_vertOut[i]);
+		vecOfVertVecs[0].push_back(_stem->_vertOut[i]);
 	}
 
 	for (size_t i = 0; i < _stem->_indexOut.size(); i++)
 	{
-		modelIndices.push_back(_stem->_indexOut[i] + currentOffsetVert);
+		vecOfIndVecs[0].push_back(_stem->_indexOut[i] + currentOffsetVert);
 	}
 
-	currentOffsetVert = modelVertices.size();
+	currentOffsetVert = vecOfVertVecs[0].size() + vecOfVertVecs[1].size() + vecOfVertVecs[2].size();
 
 	//Leaves and petals
-	for (auto& bunch : _bunches)
+	for (int i = 0; i < _bunches.size(); i++)
 	{
 		//for each bunch, add the verts and inds to the grouped vectors
-		bunch->UpdateLocalVertAndInd(_wnd.Gfx());
+		_bunches[i]->UpdateLocalVertAndInd(_wnd.Gfx());
+		vecOfTexNames.push_back(_bunches[i]->_texName);
 
-		for (size_t i = 0; i < bunch->_leafVerts.size(); i++)
+		for (size_t j = 0; j < _bunches[i]->_leafVerts.size(); j++)
 		{
-			modelVertices.push_back(bunch->_leafVerts[i]);
+			vecOfVertVecs[i+1].push_back(_bunches[i]->_leafVerts[j]);
 		}
 
-		for (size_t i = 0; i < bunch->_leafIndices.size(); i++)
+		for (size_t j = 0; j < _bunches[i]->_leafIndices.size(); j++)
 		{
-			modelIndices.push_back(bunch->_leafIndices[i] + currentOffsetVert);
+			vecOfIndVecs[i+1].push_back(_bunches[i]->_leafIndices[j] + currentOffsetVert);
 		}
 
-		currentOffsetVert = modelVertices.size();
+		currentOffsetVert = vecOfVertVecs[0].size() + vecOfVertVecs[1].size() + vecOfVertVecs[2].size();
 	}
 
 	//Push them into the obj exporter
-	_exporter.ExportToObj(std::move(modelVertices), std::move(modelIndices));
+	_exporter.ExportToObj(std::move(vecOfVertVecs), std::move(vecOfIndVecs), std::move(vecOfTexNames));
 }
 
 void App::SpawnExporterWindow() noexcept

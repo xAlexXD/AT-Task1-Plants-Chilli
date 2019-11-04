@@ -21,6 +21,7 @@ public:
 
 	std::vector<TexturedVertex> _leafVerts;
 	std::vector<int> _leafIndices;
+	std::string _texName = "";
 
 private:
 	std::vector<std::unique_ptr<Leaf>> _leafVector;

@@ -25,6 +25,7 @@ public:
 
 	std::vector<TexturedVertex> _vertOut;
 	std::vector<int> _indexOut;
+	std::string _texName = "";
 
 private:
 

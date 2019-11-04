@@ -6,7 +6,7 @@ Leaves::Leaves(Graphics& gfx,
 	unsigned int leafCount,
 	const char* textureName,
 	const char* bunchName) :
-	_leafCount(leafCount), _bunchName(bunchName)
+	_leafCount(leafCount), _bunchName(bunchName), _texName(textureName)
 {
 	_leafVector.reserve(30);
 	DirectX::XMFLOAT3 zero = { 0.0f, 0.0f, 0.0f };
