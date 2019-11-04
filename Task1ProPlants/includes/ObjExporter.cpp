@@ -1,7 +1,8 @@
 #include "ObjExporter.h"
 #include <fstream>
+#include <sstream>
 
-void ObjExporter::ExportToObj(std::vector<std::vector<TexturedVertex>> vecVertVec, std::vector<std::vector<int>> vecIndVec, std::vector<std::string> texNames) noexcept
+void ObjExporter::ExportToObj(const char* exportName, std::vector<std::vector<TexturedVertex>> vecVertVec, std::vector<std::vector<int>> vecIndVec, std::vector<std::string> texNames) noexcept
 {
 	//Set up names of the textures without the extension
 	std::vector<std::string> texNamesNoExtension(texNames.size(), "");
@@ -21,16 +22,33 @@ void ObjExporter::ExportToObj(std::vector<std::vector<TexturedVertex>> vecVertVe
 	//Once the loop is finished for all ones in the vector, just finish by closing the file for now
 	//Open another file for the mtl creating the material using the texNames as names for the mats and using the tex names to define texs in the mats
 
-
-	//std::ofstream outFileMtl("./exports/Flower.mtl");
-	//if (outFileMtl.is_open())
-	//{
-	//	for (auto& name : texNames)
-	//	{
-	//		//first define the name of the material
-	//		outFileMtl << "newmtl " << 
-	//	}
-	//}
+	std::ostringstream mtlFilePath;
+	mtlFilePath << "./exports/" << exportName << ".mtl";
+	std::ofstream outFileMtl(mtlFilePath.str().c_str());
+	if (outFileMtl.is_open())
+	{
+		for (int i = 0; i < texNames.size(); i++)
+		{
+			//first define the name of the material
+			outFileMtl << "newmtl " << texNamesNoExtension[i] << "\n";
+			//Next the ambient of the material
+			outFileMtl << "Ka " << "1.000 " << "1.000 " << "1.000\n";
+			//Diffuse of material
+			outFileMtl << "Kd " << "1.000 " << "1.000 " << "1.000\n";
+			//Specular of material
+			outFileMtl << "Ks " << "0.000 " << "0.000 " << "0.000\n";
+			//Dissolve
+			outFileMtl << "d 1.0\n";
+			//Illumination settings
+			outFileMtl << "illum 2\n";
+			//Amibient texturemap
+			outFileMtl << "map_Ka " << texNames[i] << "\n";
+			//diffuse texturemap
+			outFileMtl << "map_Kd " << texNames[i] << "\n";
+			outFileMtl << "\n";
+		}
+	}
+	outFileMtl.close();
 
 	/*
 	newmtl Textured

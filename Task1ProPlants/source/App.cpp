@@ -136,7 +136,7 @@ void App::GatherModelDataAndExport() noexcept
 	}
 
 	//Push them into the obj exporter
-	_exporter.ExportToObj(std::move(vecOfVertVecs), std::move(vecOfIndVecs), std::move(vecOfTexNames));
+	_exporter.ExportToObj("PinkFlower", std::move(vecOfVertVecs), std::move(vecOfIndVecs), std::move(vecOfTexNames));
 }
 
 void App::SpawnExporterWindow() noexcept
