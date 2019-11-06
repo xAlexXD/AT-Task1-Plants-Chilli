@@ -21,14 +21,14 @@ void ObjExporter::ExportToObj(const char* exportName, std::vector<std::vector<Te
 		int currentIndOffset = 0;
 
 		//Add the header to include the mtl file with this obj
-		outFileObj << "mtllib [" << exportName << "]\n\n";
+		outFileObj << "mtllib " << exportName << ".mtl\n\n";
 
 		for (size_t i = 0; i < vecVertVec.size(); i++)
 		{
 			if (vecVertVec[i].size() > 0)
 			{
 				outFileObj << "# Object: " << texNamesNoExtension[i] << "\n";
-				outFileObj << "usemtl [" << texNamesNoExtension[i] << "]\n\n";
+				outFileObj << "o " << texNamesNoExtension[i] << "\n";
 
 				//Start with verts
 				outFileObj << "# Vertices: \n";
@@ -57,6 +57,8 @@ void ObjExporter::ExportToObj(const char* exportName, std::vector<std::vector<Te
 
 				outFileObj << "\n";
 				
+				outFileObj << "g " << texNamesNoExtension[i] << "\n";
+				outFileObj << "usemtl " << texNamesNoExtension[i] << "\n";
 				//Finally the faces For some reason it starts at 1 instead of zero so add 1 to each ind
 				outFileObj << "# Faces: \n";
 				for (int j = 0; j < vecIndVec[i].size(); j+=3)
