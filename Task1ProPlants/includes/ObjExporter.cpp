@@ -14,7 +14,7 @@ void ObjExporter::ExportToObj(const char* exportName, std::vector<std::vector<Te
 	//Open a file stream to output to obj
 	std::ostringstream objFilePath;
 	objFilePath << "./exports/" << exportName << ".obj";
-	std::ofstream outFileObj(objFilePath.str().c_str);
+	std::ofstream outFileObj(objFilePath.str().c_str());
 	if (outFileObj.is_open())
 	{
 		//Loop over all the vectors of verts adding their verts to the file, keeping track of the offset
@@ -27,7 +27,7 @@ void ObjExporter::ExportToObj(const char* exportName, std::vector<std::vector<Te
 		{
 			if (vecVertVec[i].size() > 0)
 			{
-				outFileObj << "# Object: " << texNamesNoExtension[i] << "\n\n";
+				outFileObj << "# Object: " << texNamesNoExtension[i] << "\n";
 				outFileObj << "usemtl [" << texNamesNoExtension[i] << "]\n\n";
 
 				//Start with verts
@@ -36,6 +36,8 @@ void ObjExporter::ExportToObj(const char* exportName, std::vector<std::vector<Te
 				{
 					outFileObj << "v" << " " << vecVertVec[i][j].pos.x << " " << vecVertVec[i][j].pos.y << " " << vecVertVec[i][j].pos.z << "\n";
 				}
+
+				outFileObj << "\n";
 				
 				//Next the Tex cords
 				outFileObj << "# Tex Cords: \n";
@@ -43,6 +45,8 @@ void ObjExporter::ExportToObj(const char* exportName, std::vector<std::vector<Te
 				{
 					outFileObj << "vt" << " " << vecVertVec[i][j].tc.x << " " << -vecVertVec[i][j].tc.y << "\n";
 				}
+
+				outFileObj << "\n";
 				
 				//Next the normals
 				outFileObj << "# Normals: \n";
@@ -50,6 +54,8 @@ void ObjExporter::ExportToObj(const char* exportName, std::vector<std::vector<Te
 				{
 					outFileObj << "vn" << " " << vecVertVec[i][j].n.x << " " << vecVertVec[i][j].n.y << " " << vecVertVec[i][j].n.z << " \n";
 				}
+
+				outFileObj << "\n";
 				
 				//Finally the faces For some reason it starts at 1 instead of zero so add 1 to each ind
 				outFileObj << "# Faces: \n";
@@ -66,6 +72,8 @@ void ObjExporter::ExportToObj(const char* exportName, std::vector<std::vector<Te
 						<< (vecIndVec[i][j + 1] + 1) << "/" << (vecIndVec[i][j + 1] + 1) << "/" << (vecIndVec[i][j + 1] + 1) << " "
 						<< (vecIndVec[i][j] + 1) << "/" << (vecIndVec[i][j] + 1) << "/" << (vecIndVec[i][j] + 1) << "\n";
 				}
+
+				outFileObj << "\n";
 
 				currentIndOffset += vecVertVec[i].size();
 			}
