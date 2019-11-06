@@ -12,15 +12,66 @@ void ObjExporter::ExportToObj(const char* exportName, std::vector<std::vector<Te
 	}
 
 	//Open a file stream to output to obj
+	std::ostringstream objFilePath;
+	objFilePath << "./exports/" << exportName << ".obj";
+	std::ofstream outFileObj(objFilePath.str().c_str);
+	if (outFileObj.is_open())
+	{
+		//Loop over all the vectors of verts adding their verts to the file, keeping track of the offset
+		int currentIndOffset = 0;
 
-	//the size of all 3 are going to be the same so start a for loop with the size of one of them
-		//First check if there are any verts stored in this vec, if so continue, else break out
-			//Tag the name of the Vert struct here with the tex name at the same index
-			//Loop and output the first vecVertVec v vn and vt
-			//Take the inds at the appropriate index and add 1 to all inds as obj start at 1 not 0
-			//Use this modified ind array to build f, remembering to also put back faces on 
-	//Once the loop is finished for all ones in the vector, just finish by closing the file for now
-	//Open another file for the mtl creating the material using the texNames as names for the mats and using the tex names to define texs in the mats
+		//Add the header to include the mtl file with this obj
+		outFileObj << "mtllib [" << exportName << "]\n\n";
+
+		for (size_t i = 0; i < vecVertVec.size(); i++)
+		{
+			if (vecVertVec[i].size() > 0)
+			{
+				outFileObj << "# Object: " << texNamesNoExtension[i] << "\n\n";
+				outFileObj << "usemtl [" << texNamesNoExtension[i] << "]\n\n";
+
+				//Start with verts
+				outFileObj << "# Vertices: \n";
+				for (int j = 0; j < vecVertVec[i].size(); j++)
+				{
+					outFileObj << "v" << " " << vecVertVec[i][j].pos.x << " " << vecVertVec[i][j].pos.y << " " << vecVertVec[i][j].pos.z << "\n";
+				}
+				
+				//Next the Tex cords
+				outFileObj << "# Tex Cords: \n";
+				for (int j = 0; j < vecVertVec[i].size(); j++)
+				{
+					outFileObj << "vt" << " " << vecVertVec[i][j].tc.x << " " << -vecVertVec[i][j].tc.y << "\n";
+				}
+				
+				//Next the normals
+				outFileObj << "# Normals: \n";
+				for (int j = 0; j < vecVertVec[i].size(); j++)
+				{
+					outFileObj << "vn" << " " << vecVertVec[i][j].n.x << " " << vecVertVec[i][j].n.y << " " << vecVertVec[i][j].n.z << " \n";
+				}
+				
+				//Finally the faces For some reason it starts at 1 instead of zero so add 1 to each ind
+				outFileObj << "# Faces: \n";
+				for (int j = 0; j < vecIndVec[i].size(); j+=3)
+				{
+					outFileObj << "f" << " "
+						<< (vecIndVec[i][j] + 1) << "/" << (vecIndVec[i][j] + 1) << "/" << (vecIndVec[i][j] + 1) << " "
+						<< (vecIndVec[i][j + 1] + 1) << "/" << (vecIndVec[i][j + 1] + 1) << "/" << (vecIndVec[i][j + 1] + 1) << " "
+						<< (vecIndVec[i][j + 2] + 1) << "/" << (vecIndVec[i][j + 2] + 1) << "/" << (vecIndVec[i][j + 2] + 1) << "\n";
+				
+					//Add extra triangles to draw the backfaces too
+					outFileObj << "f" << " "
+						<< (vecIndVec[i][j + 2] + 1) << "/" << (vecIndVec[i][j + 2] + 1) << "/" << (vecIndVec[i][j + 2] + 1) << " "
+						<< (vecIndVec[i][j + 1] + 1) << "/" << (vecIndVec[i][j + 1] + 1) << "/" << (vecIndVec[i][j + 1] + 1) << " "
+						<< (vecIndVec[i][j] + 1) << "/" << (vecIndVec[i][j] + 1) << "/" << (vecIndVec[i][j] + 1) << "\n";
+				}
+
+				currentIndOffset += vecVertVec[i].size();
+			}
+		}
+	}
+	outFileObj.close();
 
 	std::ostringstream mtlFilePath;
 	mtlFilePath << "./exports/" << exportName << ".mtl";
@@ -49,67 +100,4 @@ void ObjExporter::ExportToObj(const char* exportName, std::vector<std::vector<Te
 		}
 	}
 	outFileMtl.close();
-
-	/*
-	newmtl Textured
-   Ka 1.000 1.000 1.000
-   Kd 1.000 1.000 1.000
-   Ks 0.000 0.000 0.000
-   d 1.0
-   illum 2
-   map_Ka lemur.tga           # the ambient texture map
-   map_Kd lemur.tga           # the diffuse texture map (most of the time, it will
-	*/
-
-	//std::ofstream outFile("./exports/Flower.obj");
-	//if (outFile.is_open())
-	//{
-	//	//Start with verts
-	//	outFile << "# Vertices: \n";
-	//	for (auto& v : verts)
-	//	{
-	//		outFile << "v" << " " << v.pos.x << " " << v.pos.y << " " << v.pos.z << "\n";
-	//	}
-
-	//	//Next the Tex cords
-	//	outFile << "# Tex Cords: \n";
-	//	for (auto& tc : verts)
-	//	{
-	//		outFile << "vt" << " " << tc.tc.x << " " << -tc.tc.y << "\n";
-	//	}
-
-	//	//Next the normals
-	//	outFile << "# Normals: \n";
-	//	for (auto& n : verts)
-	//	{
-	//		outFile << "vn" << " " << n.n.x << " " << n.n.y << " " << n.n.z << " \n";
-	//	}
-
-	//	//Finally the faces For some reason it starts at 1 instead of zero
-	//	outFile << "# Faces: \n";
-	//	std::vector<int> objModifedInds;
-	//	objModifedInds.reserve(inds.size());
-	//	
-	//	//Obj inds start at 1 instead of zero
-	//	for (auto& index : inds)
-	//	{
-	//		objModifedInds.push_back(index + 1);
-	//	}
-
-	//	//Add extra triangles to draw the backfaces too
-	//	for (size_t i = 0; i < objModifedInds.size(); i+=3)
-	//	{
-	//		outFile << "f" << " "
-	//			<< objModifedInds[i] << "/" << objModifedInds[i] << "/" << objModifedInds[i] << " "
-	//			<< objModifedInds[i + 1] << "/" << objModifedInds[i + 1] << "/" << objModifedInds[i + 1] << " "
-	//			<< objModifedInds[i + 2] << "/" << objModifedInds[i + 2] << "/" << objModifedInds[i + 2] << "\n";
-
-	//		//outFile << "f" << " "
-	//		//	<< objModifedInds[i + 2] << "/" << objModifedInds[i + 2] << "/" << objModifedInds[i + 2] << " "
-	//		//	<< objModifedInds[i + 1] << "/" << objModifedInds[i + 1] << "/" << objModifedInds[i + 1] << " "
-	//		//	<< objModifedInds[i] << "/" << objModifedInds[i] << "/" << objModifedInds[i] << "\n";
-	//	}
-
-	//	outFile.close();
-	//}
 }
