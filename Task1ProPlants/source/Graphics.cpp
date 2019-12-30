@@ -1,5 +1,5 @@
 #include "..\includes\Graphics.h"
-#include "dxerr.h"
+#include "dxerr/dxerr.h"
 #include <sstream>
 
 #define GFX_THROW_FAILED(hrcall) if( FAILED( hr = (hrcall) ) ) throw Graphics::HrException( __LINE__,__FILE__,hr )
