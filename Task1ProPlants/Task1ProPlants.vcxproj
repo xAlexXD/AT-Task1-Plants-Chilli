@@ -29,6 +29,7 @@
     <ClCompile Include="source\dxerr.cpp" />
     <ClCompile Include="source\DynamicSolid.cpp" />
     <ClCompile Include="source\ExceptionHandler.cpp" />
+    <ClCompile Include="source\Flower.cpp" />
     <ClCompile Include="source\GameObjectTransform.cpp" />
     <ClCompile Include="source\Graphics.cpp" />
     <ClCompile Include="source\imgui.cpp" />
@@ -77,6 +78,7 @@
     <ClInclude Include="includes\DynamicSolid.h" />
     <ClInclude Include="includes\DynamicVertexBuffer.h" />
     <ClInclude Include="includes\ExceptionHandler.h" />
+    <ClInclude Include="includes\Flower.h" />
     <ClInclude Include="includes\GameObjectTransform.h" />
     <ClInclude Include="includes\Graphics.h" />
     <ClInclude Include="includes\GraphicsThrowMacros.h" />

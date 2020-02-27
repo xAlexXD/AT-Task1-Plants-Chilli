@@ -40,6 +40,12 @@
     <Filter Include="ImGUI">
       <UniqueIdentifier>{50b5c8d8-efbd-4e96-91ac-c8aa95ff3f14}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\PlantTypes">
+      <UniqueIdentifier>{356b69a6-dc4a-4319-8407-05ee1b727521}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PlantTypes">
+      <UniqueIdentifier>{33543157-9945-42ce-9c4f-26d3d42b73a9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\WinMain.cpp">
@@ -164,6 +170,9 @@
     </ClCompile>
     <ClCompile Include="includes\ObjExporter.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Flower.cpp">
+      <Filter>Source Files\PlantTypes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -337,6 +346,9 @@
     </ClInclude>
     <ClInclude Include="includes\StructDefs.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Flower.h">
+      <Filter>Header Files\PlantTypes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

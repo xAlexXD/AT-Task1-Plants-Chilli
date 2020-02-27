@@ -4,6 +4,7 @@
 
 class Bindable;
 class IndexBuffer;
+class Texture;
 
 class Drawable
 {
@@ -22,8 +23,10 @@ public:
 protected:
 	void AddBind(std::unique_ptr<Bindable> bind);
 	void AddIndexBuffer(std::unique_ptr<IndexBuffer> iBuf) noexcept;
+	void AddTexture(std::unique_ptr<Texture> tex);
 	Bindable* GetPointerToLastBindable() noexcept;
 	const class IndexBuffer* _pIndexBuffer = nullptr;
+	const class Texture* _pTexture = nullptr;
 
 	//template<class B>
 	//bool GetBindablePointer(B* ref)
