@@ -73,7 +73,7 @@ void Flower::SpawnImgui(Graphics& gfx)
 	if (ImGui::SmallButton("Add##Petals"))
 	{
 		std::string name = "Petal Bunch " + std::to_string(_petalBunches.size());
-		_petalBunches.emplace_back(std::make_unique<Leaves>(gfx, 4, _baseLeafTexture, name.c_str()));
+		_petalBunches.emplace_back(std::make_unique<Leaves>(gfx, 4, _basePetalTexture, name.c_str()));
 	}
 	ImGui::SameLine();
 	if (ImGui::SmallButton("Remove##Petals"))

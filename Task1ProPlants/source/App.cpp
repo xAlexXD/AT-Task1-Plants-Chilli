@@ -43,12 +43,14 @@ void App::DoFrame()
 	//Bind the light in the pipeline
 	_light.Bind(_wnd.Gfx(), _wnd.Gfx().GetCamera());
 
+	//MAKE SURE MODELS ARE IN BETWEEN THESE LIGHTS OR IT ALL GOES WRONG FAM
+	_flower->Update(dt);
+	_flower->Draw(_wnd.Gfx());
+
 	//Draw the light as it has a model representing it
 	_light.Draw(_wnd.Gfx());
 
 	ImGui::ShowDemoWindow();
-	_flower->Update(dt);
-	_flower->Draw(_wnd.Gfx());
 
 	if(ImGui::Begin("Plant Editor"))
 	{
