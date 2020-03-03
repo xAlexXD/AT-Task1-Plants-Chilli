@@ -2,7 +2,7 @@
 #include <fstream>
 #include <sstream>
 
-void ObjExporter::ExportToObj(const char* exportName, std::vector<std::vector<TexturedVertex>> vecVertVec, std::vector<std::vector<int>> vecIndVec, std::vector<std::string> texNames) noexcept
+void ObjExporter::ExportToObj(const char* exportName, const char* outDir, std::vector<std::vector<TexturedVertex>> vecVertVec, std::vector<std::vector<int>> vecIndVec, std::vector<std::string> texNames) noexcept
 {
 	//Set up names of the textures without the extension
 	std::vector<std::string> texNamesNoExtension(texNames.size(), "");
@@ -13,7 +13,7 @@ void ObjExporter::ExportToObj(const char* exportName, std::vector<std::vector<Te
 
 	//Open a file stream to output to obj
 	std::ostringstream objFilePath;
-	objFilePath << "./exports/" << exportName << ".obj";
+	objFilePath << outDir << "/" << exportName << ".obj";
 	std::ofstream outFileObj(objFilePath.str().c_str());
 	if (outFileObj.is_open())
 	{
@@ -84,7 +84,7 @@ void ObjExporter::ExportToObj(const char* exportName, std::vector<std::vector<Te
 	outFileObj.close();
 
 	std::ostringstream mtlFilePath;
-	mtlFilePath << "./exports/" << exportName << ".mtl";
+	mtlFilePath << outDir << "/" << exportName << ".mtl";
 	std::ofstream outFileMtl(mtlFilePath.str().c_str());
 	if (outFileMtl.is_open())
 	{

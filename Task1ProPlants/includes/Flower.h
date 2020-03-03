@@ -14,7 +14,7 @@ public:
 	void Update(float dt);
 	void Draw(Graphics& gfx);
 	void SpawnImgui(Graphics& gfx);
-	void ExportFlower(Graphics& gfx, ObjExporter& exporter);
+	void ExportFlower(Graphics& gfx, ObjExporter& exporter, const char* outDir);
 
 private:
 	const char* _baseLeafTexture;

@@ -20,11 +20,12 @@ DirectX::XMMATRIX Camera::GetMatrix() const noexcept
 
 void Camera::SpawnImguiControlWindow() noexcept
 {
-	ImGui::Text("Position");
+	ImGui::Indent();
+	ImGui::Text("Position:");
 	ImGui::SliderFloat("R##Camera", &r, 0.1f, 80.0f, "%.1f");
 	ImGui::SliderAngle("Theta##Camera", &theta, -180.0f, 180.0f);
 	ImGui::SliderAngle("Phi##Camera", &phi, -89.0f, 89.0f);
-	ImGui::Text("Orientation");
+	ImGui::Text("Orientation:");
 	ImGui::SliderAngle("Roll##Camera", &roll, -180.0f, 180.0f);
 	ImGui::SliderAngle("Pitch##Camera", &pitch, -180.0f, 180.0f);
 	ImGui::SliderAngle("Yaw##Camera", &yaw, -180.0f, 180.0f);
@@ -32,6 +33,7 @@ void Camera::SpawnImguiControlWindow() noexcept
 	{
 		Reset();
 	}
+	ImGui::Unindent();
 }
 
 void Camera::Reset() noexcept

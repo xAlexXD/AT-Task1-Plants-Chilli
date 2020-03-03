@@ -50,20 +50,38 @@ void App::DoFrame()
 	//Draw the light as it has a model representing it
 	_light.Draw(_wnd.Gfx());
 
-	ImGui::ShowDemoWindow();
+	//ImGui::ShowDemoWindow();
 
-	if(ImGui::Begin("Plant Editor"))
+
+	//Setup for the plant editor segment of the UI
+	ImGuiWindowFlags guiFlags = ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize;
+
+	ImGui::SetNextWindowPos(ImVec2(1000, 0), ImGuiCond_Always);
+	ImGui::SetNextWindowSize(ImVec2(280, 720), ImGuiCond_Always);
+	if(ImGui::Begin("Plant Editor", NULL, guiFlags))
 	{
 		_flower->SpawnImgui(_wnd.Gfx());
 	}
 	ImGui::End();
 
-	if (ImGui::Begin("Scene Parameters"))
+	//Set up for the scene elements, camera, light etc.
+	ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Always);
+	ImGui::SetNextWindowSize(ImVec2(250, 720), ImGuiCond_Always);
+	if (ImGui::Begin("Scene Parameters", NULL, guiFlags))
 	{
-		ImGui::Text("Camera Controls");
+		ImGui::Text("Camera Controls:");
 		_cam.SpawnImguiControlWindow();
-		ImGui::Text("Light Controls");
+		ImGui::Text("Light Controls:");
 		_light.SpawnControlWindow();
+		ImGui::Text("Model Exporter:");
+		ImGui::Indent();
+		ImGui::InputTextWithHint("##OutdirText", "Outdir must be with /!", _outDirArray, IM_ARRAYSIZE(_outDirArray));
+		if (ImGui::SmallButton("Export Model"))
+		{
+			std::string dir(_outDirArray);
+			_flower->ExportFlower(_wnd.Gfx(), _exporter, dir.c_str());
+		}
+		ImGui::Unindent();
 	}
 	ImGui::End();
 

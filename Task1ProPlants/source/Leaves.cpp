@@ -59,6 +59,7 @@ void Leaves::DrawLeaves(Graphics& gfx) noexcept
 
 void Leaves::SpawnImGuiWindow(Graphics& gfx) noexcept
 {
+	ImGui::Indent();
 	std::string stringForNames = "";
 	stringForNames = "Leaf count: " + std::to_string(_leafCount) + "/" + std::to_string(_leafLimit);
 	ImGui::Text(stringForNames.c_str());
@@ -129,6 +130,7 @@ void Leaves::SpawnImGuiWindow(Graphics& gfx) noexcept
 		}
 		ImGui::TreePop();
 	}
+	ImGui::Unindent();
 }
 
 void Leaves::UpdateLocalVertAndInd(Graphics& gfx)

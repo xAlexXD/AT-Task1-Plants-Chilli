@@ -24,6 +24,7 @@ private:
 	Camera _cam;
 	PointLight _light;
 	ObjExporter _exporter;
+	char _outDirArray[128] = "";
 
 	//Scene Objects
 	std::unique_ptr<class Flower> _flower;

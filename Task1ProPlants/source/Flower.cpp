@@ -90,17 +90,19 @@ void Flower::SpawnImgui(Graphics& gfx)
 			petals->SpawnImGuiWindow(gfx);
 		}
 	}
+
+
 }
 
-void Flower::ExportFlower(Graphics& gfx, ObjExporter& exporter)
+void Flower::ExportFlower(Graphics& gfx, ObjExporter& exporter, const char* outDir)
 {
 	//Create a vector of vert vectors, ind vectors and texture string vectors
-	std::vector<std::vector<TexturedVertex>> vecOfVertVecs(3, std::vector<TexturedVertex>());
-	std::vector<std::vector<int>> vecOfIndVecs(3, std::vector<int>());
+	int totalReserve = _leafBunches.size() + _petalBunches.size() + 1;	//+1 for the stem
+	std::vector<std::vector<TexturedVertex>> vecOfVertVecs(totalReserve, std::vector<TexturedVertex>());
+	std::vector<std::vector<int>> vecOfIndVecs(totalReserve, std::vector<int>());
 	std::vector<std::string> vecOfTexNames;
 
 	//Calc how many it needs to reserve and reserve that many in each
-	int totalReserve = _leafBunches.size() + _petalBunches.size() + 1;	//+1 for the stem
 	vecOfVertVecs.reserve(totalReserve);
 	vecOfIndVecs.reserve(totalReserve);
 	vecOfTexNames.reserve(totalReserve);
@@ -180,5 +182,5 @@ void Flower::ExportFlower(Graphics& gfx, ObjExporter& exporter)
 	}
 
 	//Push them into the obj exporter
-	exporter.ExportToObj("Flower", std::move(vecOfVertVecs), std::move(vecOfIndVecs), std::move(vecOfTexNames));
+	exporter.ExportToObj("Flower", outDir, std::move(vecOfVertVecs), std::move(vecOfIndVecs), std::move(vecOfTexNames));
 }

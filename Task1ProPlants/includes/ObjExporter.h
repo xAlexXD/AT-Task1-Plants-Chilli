@@ -10,7 +10,7 @@ public:
 	~ObjExporter() = default;
 
 
-	void ExportToObj(const char* exportName, std::vector<std::vector<TexturedVertex>> vecVertVec, std::vector<std::vector<int>> vecIndVec, std::vector<std::string> texNames) noexcept;
+	void ExportToObj(const char* exportName, const char* outDir, std::vector<std::vector<TexturedVertex>> vecVertVec, std::vector<std::vector<int>> vecIndVec, std::vector<std::string> texNames) noexcept;
 
 private:
 };
