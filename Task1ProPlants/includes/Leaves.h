@@ -23,6 +23,8 @@ public:
 	std::vector<int> _leafIndices;
 	std::string _texName = "";
 
+	const char* GetName() { return _bunchName.c_str(); }
+
 private:
 	std::vector<std::unique_ptr<Leaf>> _leafVector;
 	unsigned int _leafLimit = 30u;

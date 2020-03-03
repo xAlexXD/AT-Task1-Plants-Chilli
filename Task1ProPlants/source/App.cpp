@@ -46,7 +46,7 @@ void App::DoFrame()
 	//Draw the light as it has a model representing it
 	_light.Draw(_wnd.Gfx());
 
-	//ImGui::ShowDemoWindow();
+	ImGui::ShowDemoWindow();
 	_flower->Update(dt);
 	_flower->Draw(_wnd.Gfx());
 

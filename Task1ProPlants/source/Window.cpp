@@ -51,7 +51,7 @@ Window::Window(int width, int height, const char* name) : _width(width), _height
 	wr.top = 100;
 	wr.bottom = height + wr.top;
 	
-	if (AdjustWindowRect(&wr, WS_OVERLAPPEDWINDOW, false) == 0)
+	if (AdjustWindowRect(&wr, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, false) == 0)
 	{
 		throw WND_LAST_EXCEPT();
 	}
@@ -60,7 +60,7 @@ Window::Window(int width, int height, const char* name) : _width(width), _height
 	_hWnd = CreateWindow(
 		WindowClass::GetName(), name,
 		WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
-		CW_USEDEFAULT, CW_USEDEFAULT, _width, _height,
+		CW_USEDEFAULT, CW_USEDEFAULT, wr.right - wr.left, wr.bottom - wr.top,
 		nullptr, nullptr, WindowClass::GetInstance(), this
 	);
 
