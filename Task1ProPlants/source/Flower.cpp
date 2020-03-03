@@ -48,13 +48,13 @@ void Flower::SpawnImgui(Graphics& gfx)
 	//Each menu contains the settings for each of the bunches so will have to loop through both vectors and spawn their appropirate customisations
 	//TreeNode for each leaf and bunch settings
 	ImGui::Text("Leaf Bunch Settings:");
-	if (ImGui::SmallButton("Add Leaves"))
+	if (ImGui::SmallButton("Add##Leaves"))
 	{
 		std::string name = "Leaf Bunch " + std::to_string(_leafBunches.size());
 		_leafBunches.emplace_back(std::make_unique<Leaves>(gfx, 4, _baseLeafTexture, name.c_str()));
 	}
 	ImGui::SameLine();
-	if (ImGui::SmallButton("Remove Leaves"))
+	if (ImGui::SmallButton("Remove##Leaves"))
 	{
 		if (_leafBunches.size() > 0)
 		{
@@ -70,13 +70,13 @@ void Flower::SpawnImgui(Graphics& gfx)
 	}
 
 	ImGui::Text("Petal Bunch Settings:");
-	if (ImGui::SmallButton("Add Petals"))
+	if (ImGui::SmallButton("Add##Petals"))
 	{
 		std::string name = "Petal Bunch " + std::to_string(_petalBunches.size());
 		_petalBunches.emplace_back(std::make_unique<Leaves>(gfx, 4, _baseLeafTexture, name.c_str()));
 	}
 	ImGui::SameLine();
-	if (ImGui::SmallButton("Remove Petals"))
+	if (ImGui::SmallButton("Remove##Petals"))
 	{
 		if (_petalBunches.size() > 0)
 		{

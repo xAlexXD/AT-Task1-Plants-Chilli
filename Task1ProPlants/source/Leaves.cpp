@@ -63,46 +63,71 @@ void Leaves::SpawnImGuiWindow(Graphics& gfx) noexcept
 	stringForNames = "Leaf count: " + std::to_string(_leafCount) + "/" + std::to_string(_leafLimit);
 	ImGui::Text(stringForNames.c_str());
 
-	if (ImGui::SmallButton("Add"))
+	stringForNames = "Add##" + _bunchName;
+	if (ImGui::SmallButton(stringForNames.c_str()))
 	{
 		_leafCount = _leafCount == _leafLimit ? _leafCount : _leafCount + 1;
 	}
 	ImGui::SameLine();
-	if (ImGui::SmallButton("Remove"))
+	stringForNames = "Remove##" + _bunchName;
+	if (ImGui::SmallButton(stringForNames.c_str()))
 	{
 		_leafCount = _leafCount == 0 ? _leafCount : _leafCount - 1;
 	}
 
-	if (ImGui::TreeNode("Single Leaf Parameters:"))
+	stringForNames = "Single Leaf Parameters:##" + _bunchName;
+	if (ImGui::TreeNode(stringForNames.c_str()))
 	{
-		ImGui::SliderAngle("Tilt", &_leafTilt, -180.0f, 180.0f);
-		ImGui::SliderAngle("XRot", &_leafXRot, -180.0f, 180.0f);
-		ImGui::SliderAngle("zRot", &_leafYRot, -180.0f, 180.0f);
+		ImGui::Text("Tilt");
+		stringForNames = "##Tilt" + _bunchName;
+		ImGui::SliderAngle(stringForNames.c_str(), &_leafTilt, -180.0f, 180.0f);
+		ImGui::Text("X Rotation");
+		stringForNames = "##XRotSingle" + _bunchName;
+		ImGui::SliderAngle(stringForNames.c_str(), &_leafXRot, -180.0f, 180.0f);
+		ImGui::Text("Z Rotation");
+		stringForNames = "##ZRotSingle" + _bunchName;
+		ImGui::SliderAngle(stringForNames.c_str(), &_leafYRot, -180.0f, 180.0f);
+		stringForNames = "Reset to Default##Single" + _bunchName;
+		if (ImGui::SmallButton(stringForNames.c_str()))
+		{
+			_leafTilt = 0.0f;
+			_leafXRot = 0.0f;
+			_leafYRot = 0.0f;
+		}
 		ImGui::TreePop();
 	}
-
-	if (ImGui::TreeNode("Grouped Leaf Parameters:"))
+	stringForNames = "Grouped Leaf Parameters:##" + _bunchName;
+	if (ImGui::TreeNode(stringForNames.c_str()))
 	{
-		ImGui::SliderFloat("XPos", &_x, -10.0f, 10.0f, "%.2f");
-		ImGui::SliderFloat("YPos", &_y, -10.0f, 10.0f, "%.2f");
-		ImGui::SliderFloat("ZPos", &_z, -10.0f, 10.0f, "%.2f");
-		ImGui::SliderAngle("XRot", &_leavesXRot, -180.0f, 180.0f);
-		ImGui::SliderAngle("YRot", &_leavesYRot, -180.0f, 180.0f);
-		ImGui::SliderAngle("ZRot", &_leavesZRot, -180.0f, 180.0f);
+		ImGui::Text("X Position");
+		stringForNames = "##XPos" + _bunchName;
+		ImGui::SliderFloat(stringForNames.c_str(), &_x, -10.0f, 10.0f, "%.2f");
+		ImGui::Text("Y Position");
+		stringForNames = "##YPos" + _bunchName;
+		ImGui::SliderFloat(stringForNames.c_str(), &_y, -10.0f, 10.0f, "%.2f");
+		ImGui::Text("Z Position");
+		stringForNames = "##ZPos" + _bunchName;
+		ImGui::SliderFloat(stringForNames.c_str(), &_z, -10.0f, 10.0f, "%.2f");
+		ImGui::Text("X Rotation");
+		stringForNames = "##XRotGrouped" + _bunchName;
+		ImGui::SliderAngle(stringForNames.c_str(), &_leavesXRot, -180.0f, 180.0f);
+		ImGui::Text("Y Rotation");
+		stringForNames = "##YRotGrouped" + _bunchName;
+		ImGui::SliderAngle(stringForNames.c_str(), &_leavesYRot, -180.0f, 180.0f);
+		ImGui::Text("Z Rotation");
+		stringForNames = "##ZRotGrouped" + _bunchName;
+		ImGui::SliderAngle(stringForNames.c_str(), &_leavesZRot, -180.0f, 180.0f);
+		stringForNames = "Reset to Default##Grouped" + _bunchName;
+		if (ImGui::SmallButton("Reset to Default"))
+		{
+			_leavesXRot = 0.0f;
+			_leavesYRot = 0.0f;
+			_leavesZRot = 0.0f;
+			_x = 0.0f;
+			_y = 0.0f;
+			_z = 0.0f;
+		}
 		ImGui::TreePop();
-	}
-
-	if (ImGui::SmallButton("Reset"))
-	{
-		_leafTilt = 0.0f;
-		_leafXRot = 0.0f;
-		_leafYRot = 0.0f;
-		_leavesXRot = 0.0f;
-		_leavesYRot = 0.0f;
-		_leavesZRot = 0.0f;
-		_x = 0.0f;
-		_y = 0.0f;
-		_z = 0.0f;
 	}
 }
 
