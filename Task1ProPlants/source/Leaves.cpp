@@ -13,7 +13,7 @@ Leaves::Leaves(Graphics& gfx,
 
 	for (int i = 0; i < _leafLimit; i++)
 	{
-		_leafVector.push_back(std::make_unique<Leaf>(gfx, textureName, zero, zero, zero, zero, zero, zero));
+		_leafVector.emplace_back(std::make_unique<Leaf>(gfx, textureName, zero, zero, zero, zero, zero, zero));
 	}
 }
 
@@ -23,8 +23,7 @@ void Leaves::Update(float dt) noexcept
 
 	for (int i = 0; i < _leafCount; i++)
 	{
-		auto leaf = _leafVector[i].get();
-		auto leafTransform = leaf->GetLeafTransform();
+		auto leafTransform = _leafVector[i]->GetLeafTransform();
 		DirectX::XMFLOAT3 f3 = {};
 		//Tilt the leaf
 		f3 = leafTransform->GetLocalRotation();

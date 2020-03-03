@@ -2,28 +2,26 @@
 #include "Leaves.h"
 #include "Stem.h"
 
+class ObjExporter;
+
 class Flower
 {
 public:
 	Flower() = delete;
-	Flower(Graphics& gfx, )
+	Flower(Graphics& gfx, const char* leafTexture, const char* petalTexture);
+	~Flower();
 
-		Leaves(Graphics& gfx,
-			unsigned int leafCount,
-			const char* textureName,
-			const char* bunchName
-		);
-
-	Stem(Graphics& gfx,
-		DirectX::XMFLOAT3 pos,
-		DirectX::XMFLOAT3 rot,
-		DirectX::XMFLOAT3 posDelta,
-		DirectX::XMFLOAT3 rotDelta,
-		DirectX::XMFLOAT3 worldRot,
-		DirectX::XMFLOAT3 worldDelta
-	);
+	void Update(float dt);
+	void Draw(Graphics& gfx);
+	void SpawnImgui(Graphics& gfx);
+	void ExportFlower(Graphics& gfx, ObjExporter& exporter);
 
 private:
+	const char* _baseLeafTexture;
+	const char* _basePetalTexture;
 
+	std::vector<std::unique_ptr<Leaves>> _petalBunches;
+	std::vector<std::unique_ptr<Leaves>> _leafBunches;
+	std::unique_ptr<Stem> _stem;
 };
 
