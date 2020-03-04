@@ -5,6 +5,7 @@
 #include "Camera.h"
 #include "PointLight.h"
 #include "ObjExporter.h"
+#include "PlantBase.h"
 
 class App
 {
@@ -26,7 +27,16 @@ private:
 	ObjExporter _exporter;
 	char _outDirArray[128] = "";
 
+	enum GuiOrder
+	{
+		FLOWER = 0,
+		BUSH = 1,
+		GRASS = 2
+	};
+
+	int _currentSelection = 0;
+
 	//Scene Objects
-	std::unique_ptr<class Flower> _flower;
+	std::vector<std::unique_ptr<PlantBase>> _plants;
 };
 

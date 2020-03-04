@@ -22,6 +22,7 @@
     <ClCompile Include="includes\ObjExporter.cpp" />
     <ClCompile Include="source\App.cpp" />
     <ClCompile Include="source\Bindable.cpp" />
+    <ClCompile Include="source\Bush.cpp" />
     <ClCompile Include="source\Camera.cpp" />
     <ClCompile Include="source\Cube.cpp" />
     <ClCompile Include="source\Cylinder.cpp" />
@@ -32,6 +33,7 @@
     <ClCompile Include="source\Flower.cpp" />
     <ClCompile Include="source\GameObjectTransform.cpp" />
     <ClCompile Include="source\Graphics.cpp" />
+    <ClCompile Include="source\Grass.cpp" />
     <ClCompile Include="source\imgui.cpp" />
     <ClCompile Include="source\ImguiManager.cpp" />
     <ClCompile Include="source\imgui_demo.cpp" />
@@ -46,6 +48,7 @@
     <ClCompile Include="source\Leaves.cpp" />
     <ClCompile Include="source\Mouse.cpp" />
     <ClCompile Include="source\PixelShader.cpp" />
+    <ClCompile Include="source\PlantBase.cpp" />
     <ClCompile Include="source\PointLight.cpp" />
     <ClCompile Include="source\PrimTopology.cpp" />
     <ClCompile Include="source\Pyramid.cpp" />
@@ -66,6 +69,7 @@
     <ClInclude Include="includes\App.h" />
     <ClInclude Include="includes\Bindable.h" />
     <ClInclude Include="includes\BindableBase.h" />
+    <ClInclude Include="includes\Bush.h" />
     <ClInclude Include="includes\Camera.h" />
     <ClInclude Include="includes\ConePrim.h" />
     <ClInclude Include="includes\ConstantBuffer.h" />
@@ -82,6 +86,7 @@
     <ClInclude Include="includes\GameObjectTransform.h" />
     <ClInclude Include="includes\Graphics.h" />
     <ClInclude Include="includes\GraphicsThrowMacros.h" />
+    <ClInclude Include="includes\Grass.h" />
     <ClInclude Include="includes\imconfig.h" />
     <ClInclude Include="includes\imgui.h" />
     <ClInclude Include="includes\ImguiManager.h" />
@@ -102,6 +107,7 @@
     <ClInclude Include="includes\ObjExporter.h" />
     <ClInclude Include="includes\PixelShader.h" />
     <ClInclude Include="includes\PlanePrim.h" />
+    <ClInclude Include="includes\PlantBase.h" />
     <ClInclude Include="includes\PointLight.h" />
     <ClInclude Include="includes\PrimTopology.h" />
     <ClInclude Include="includes\PrismPrim.h" />

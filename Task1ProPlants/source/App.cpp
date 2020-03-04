@@ -4,11 +4,16 @@
 #include "MathClass.h"
 
 #include "Flower.h"
+#include "Bush.h"
+#include "Grass.h"
 #include "StructDefs.h"
 
 App::App() : _wnd(1280, 720, "AT Task1 Proc Plants"), _light(_wnd.Gfx())
 {
-	_flower = std::make_unique<Flower>(_wnd.Gfx(), "leaf.tga", "pinkPetal.tga");
+	_plants.reserve(3);
+	_plants.emplace_back(std::make_unique<Flower>(_wnd.Gfx(), "leaf.tga", "pinkPetal.tga"));
+	_plants.emplace_back(std::make_unique<Bush>(_wnd.Gfx(), "leaf.tga"));
+	_plants.emplace_back(std::make_unique<Grass>(_wnd.Gfx(), "leaf.tga"));
 	_wnd.Gfx().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 720.0f / 1280.0f, 0.5f, 100.0f));
 }
 
@@ -44,8 +49,8 @@ void App::DoFrame()
 	_light.Bind(_wnd.Gfx(), _wnd.Gfx().GetCamera());
 
 	//MAKE SURE MODELS ARE IN BETWEEN THESE LIGHTS OR IT ALL GOES WRONG FAM
-	_flower->Update(dt);
-	_flower->Draw(_wnd.Gfx());
+	_plants[_currentSelection]->Update(dt);
+	_plants[_currentSelection]->Draw(_wnd.Gfx());
 
 	//Draw the light as it has a model representing it
 	_light.Draw(_wnd.Gfx());
@@ -60,7 +65,28 @@ void App::DoFrame()
 	ImGui::SetNextWindowSize(ImVec2(280, 720), ImGuiCond_Always);
 	if(ImGui::Begin("Plant Editor", NULL, guiFlags))
 	{
-		_flower->SpawnImgui(_wnd.Gfx());
+		ImGuiTabBarFlags tab_bar_flags = ImGuiTabBarFlags_None | ImGuiTabBarFlags_NoTooltip;
+		if (ImGui::BeginTabBar("Plant Options##Tab", tab_bar_flags))
+		{
+			if (ImGui::BeginTabItem("Flower##Tab"))
+			{
+				_currentSelection = GuiOrder::FLOWER;
+				ImGui::EndTabItem();
+			}
+			if (ImGui::BeginTabItem("Bush##Tab"))
+			{
+				_currentSelection = GuiOrder::BUSH;
+				ImGui::EndTabItem();
+			}
+			if (ImGui::BeginTabItem("Grass##Tab"))
+			{
+				_currentSelection = GuiOrder::GRASS;
+				ImGui::EndTabItem();
+			}
+			ImGui::EndTabBar();
+		}
+
+		_plants[_currentSelection]->SpawnImgui(_wnd.Gfx());
 	}
 	ImGui::End();
 
@@ -79,7 +105,7 @@ void App::DoFrame()
 		if (ImGui::SmallButton("Export Model"))
 		{
 			std::string dir(_outDirArray);
-			_flower->ExportFlower(_wnd.Gfx(), _exporter, dir.c_str());
+			_plants[_currentSelection]->Export(_wnd.Gfx(), _exporter, dir.c_str());
 		}
 		ImGui::Unindent();
 	}

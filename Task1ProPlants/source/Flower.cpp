@@ -94,7 +94,7 @@ void Flower::SpawnImgui(Graphics& gfx)
 
 }
 
-void Flower::ExportFlower(Graphics& gfx, ObjExporter& exporter, const char* outDir)
+void Flower::Export(Graphics& gfx, ObjExporter& exporter, const char* outDir)
 {
 	//Create a vector of vert vectors, ind vectors and texture string vectors
 	int totalReserve = _leafBunches.size() + _petalBunches.size() + 1;	//+1 for the stem

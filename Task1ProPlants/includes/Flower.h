@@ -1,20 +1,19 @@
 #pragma once
+#include "PlantBase.h"
 #include "Leaves.h"
 #include "Stem.h"
 
-class ObjExporter;
-
-class Flower
+class Flower : public PlantBase
 {
 public:
 	Flower() = delete;
 	Flower(Graphics& gfx, const char* leafTexture, const char* petalTexture);
-	~Flower();
+	~Flower() override;
 
-	void Update(float dt);
-	void Draw(Graphics& gfx);
-	void SpawnImgui(Graphics& gfx);
-	void ExportFlower(Graphics& gfx, ObjExporter& exporter, const char* outDir);
+	void Update(float dt) override;
+	void Draw(Graphics& gfx) override;
+	void SpawnImgui(Graphics& gfx) override;
+	void Export(Graphics& gfx, ObjExporter& exporter, const char* outDir) override;
 
 private:
 	const char* _baseLeafTexture;
