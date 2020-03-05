@@ -14,9 +14,9 @@ public:
 		vertices[0].pos = DirectX::XMFLOAT3(0.000000, 0.000000, 0.000000);
 		vertices[1].pos = DirectX::XMFLOAT3(1.333333, 0.000000, 0.000000);
 		vertices[2].pos = DirectX::XMFLOAT3(-1.333333, 0.000000, 0.000000);
-		vertices[3].pos = DirectX::XMFLOAT3(0.000000, 0.000000, 1.333333);
-		vertices[4].pos = DirectX::XMFLOAT3(-1.000000, 1.000000, 0.000000);
-		vertices[5].pos = DirectX::XMFLOAT3(1.000000, 1.000000, 0.000000);
+		vertices[3].pos = DirectX::XMFLOAT3(0.000000, 0.000000, -1.333333);
+		vertices[4].pos = DirectX::XMFLOAT3(-1.000000, 0.000000, -1.000000);
+		vertices[5].pos = DirectX::XMFLOAT3(1.000000, 0.000000, -1.000000);
 
 		std::vector<unsigned short> indices = {
 			0,2,4,
@@ -45,13 +45,13 @@ public:
 		vertices[2].pos = DirectX::XMFLOAT3(-1.333333, 0.000000, 0.000000);
 		vertices[2].tc = DirectX::XMFLOAT2(0.000000, 0.000000);
 
-		vertices[3].pos = DirectX::XMFLOAT3(0.000000, 0.000000, 1.333333);
+		vertices[3].pos = DirectX::XMFLOAT3(0.000000, 0.000000, -1.333333);
 		vertices[3].tc = DirectX::XMFLOAT2(0.000000, 1.000000);
 
-		vertices[4].pos = DirectX::XMFLOAT3(-1.000000, 1.000000, 0.000000);
+		vertices[4].pos = DirectX::XMFLOAT3(-1.000000, 0.000000, -1.000000);
 		vertices[3].tc = DirectX::XMFLOAT2(0.150000, 0.700000);
 
-		vertices[5].pos = DirectX::XMFLOAT3(1.000000, 1.000000, 0.000000);
+		vertices[5].pos = DirectX::XMFLOAT3(1.000000, 0.000000, -1.000000);
 		vertices[3].tc = DirectX::XMFLOAT2(0.850000, 0.700000);
 
 		std::vector<unsigned short> indices = {

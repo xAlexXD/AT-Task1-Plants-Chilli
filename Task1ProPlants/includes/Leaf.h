@@ -22,7 +22,6 @@ public:
 
 	GameObjectTransform* GetLeafTransform() noexcept;
 
-	void SpawnImGuiWindow(Graphics& gfx) noexcept;
 	void UpdateOutVertices(Graphics& gfx);
 
 	std::vector<TexturedVertex> _vertOut;

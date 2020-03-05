@@ -183,6 +183,12 @@
     <ClCompile Include="source\Bushes.cpp">
       <Filter>Source Files\PlantTypes</Filter>
     </ClCompile>
+    <ClCompile Include="source\BushFace.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Bush.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes\WindowsCustomInclude.h">
@@ -370,6 +376,12 @@
     </ClInclude>
     <ClInclude Include="includes\Bushes.h">
       <Filter>Header Files\PlantTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\BushFace.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Bush.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

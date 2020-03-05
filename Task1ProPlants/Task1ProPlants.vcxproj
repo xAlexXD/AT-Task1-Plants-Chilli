@@ -22,7 +22,9 @@
     <ClCompile Include="includes\ObjExporter.cpp" />
     <ClCompile Include="source\App.cpp" />
     <ClCompile Include="source\Bindable.cpp" />
+    <ClCompile Include="source\Bush.cpp" />
     <ClCompile Include="source\Bushes.cpp" />
+    <ClCompile Include="source\BushFace.cpp" />
     <ClCompile Include="source\Camera.cpp" />
     <ClCompile Include="source\Cube.cpp" />
     <ClCompile Include="source\Cylinder.cpp" />
@@ -69,7 +71,9 @@
     <ClInclude Include="includes\App.h" />
     <ClInclude Include="includes\Bindable.h" />
     <ClInclude Include="includes\BindableBase.h" />
+    <ClInclude Include="includes\Bush.h" />
     <ClInclude Include="includes\Bushes.h" />
+    <ClInclude Include="includes\BushFace.h" />
     <ClInclude Include="includes\Camera.h" />
     <ClInclude Include="includes\ConePrim.h" />
     <ClInclude Include="includes\ConstantBuffer.h" />

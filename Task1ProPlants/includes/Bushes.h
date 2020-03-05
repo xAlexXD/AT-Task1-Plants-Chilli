@@ -1,5 +1,6 @@
 #pragma once
 #include "PlantBase.h"
+#include "Bush.h"
 
 class Bushes : public PlantBase
 {
@@ -15,5 +16,6 @@ public:
 
 private:
 	const char* _basePlaneTexture;
+	std::unique_ptr<Bush> _testBush;
 };
 
