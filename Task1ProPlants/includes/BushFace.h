@@ -21,6 +21,8 @@ public:
 	DirectX::XMMATRIX GetTransformXM() const noexcept override;
 
 	GameObjectTransform* GetFaceTransform() noexcept;
+	int GetVertCount(){ return _vertCount; }
+	int GetIndCount(){ return _indCount; }
 
 	void UpdateOutVertices(Graphics& gfx);
 
@@ -31,5 +33,7 @@ private:
 	DirectX::XMFLOAT3 _pivotPos = { 0.0f, 0.0f, 0.0f };
 	std::unique_ptr<GameObjectTransform> _transform = nullptr;
 	DynamicVertexBuffer<TexturedVertex>* _vertexBuffer = nullptr;
+	int _vertCount = 0;
+	int _indCount = 0;
 };
 

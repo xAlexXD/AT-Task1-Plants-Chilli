@@ -28,6 +28,7 @@ public:
 	void SetPositionDelta(DirectX::XMFLOAT3 posDelta) noexcept;
 	void SetLocalRotationDelta(DirectX::XMFLOAT3 rotDelta) noexcept;
 	void SetWorldRotation(DirectX::XMFLOAT3 rot) noexcept;
+	void SetScale(DirectX::XMFLOAT3 scaleFactor) noexcept;
 
 private:
 	//Model transformation, used for scaling
@@ -55,5 +56,9 @@ private:
 	float _xWorldRotDelta = 0.0f;
 	float _yWorldRotDelta = 0.0f;
 	float _zWorldRotDelta = 0.0f;
+	////Scale
+	float _xScale = 1.0f;
+	float _yScale = 1.0f;
+	float _zScale = 1.0f;
 };
 

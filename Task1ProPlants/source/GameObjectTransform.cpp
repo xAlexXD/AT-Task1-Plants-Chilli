@@ -43,14 +43,16 @@ void GameObjectTransform::Update(float dt) noexcept
 
 DirectX::XMMATRIX GameObjectTransform::GetTransformXM() const noexcept
 {
-	return DirectX::XMLoadFloat3x3(&_modelTransform) *						//Takes the models transform as a modifer
-		DirectX::XMMatrixRotationRollPitchYaw(_yRot, _zRot, _xRot) *		//Rotates around the cubes center
-		DirectX::XMMatrixTranslation(_xPos, _yPos, _zPos);						//Translates the cube in that pos
+	return DirectX::XMLoadFloat3x3(&_modelTransform) *								//Takes the models transform as a modifer
+		DirectX::XMMatrixScaling(_xScale, _yScale, _zScale) *						//Scales by scalefactor
+		DirectX::XMMatrixRotationRollPitchYaw(_yRot, _zRot, _xRot) *				//Rotates around the cubes center
+		DirectX::XMMatrixTranslation(_xPos, _yPos, _zPos);							//Translates the cube in that pos
 }
 
 DirectX::XMMATRIX GameObjectTransform::GetTransformWithPivotOffsetXM(DirectX::XMFLOAT3 pivotOffset) const noexcept
 {
 	return DirectX::XMLoadFloat3x3(&_modelTransform) *
+		DirectX::XMMatrixScaling(_xScale, _yScale, _zScale) *
 		DirectX::XMMatrixRotationRollPitchYaw(_yRot, -_zRot, _xRot) *
 		DirectX::XMMatrixTranslation(pivotOffset.x, pivotOffset.y, pivotOffset.z) *
 		DirectX::XMMatrixRotationRollPitchYaw(_yWorldRot, -_zWorldRot, _xWorldRot) *
@@ -124,6 +126,9 @@ void GameObjectTransform::ResetToZero() noexcept
 	_xWorldRotDelta = 0.0f;
 	_yWorldRotDelta = 0.0f;
 	_zWorldRotDelta = 0.0f;
+	_xScale = 1.0f;
+	_yScale = 1.0f;
+	_zScale = 1.0f;
 }
 
 void GameObjectTransform::SetPosition(DirectX::XMFLOAT3 pos) noexcept
@@ -159,4 +164,11 @@ void GameObjectTransform::SetWorldRotation(DirectX::XMFLOAT3 rot) noexcept
 	_xWorldRot = rot.x;
 	_yWorldRot = rot.y;
 	_zWorldRot = rot.z;
+}
+
+void GameObjectTransform::SetScale(DirectX::XMFLOAT3 scaleFactor) noexcept
+{
+	_xScale = scaleFactor.x;
+	_yScale = scaleFactor.y;
+	_zScale = scaleFactor.z;
 }

@@ -184,10 +184,10 @@
       <Filter>Source Files\PlantTypes</Filter>
     </ClCompile>
     <ClCompile Include="source\BushFace.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Drawables</Filter>
     </ClCompile>
     <ClCompile Include="source\Bush.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Drawables</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -378,10 +378,10 @@
       <Filter>Header Files\PlantTypes</Filter>
     </ClInclude>
     <ClInclude Include="includes\BushFace.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Drawables</Filter>
     </ClInclude>
     <ClInclude Include="includes\Bush.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Drawables</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

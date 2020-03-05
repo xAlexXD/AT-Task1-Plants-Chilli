@@ -29,8 +29,10 @@ public:
 
 private:
 	std::vector<std::unique_ptr<BushFace>> _faceVector;
-	unsigned int _faceLimit = 30u;
+	unsigned int _faceLimit = 12u;
 	unsigned int _faceCount = 0u;
+	unsigned int _perFaceVerts = 0u;
+	unsigned int _perFaceInds = 0u;
 	float _x = 0.0f;
 	float _y = 0.0f;
 	float _z = 0.0f;

@@ -14,8 +14,11 @@ BushFace::BushFace(Graphics& gfx, const char* textureName, DirectX::XMFLOAT3 pos
 	DirectX::XMFLOAT3 oldNorm = model._vertices[2].n;
 	model._vertices[2].n = DirectX::XMFLOAT3(oldNorm.x * -1, oldNorm.y * -1, oldNorm.z * -1);
 
-	_vertOut.reserve(model._vertices.size());
-	_indexOut.reserve(model._indices.size());
+	_vertCount = model._vertices.size();
+	_indCount = model._indices.size();
+
+	_vertOut.reserve(_vertCount);
+	_indexOut.reserve(_indCount);
 
 	//Cache the inds
 	for (const auto& index : model._indices)

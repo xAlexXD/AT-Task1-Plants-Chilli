@@ -12,6 +12,10 @@ Bush::Bush(Graphics& gfx, unsigned int faceCount, const char* textureName, const
 	{
 		_faceVector.emplace_back(std::make_unique<BushFace>(gfx, textureName, zero, zero, zero, zero, zero, zero));
 	}
+
+	//Cache the sizes of a faces inds and verts
+	_perFaceInds = _faceVector.front()->GetIndCount();
+	_perFaceVerts = _faceVector.front()->GetVertCount();
 }
 
 void Bush::Update(float dt) noexcept
@@ -20,21 +24,22 @@ void Bush::Update(float dt) noexcept
 
 	for (int i = 0; i < _faceCount; i++)
 	{
-		auto leafTransform = _faceVector[i]->GetFaceTransform();
+		auto bushTransform = _faceVector[i]->GetFaceTransform();
 		DirectX::XMFLOAT3 f3 = {};
-		//Rotate the leaf around the center
-		f3 = leafTransform->GetWorldRotation();
+		//Rotate the Bush around the center
+		f3 = bushTransform->GetWorldRotation();
 		f3.x = divisions * i + 1.0f;
 		f3.y = 0.0f;
 		f3.z = 0.0f;
-		leafTransform->SetWorldRotation(f3);
-		//Position the leaf
-		f3 = leafTransform->GetPosition();
+		bushTransform->SetWorldRotation(f3);
+		//Position the Bush
+		f3 = bushTransform->GetPosition();
 		f3.x = _x;
 		f3.y = _y;
 		f3.z = _z;
-		leafTransform->SetPosition(f3);
-		//TODO add the scale
+		bushTransform->SetPosition(f3);
+		//SCALE DE BUSH
+		bushTransform->SetScale(DirectX::XMFLOAT3(_xScale, _yScale, _zScale));
 	}
 }
 
@@ -80,7 +85,7 @@ void Bush::SpawnImGui(Graphics& gfx) noexcept
 		ImGui::Text("Z Position");
 		stringForNames = "##ZPos" + _bushName;
 		ImGui::SliderFloat(stringForNames.c_str(), &_z, -10.0f, 10.0f, "%.2f");
-		stringForNames = "Reset to Default##Single" + _bushName;
+		stringForNames = "Reset to Default##BushyPos" + _bushName;
 		if (ImGui::SmallButton(stringForNames.c_str()))
 		{
 			_x = 0.0f;
@@ -92,16 +97,13 @@ void Bush::SpawnImGui(Graphics& gfx) noexcept
 	stringForNames = "Bush Scale:##" + _bushName;
 	if (ImGui::TreeNode(stringForNames.c_str()))
 	{
-		ImGui::Text("X Scale");
-		stringForNames = "##XScale" + _bushName;
+		ImGui::Text("Radius");
+		stringForNames = "##Radius" + _bushName;
 		ImGui::SliderFloat(stringForNames.c_str(), &_xScale, 0.1f, 10.0f, "%.2f");
-		ImGui::Text("Y Scale");
-		stringForNames = "##YScale" + _bushName;
-		ImGui::SliderFloat(stringForNames.c_str(), &_yScale, 0.1f, 10.0f, "%.2f");
-		ImGui::Text("Z Scale");
-		stringForNames = "##ZScale" + _bushName;
+		ImGui::Text("Height");
+		stringForNames = "##Height" + _bushName;
 		ImGui::SliderFloat(stringForNames.c_str(), &_zScale, -0.1f, 10.0f, "%.2f");
-		stringForNames = "Reset to Default##Grouped" + _bushName;
+		stringForNames = "Reset to Default##BushyScale" + _bushName;
 		if (ImGui::SmallButton("Reset to Default"))
 		{
 			_xScale = 1.0f;
@@ -117,8 +119,8 @@ void Bush::UpdateLocalVertAndInd(Graphics& gfx)
 {
 	_faceVerts.clear();
 	_faceInds.clear();
-	_faceVerts.reserve(_faceCount * 6u);
-	_faceInds.reserve(_faceCount * 24u);
+	_faceVerts.reserve(_faceCount * _perFaceVerts);
+	_faceInds.reserve(_faceCount * _perFaceInds);
 
 	unsigned int currentRunSize = 0;
 	for (int i = 0; i < _faceCount; i++)
