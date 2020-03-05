@@ -28,9 +28,9 @@ void Bush::Update(float dt) noexcept
 		DirectX::XMFLOAT3 f3 = {};
 		//Rotate the Bush around the center
 		f3 = bushTransform->GetWorldRotation();
-		f3.x = divisions * i + 1.0f;
-		f3.y = 0.0f;
-		f3.z = 0.0f;
+		f3.x = divisions * i + _xRot;
+		f3.y = _yRot;
+		f3.z = _zRot;
 		bushTransform->SetWorldRotation(f3);
 		//Position the Bush
 		f3 = bushTransform->GetPosition();
@@ -94,15 +94,36 @@ void Bush::SpawnImGui(Graphics& gfx) noexcept
 		}
 		ImGui::TreePop();
 	}
+	stringForNames = "Bush Rotation:##" + _bushName;
+	if (ImGui::TreeNode(stringForNames.c_str()))
+	{
+		ImGui::Text("X Rotation");
+		stringForNames = "##XRot" + _bushName;
+		ImGui::SliderFloat(stringForNames.c_str(), &_xRot, -10.0f, 10.0f, "%.2f");
+		ImGui::Text("Y Rotation");
+		stringForNames = "##YRot" + _bushName;
+		ImGui::SliderFloat(stringForNames.c_str(), &_yRot, -10.0f, 10.0f, "%.2f");
+		ImGui::Text("Z Rotation");
+		stringForNames = "##ZRot" + _bushName;
+		ImGui::SliderFloat(stringForNames.c_str(), &_zRot, -10.0f, 10.0f, "%.2f");
+		stringForNames = "Reset to Default##BushyRot" + _bushName;
+		if (ImGui::SmallButton(stringForNames.c_str()))
+		{
+			_xRot = 0.0f;
+			_yRot = 0.0f;
+			_zRot = 0.0f;
+		}
+		ImGui::TreePop();
+	}
 	stringForNames = "Bush Scale:##" + _bushName;
 	if (ImGui::TreeNode(stringForNames.c_str()))
 	{
 		ImGui::Text("Radius");
 		stringForNames = "##Radius" + _bushName;
-		ImGui::SliderFloat(stringForNames.c_str(), &_xScale, 0.1f, 10.0f, "%.2f");
+		ImGui::SliderFloat(stringForNames.c_str(), &_xScale, 0.1f, 3.0f, "%.05f");
 		ImGui::Text("Height");
 		stringForNames = "##Height" + _bushName;
-		ImGui::SliderFloat(stringForNames.c_str(), &_zScale, -0.1f, 10.0f, "%.2f");
+		ImGui::SliderFloat(stringForNames.c_str(), &_zScale, -0.1f, 3.0f, "%.05f");
 		stringForNames = "Reset to Default##BushyScale" + _bushName;
 		if (ImGui::SmallButton("Reset to Default"))
 		{

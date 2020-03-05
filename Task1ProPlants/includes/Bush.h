@@ -39,6 +39,9 @@ private:
 	float _xScale = 1.0f;
 	float _yScale = 1.0f;
 	float _zScale = 1.0f;
+	float _xRot = 0.0f;
+	float _yRot = 0.0f;
+	float _zRot = 0.0f;
 	const std::string _bushName;
 };
 

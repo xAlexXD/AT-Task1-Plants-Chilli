@@ -16,6 +16,6 @@ public:
 
 private:
 	const char* _basePlaneTexture;
-	std::unique_ptr<Bush> _testBush;
+	std::vector<std::unique_ptr<Bush>> _bushVector;
 };
 
