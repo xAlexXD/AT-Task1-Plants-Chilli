@@ -88,24 +88,6 @@ GameObjectTransform* Leaf::GetLeafTransform() noexcept
 	return _transform.get();
 }
 
-void Leaf::TempImguiWindow(Graphics& gfx) noexcept
-{
-	if (ImGui::Begin("Temp Window"))
-	{
-		if (ImGui::Button("Update out vert"))
-		{
-			UpdateOutVertices(gfx);
-		}
-	}
-	ImGui::End();
-}
-
-void Leaf::SpawnImGuiWindow(Graphics& gfx) noexcept
-{
-	_transform->SpawnImGuiWindow();
-	TempImguiWindow(gfx);
-}
-
 void Leaf::UpdateOutVertices(Graphics& gfx)
 {
 	//Get buffer from dynamic vertex buffer

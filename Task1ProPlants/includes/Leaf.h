@@ -29,8 +29,6 @@ public:
 	std::vector<int> _indexOut;
 
 private:
-	void TempImguiWindow(Graphics& gfx) noexcept;
-
 	DirectX::XMFLOAT3 _pivotPos = {0.0f, 1.5f, 0.0f};
 	std::unique_ptr<GameObjectTransform> _transform = nullptr;
 	DynamicVertexBuffer<TexturedVertex>* _vertexBuffer = nullptr;

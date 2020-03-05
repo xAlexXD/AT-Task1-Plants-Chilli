@@ -174,13 +174,13 @@
     <ClCompile Include="source\Flower.cpp">
       <Filter>Source Files\PlantTypes</Filter>
     </ClCompile>
-    <ClCompile Include="source\Bush.cpp">
-      <Filter>Source Files\PlantTypes</Filter>
-    </ClCompile>
     <ClCompile Include="source\Grass.cpp">
       <Filter>Source Files\PlantTypes</Filter>
     </ClCompile>
     <ClCompile Include="source\PlantBase.cpp">
+      <Filter>Source Files\PlantTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Bushes.cpp">
       <Filter>Source Files\PlantTypes</Filter>
     </ClCompile>
   </ItemGroup>
@@ -359,13 +359,16 @@
     <ClInclude Include="includes\Flower.h">
       <Filter>Header Files\PlantTypes</Filter>
     </ClInclude>
-    <ClInclude Include="includes\Bush.h">
-      <Filter>Header Files\PlantTypes</Filter>
-    </ClInclude>
     <ClInclude Include="includes\Grass.h">
       <Filter>Header Files\PlantTypes</Filter>
     </ClInclude>
     <ClInclude Include="includes\PlantBase.h">
+      <Filter>Header Files\PlantTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\SemiCirclePrim.h">
+      <Filter>Header Files\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Bushes.h">
       <Filter>Header Files\PlantTypes</Filter>
     </ClInclude>
   </ItemGroup>

@@ -4,7 +4,7 @@
 #include "MathClass.h"
 
 #include "Flower.h"
-#include "Bush.h"
+#include "Bushes.h"
 #include "Grass.h"
 #include "StructDefs.h"
 
@@ -12,7 +12,7 @@ App::App() : _wnd(1280, 720, "AT Task1 Proc Plants"), _light(_wnd.Gfx())
 {
 	_plants.reserve(3);
 	_plants.emplace_back(std::make_unique<Flower>(_wnd.Gfx(), "leaf.tga", "pinkPetal.tga"));
-	_plants.emplace_back(std::make_unique<Bush>(_wnd.Gfx(), "leaf.tga"));
+	_plants.emplace_back(std::make_unique<Bushes>(_wnd.Gfx(), "leaf.tga"));
 	_plants.emplace_back(std::make_unique<Grass>(_wnd.Gfx(), "leaf.tga"));
 	_wnd.Gfx().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 720.0f / 1280.0f, 0.5f, 100.0f));
 }
@@ -73,7 +73,7 @@ void App::DoFrame()
 				_currentSelection = GuiOrder::FLOWER;
 				ImGui::EndTabItem();
 			}
-			if (ImGui::BeginTabItem("Bush##Tab"))
+			if (ImGui::BeginTabItem("Bushes##Tab"))
 			{
 				_currentSelection = GuiOrder::BUSH;
 				ImGui::EndTabItem();

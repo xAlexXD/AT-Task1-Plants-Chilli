@@ -1,13 +1,12 @@
 #pragma once
 #include "PlantBase.h"
-#include "Sheet.h"
 
-class Bush : public PlantBase
+class Bushes : public PlantBase
 {
 public:
-	Bush() = delete;
-	Bush(Graphics& gfx, const char* planeTexture);
-	~Bush() override;
+	Bushes() = delete;
+	Bushes(Graphics& gfx, const char* planeTexture);
+	~Bushes() override;
 
 	void Update(float dt) override;
 	void Draw(Graphics& gfx) override;
