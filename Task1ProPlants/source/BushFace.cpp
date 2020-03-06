@@ -11,8 +11,10 @@ BushFace::BushFace(Graphics& gfx, const char* textureName, DirectX::XMFLOAT3 pos
 	model.Transform(DirectX::XMMatrixScaling(1.0f, 1.0f, 1.0f));
 	model.SetNormalsIndependentFlat();
 	//Stupid normal fix TODO double the verts and fix the normals for the backside
-	DirectX::XMFLOAT3 oldNorm = model._vertices[2].n;
-	model._vertices[2].n = DirectX::XMFLOAT3(oldNorm.x * -1, oldNorm.y * -1, oldNorm.z * -1);
+	DirectX::XMFLOAT3 oldNormFront = model._vertices[2].n;
+	DirectX::XMFLOAT3 oldNormBack = model._vertices[8].n;
+	model._vertices[2].n = DirectX::XMFLOAT3(oldNormFront.x * -1, oldNormFront.y * -1, oldNormFront.z * -1);
+	model._vertices[8].n = DirectX::XMFLOAT3(oldNormBack.x * -1, oldNormBack.y * -1, oldNormBack.z * -1);
 
 	_vertCount = model._vertices.size();
 	_indCount = model._indices.size();
