@@ -55,7 +55,7 @@ public:
 		vertices[3].tc = DirectX::XMFLOAT2(0.000000, 1.000000);
 
 		vertices[4].pos = DirectX::XMFLOAT3(-1.000000, 0.000100, -1.000000);
-		vertices[4].tc = DirectX::XMFLOAT2(0.150000, 0.700000);
+		vertices[4].tc = DirectX::XMFLOAT2(0.850000, 0.700000);
 
 		vertices[5].pos = DirectX::XMFLOAT3(1.000000, 0.000100, -1.000000);
 		vertices[5].tc = DirectX::XMFLOAT2(0.850000, 0.700000);
@@ -76,7 +76,7 @@ public:
 		vertices[10].tc = DirectX::XMFLOAT2(0.850000, 0.300000);
 
 		vertices[11].pos = DirectX::XMFLOAT3(1.000000, -0.000100, -1.000000);
-		vertices[11].tc = DirectX::XMFLOAT2(0.150000, 0.300000);
+		vertices[11].tc = DirectX::XMFLOAT2(0.850000, 0.300000);
 
 		std::vector<unsigned short> indices = {
 			0,2,4,
