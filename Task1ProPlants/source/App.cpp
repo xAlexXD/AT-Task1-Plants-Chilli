@@ -93,6 +93,7 @@ void App::DoFrame()
 	//Set up for the scene elements, camera, light etc.
 	ImGui::SetNextWindowPos(ImVec2(0, 0), ImGuiCond_Always);
 	ImGui::SetNextWindowSize(ImVec2(250, 720), ImGuiCond_Always);
+	guiFlags |= ImGuiWindowFlags_NoScrollWithMouse;
 	if (ImGui::Begin("Scene Parameters", NULL, guiFlags))
 	{
 		ImGui::Text("Camera Controls:");

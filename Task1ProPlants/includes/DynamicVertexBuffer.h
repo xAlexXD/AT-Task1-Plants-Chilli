@@ -95,6 +95,13 @@ public:
 		return _originalVertices;
 	}
 
+	void UpdateVerts(std::vector<V> verts)
+	{
+		_vertices.clear();
+		_vertices.assign(verts.begin(), verts.end());
+		_vertDirty = true;
+	}
+
 	void SpawnImguiControlWindow()
 	{
 		if (ImGui::Begin("Vertex Buffer"))

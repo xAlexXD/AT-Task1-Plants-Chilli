@@ -4,6 +4,8 @@
 
 Grass::Grass(Graphics& gfx, const char* grassTexture) : _baseGrassTexture(grassTexture)
 {
+	DirectX::XMFLOAT3 zero = {};
+	_testBlade = std::make_unique<GrassBlade>(gfx, grassTexture, zero, zero, zero, zero, zero, zero);
 }
 
 Grass::~Grass()
@@ -12,15 +14,17 @@ Grass::~Grass()
 
 void Grass::Update(float dt)
 {
+	_testBlade->Update(dt);
 }
 
 void Grass::Draw(Graphics& gfx)
 {
+	_testBlade->Draw(gfx);
 }
 
 void Grass::SpawnImgui(Graphics& gfx)
 {
-	ImGui::Text("Grass Selected!");
+	_testBlade->TempGui(gfx);
 }
 
 void Grass::Export(Graphics& gfx, ObjExporter& exporter, const char* outDir)

@@ -189,6 +189,9 @@
     <ClCompile Include="source\Bush.cpp">
       <Filter>Source Files\Drawables</Filter>
     </ClCompile>
+    <ClCompile Include="source\GrassBlade.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes\WindowsCustomInclude.h">
@@ -385,6 +388,9 @@
     </ClInclude>
     <ClInclude Include="includes\BladePrim.h">
       <Filter>Header Files\Primitives</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\GrassBlade.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

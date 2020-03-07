@@ -36,6 +36,7 @@
     <ClCompile Include="source\GameObjectTransform.cpp" />
     <ClCompile Include="source\Graphics.cpp" />
     <ClCompile Include="source\Grass.cpp" />
+    <ClCompile Include="source\GrassBlade.cpp" />
     <ClCompile Include="source\imgui.cpp" />
     <ClCompile Include="source\ImguiManager.cpp" />
     <ClCompile Include="source\imgui_demo.cpp" />
@@ -92,6 +93,7 @@
     <ClInclude Include="includes\Graphics.h" />
     <ClInclude Include="includes\GraphicsThrowMacros.h" />
     <ClInclude Include="includes\Grass.h" />
+    <ClInclude Include="includes\GrassBlade.h" />
     <ClInclude Include="includes\imconfig.h" />
     <ClInclude Include="includes\imgui.h" />
     <ClInclude Include="includes\ImguiManager.h" />
