@@ -71,6 +71,7 @@
     <ClInclude Include="includes\App.h" />
     <ClInclude Include="includes\Bindable.h" />
     <ClInclude Include="includes\BindableBase.h" />
+    <ClInclude Include="includes\BladePrim.h" />
     <ClInclude Include="includes\Bush.h" />
     <ClInclude Include="includes\Bushes.h" />
     <ClInclude Include="includes\BushFace.h" />
