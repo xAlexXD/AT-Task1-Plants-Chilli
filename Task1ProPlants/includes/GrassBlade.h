@@ -48,5 +48,7 @@ private:
 	DirectX::XMFLOAT3 _rotation = {};
 	DirectX::XMFLOAT3 _scale = {1.0f, 1.0f, 1.0f};
 	DirectX::XMFLOAT3 _layerOffset = {};
+	float _curveIntensity = 0.0f;
+	float _curvePeakOffset = 0.0f;
 };
 

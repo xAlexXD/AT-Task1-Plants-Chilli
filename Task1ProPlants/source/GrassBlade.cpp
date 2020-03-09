@@ -196,6 +196,19 @@ void GrassBlade::SpawnImGui(Graphics& gfx)
 		ImGui::TreePop();
 	}
 
+	nameString = "Blade Curve:##" + _name;
+	if (ImGui::TreeNode(nameString.c_str()))
+	{
+		ImGui::Text("Curve Intensity");
+		nameString = "##CurveIntensity" + _name;
+		ImGui::SliderFloat(nameString.c_str(), &_curveIntensity, -1.0f, 1.0f, "%.3f");
+
+		ImGui::Text("Curve Height Offset");
+		nameString = "##CurveHeight" + _name;
+		ImGui::SliderFloat(nameString.c_str(), &_curvePeakOffset, 0.0f, 3.0f, "%.3f");
+		ImGui::TreePop();
+	}
+
 	ImGui::Unindent();
 }
 
@@ -204,6 +217,8 @@ void GrassBlade::CalcOffsetsAndSetBuffer()
 	auto verts = _vertexBuffer->GetOriginalVerts();
 
 	DirectX::XMFLOAT3 temp;
+
+	//for curve the offset will be based upon the y axis AKA the z and Z axis AKA the Y.
 
 	////Apply cascading offsets to each layer
 	//Layer 1 -- 1 x Offset
