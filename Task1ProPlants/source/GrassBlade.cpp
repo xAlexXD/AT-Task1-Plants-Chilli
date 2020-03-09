@@ -203,9 +203,13 @@ void GrassBlade::SpawnImGui(Graphics& gfx)
 		nameString = "##CurveIntensity" + _name;
 		ImGui::SliderFloat(nameString.c_str(), &_curveIntensity, -1.0f, 1.0f, "%.3f");
 
-		ImGui::Text("Curve Height Offset");
+		ImGui::Text("Curve Height Multiplier");
 		nameString = "##CurveHeight" + _name;
-		ImGui::SliderFloat(nameString.c_str(), &_curvePeakOffset, 0.0f, 3.0f, "%.3f");
+		ImGui::SliderFloat(nameString.c_str(), &_curveHeightMultiplier, 0.0f, 3.0f, "%.3f");
+
+		ImGui::Text("Curve Span Offset");
+		nameString = "##CurveSpan" + _name;
+		ImGui::SliderFloat(nameString.c_str(), &_curveSpanOffset, 0.0f, 3.0f, "%.3f");
 		ImGui::TreePop();
 	}
 
@@ -220,42 +224,56 @@ void GrassBlade::CalcOffsetsAndSetBuffer()
 
 	//for curve the offset will be based upon the y axis AKA the z and Z axis AKA the Y.
 
-	////Apply cascading offsets to each layer
+	////Apply cascading offsets to each layer, then add the curvature values
 	//Layer 1 -- 1 x Offset
 	temp = verts[2].pos;
-	verts[2].pos = DirectX::XMFLOAT3(temp.x + _layerOffset.x, temp.y + _layerOffset.y, temp.z + _layerOffset.z);
+	temp = DirectX::XMFLOAT3(temp.x + _layerOffset.x, temp.y + _layerOffset.y, temp.z + _layerOffset.z);
+	verts[2].pos = DirectX::XMFLOAT3(temp.x, temp.y + (_curveSpanOffset * 0.25 * _curveIntensity), temp.z + (_curveHeightMultiplier * 0.25));
 	temp = verts[3].pos;
-	verts[3].pos = DirectX::XMFLOAT3(temp.x + _layerOffset.x, temp.y + _layerOffset.y, temp.z + _layerOffset.z);
+	temp = DirectX::XMFLOAT3(temp.x + _layerOffset.x, temp.y + _layerOffset.y, temp.z + _layerOffset.z);
+	verts[3].pos = DirectX::XMFLOAT3(temp.x, temp.y + (_curveSpanOffset * 0.25 * _curveIntensity), temp.z + (_curveHeightMultiplier * 0.25));
 	temp = verts[11].pos;
-	verts[11].pos = DirectX::XMFLOAT3(temp.x + _layerOffset.x, temp.y + _layerOffset.y, temp.z + _layerOffset.z);
+	temp = DirectX::XMFLOAT3(temp.x + _layerOffset.x, temp.y + _layerOffset.y, temp.z + _layerOffset.z);
+	verts[11].pos = DirectX::XMFLOAT3(temp.x, temp.y + (_curveSpanOffset * 0.25 * _curveIntensity), temp.z + (_curveHeightMultiplier * 0.25));
 	temp = verts[12].pos;
-	verts[12].pos = DirectX::XMFLOAT3(temp.x + _layerOffset.x, temp.y + _layerOffset.y, temp.z + _layerOffset.z);
+	temp = DirectX::XMFLOAT3(temp.x + _layerOffset.x, temp.y + _layerOffset.y, temp.z + _layerOffset.z);
+	verts[12].pos = DirectX::XMFLOAT3(temp.x, temp.y + (_curveSpanOffset * 0.25 * _curveIntensity), temp.z + (_curveHeightMultiplier * 0.25));
 
 	//Layer 2 -- 2 x Offset
 	temp = verts[4].pos;
-	verts[4].pos = DirectX::XMFLOAT3(temp.x + (_layerOffset.x * 2.0), temp.y + (_layerOffset.y * 2.0), temp.z + (_layerOffset.z * 2.0));
+	temp = DirectX::XMFLOAT3(temp.x + (_layerOffset.x * 2.0), temp.y + (_layerOffset.y * 2.0), temp.z + (_layerOffset.z * 2.0));
+	verts[4].pos = DirectX::XMFLOAT3(temp.x, temp.y + (_curveSpanOffset * 1.0 * _curveIntensity), temp.z + (_curveHeightMultiplier * 0.5));
 	temp = verts[5].pos;
-	verts[5].pos = DirectX::XMFLOAT3(temp.x + (_layerOffset.x * 2.0), temp.y + (_layerOffset.y * 2.0), temp.z + (_layerOffset.z * 2.0));
+	temp = DirectX::XMFLOAT3(temp.x + (_layerOffset.x * 2.0), temp.y + (_layerOffset.y * 2.0), temp.z + (_layerOffset.z * 2.0));
+	verts[5].pos = DirectX::XMFLOAT3(temp.x, temp.y + (_curveSpanOffset * 1.0 * _curveIntensity), temp.z + (_curveHeightMultiplier * 0.5));
 	temp = verts[13].pos;
-	verts[13].pos = DirectX::XMFLOAT3(temp.x + (_layerOffset.x * 2.0), temp.y + (_layerOffset.y * 2.0), temp.z + (_layerOffset.z * 2.0));
+	temp = DirectX::XMFLOAT3(temp.x + (_layerOffset.x * 2.0), temp.y + (_layerOffset.y * 2.0), temp.z + (_layerOffset.z * 2.0));
+	verts[13].pos = DirectX::XMFLOAT3(temp.x, temp.y + (_curveSpanOffset * 1.0 * _curveIntensity), temp.z + (_curveHeightMultiplier * 0.5));
 	temp = verts[14].pos;
-	verts[14].pos = DirectX::XMFLOAT3(temp.x + (_layerOffset.x * 2.0), temp.y + (_layerOffset.y * 2.0), temp.z + (_layerOffset.z * 2.0));
+	temp = DirectX::XMFLOAT3(temp.x + (_layerOffset.x * 2.0), temp.y + (_layerOffset.y * 2.0), temp.z + (_layerOffset.z * 2.0));
+	verts[14].pos = DirectX::XMFLOAT3(temp.x, temp.y + (_curveSpanOffset * 1.0 * _curveIntensity), temp.z + (_curveHeightMultiplier * 0.5));
 
 	//Layer 3 -- 3 x Offset
 	temp = verts[6].pos;
-	verts[6].pos = DirectX::XMFLOAT3(temp.x + (_layerOffset.x * 3.0), temp.y + (_layerOffset.y * 3.0), temp.z + (_layerOffset.z * 3.0));
+	temp = DirectX::XMFLOAT3(temp.x + (_layerOffset.x * 3.0), temp.y + (_layerOffset.y * 3.0), temp.z + (_layerOffset.z * 3.0));
+	verts[6].pos = DirectX::XMFLOAT3(temp.x, temp.y + (_curveSpanOffset * 2.0 * _curveIntensity), temp.z + (_curveHeightMultiplier * 1.5));
 	temp = verts[7].pos;
-	verts[7].pos = DirectX::XMFLOAT3(temp.x + (_layerOffset.x * 3.0), temp.y + (_layerOffset.y * 3.0), temp.z + (_layerOffset.z * 3.0));
+	temp = DirectX::XMFLOAT3(temp.x + (_layerOffset.x * 3.0), temp.y + (_layerOffset.y * 3.0), temp.z + (_layerOffset.z * 3.0));
+	verts[7].pos = DirectX::XMFLOAT3(temp.x, temp.y + (_curveSpanOffset * 2.0 * _curveIntensity), temp.z + (_curveHeightMultiplier * 1.5));
 	temp = verts[15].pos;
-	verts[15].pos = DirectX::XMFLOAT3(temp.x + (_layerOffset.x * 3.0), temp.y + (_layerOffset.y * 3.0), temp.z + (_layerOffset.z * 3.0));
+	temp = DirectX::XMFLOAT3(temp.x + (_layerOffset.x * 3.0), temp.y + (_layerOffset.y * 3.0), temp.z + (_layerOffset.z * 3.0));
+	verts[15].pos = DirectX::XMFLOAT3(temp.x, temp.y + (_curveSpanOffset * 2.0 * _curveIntensity), temp.z + (_curveHeightMultiplier * 1.5));
 	temp = verts[16].pos;
-	verts[16].pos = DirectX::XMFLOAT3(temp.x + (_layerOffset.x * 3.0), temp.y + (_layerOffset.y * 3.0), temp.z + (_layerOffset.z * 3.0));
+	temp = DirectX::XMFLOAT3(temp.x + (_layerOffset.x * 3.0), temp.y + (_layerOffset.y * 3.0), temp.z + (_layerOffset.z * 3.0));
+	verts[16].pos = DirectX::XMFLOAT3(temp.x, temp.y + (_curveSpanOffset * 2.0 * _curveIntensity), temp.z + (_curveHeightMultiplier * 1.5));
 
 	//Point -- 4 x Offset
 	temp = verts[8].pos;
-	verts[8].pos = DirectX::XMFLOAT3(temp.x + (_layerOffset.x * 4.0), temp.y + (_layerOffset.y * 4.0), temp.z + (_layerOffset.z * 4.0));
+	temp = DirectX::XMFLOAT3(temp.x + (_layerOffset.x * 4.0), temp.y + (_layerOffset.y * 4.0), temp.z + (_layerOffset.z * 4.0));
+	verts[8].pos = DirectX::XMFLOAT3(temp.x, temp.y + (_curveSpanOffset * 3.0 * _curveIntensity), temp.z + (_curveHeightMultiplier * 3.0));
 	temp = verts[17].pos;
-	verts[17].pos = DirectX::XMFLOAT3(temp.x + (_layerOffset.x * 4.0), temp.y + (_layerOffset.y * 4.0), temp.z + (_layerOffset.z * 4.0));
+	temp = DirectX::XMFLOAT3(temp.x + (_layerOffset.x * 4.0), temp.y + (_layerOffset.y * 4.0), temp.z + (_layerOffset.z * 4.0));
+	verts[17].pos = DirectX::XMFLOAT3(temp.x, temp.y + (_curveSpanOffset * 3.0 * _curveIntensity), temp.z + (_curveHeightMultiplier * 3.0));
 
 	////Write the changes back to the vertex buffer
 	_vertexBuffer->UpdateVerts(verts);

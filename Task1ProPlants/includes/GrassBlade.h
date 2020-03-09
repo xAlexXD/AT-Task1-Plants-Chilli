@@ -49,6 +49,7 @@ private:
 	DirectX::XMFLOAT3 _scale = {1.0f, 1.0f, 1.0f};
 	DirectX::XMFLOAT3 _layerOffset = {};
 	float _curveIntensity = 0.0f;
-	float _curvePeakOffset = 0.0f;
+	float _curveHeightMultiplier = 0.0f;
+	float _curveSpanOffset = 0.0f;
 };
 
