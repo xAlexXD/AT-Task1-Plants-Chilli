@@ -125,7 +125,7 @@ void Bush::SpawnImGui(Graphics& gfx) noexcept
 		stringForNames = "##Height" + _bushName;
 		ImGui::SliderFloat(stringForNames.c_str(), &_zScale, -0.1f, 3.0f, "%.05f");
 		stringForNames = "Reset to Default##BushyScale" + _bushName;
-		if (ImGui::SmallButton("Reset to Default"))
+		if (ImGui::SmallButton(stringForNames.c_str()))
 		{
 			_xScale = 1.0f;
 			_yScale = 1.0f;

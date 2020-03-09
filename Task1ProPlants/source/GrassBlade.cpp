@@ -3,8 +3,8 @@
 #include "BindableBase.h"
 #include "BladePrim.h"
 
-GrassBlade::GrassBlade(Graphics& gfx, const char* textureName, DirectX::XMFLOAT3 pos, DirectX::XMFLOAT3 rot, DirectX::XMFLOAT3 posDelta, DirectX::XMFLOAT3 rotDelta, DirectX::XMFLOAT3 worldRot, DirectX::XMFLOAT3 worldDelta) :
-	_transform(std::make_unique<GameObjectTransform>(pos, rot, posDelta, rotDelta, worldRot, worldDelta))
+GrassBlade::GrassBlade(Graphics& gfx, const char* name, const char* textureName, DirectX::XMFLOAT3 pos, DirectX::XMFLOAT3 rot, DirectX::XMFLOAT3 posDelta, DirectX::XMFLOAT3 rotDelta, DirectX::XMFLOAT3 worldRot, DirectX::XMFLOAT3 worldDelta) :
+	_transform(std::make_unique<GameObjectTransform>(pos, rot, posDelta, rotDelta, worldRot, worldDelta)), _name(name)
 {
 	//Grab the base form of the model and apply some starting transforms to get it how we want the initial object to be
 	auto model = BladePrim::MakeTextured<TexturedVertex>();
@@ -56,7 +56,12 @@ GrassBlade::GrassBlade(Graphics& gfx, const char* textureName, DirectX::XMFLOAT3
 
 void GrassBlade::Update(float dt) noexcept
 {
+	//Initial Vert offsets
 	CalcOffsetsAndSetBuffer();
+
+	_transform->SetWorldRotation(_rotation);
+	_transform->SetPosition(_position);
+	_transform->SetScale(_scale);
 	_transform->Update(dt);
 }
 
@@ -107,18 +112,91 @@ void GrassBlade::UpdateOutVertices(Graphics& gfx)
 	}
 }
 
-void GrassBlade::TempGui(Graphics& gfx)
+void GrassBlade::SpawnImGui(Graphics& gfx)
 {
-	if (ImGui::TreeNode("Grass Layered Offsets##Blade"))
+	std::string nameString = "";
+
+	ImGui::Indent();
+	nameString = "Blade Position:##" + _name;
+	if (ImGui::TreeNode(nameString.c_str()))
 	{
-		ImGui::Text("X Offset");
-		ImGui::SliderFloat("##XOff", &_layerOffsetX, -2.0f, 2.0f, "%.3f");
-		ImGui::Text("Y Offset");
-		ImGui::SliderFloat("##YOff", &_layerOffsetY, -2.0f, 2.0f, "%.3f");
-		ImGui::Text("Z Offset");
-		ImGui::SliderFloat("##ZOff", &_layerOffsetZ, -2.0f, 2.0f, "%.3f");
+		ImGui::Text("X Position");
+		nameString = "##XPos" + _name;
+		ImGui::SliderFloat(nameString.c_str(), &_position.x, -10.0f, 10.0f, "%.2f");
+		ImGui::Text("Y Position");
+		nameString = "##YPos" + _name;
+		ImGui::SliderFloat(nameString.c_str(), &_position.y, -10.0f, 10.0f, "%.2f");
+		ImGui::Text("Z Position");
+		nameString = "##ZPos" + _name;
+		ImGui::SliderFloat(nameString.c_str(), &_position.z, -10.0f, 10.0f, "%.2f");
+		nameString = "Reset to Default##BladeyPos" + _name;
+		if (ImGui::SmallButton(nameString.c_str()))
+		{
+			_position = {};
+		}
 		ImGui::TreePop();
 	}
+
+	nameString = "Blade Rotation:##" + _name;
+	if (ImGui::TreeNode(nameString.c_str()))
+	{
+		ImGui::Text("X Rotation");
+		nameString = "##XRot" + _name;
+		ImGui::SliderFloat(nameString.c_str(), &_rotation.x, -10.0f, 10.0f, "%.2f");
+		ImGui::Text("Y Rotation");
+		nameString = "##YRot" + _name;
+		ImGui::SliderFloat(nameString.c_str(), &_rotation.y, -10.0f, 10.0f, "%.2f");
+		ImGui::Text("Z Rotation");
+		nameString = "##ZRot" + _name;
+		ImGui::SliderFloat(nameString.c_str(), &_rotation.z, -10.0f, 10.0f, "%.2f");
+		nameString = "Reset to Default##BladeyRot" + _name;
+		if (ImGui::SmallButton(nameString.c_str()))
+		{
+			_rotation = {};
+		}
+		ImGui::TreePop();
+	}
+
+	nameString = "Blade Scale:##" + _name;
+	if (ImGui::TreeNode(nameString.c_str()))
+	{
+		ImGui::Text("Width");
+		nameString = "##Width" + _name;
+		ImGui::SliderFloat(nameString.c_str(), &_scale.x, 0.1f, 3.0f, "%.05f");
+		ImGui::Text("Height");
+		nameString = "##Height" + _name;
+		ImGui::SliderFloat(nameString.c_str(), &_scale.z, -0.1f, 3.0f, "%.05f");
+		nameString = "Reset to Default##BladeyScale" + _name;
+		if (ImGui::SmallButton("Reset to Default"))
+		{
+			_scale = { 1.0f, 1.0f, 1.0f };
+		}
+		ImGui::TreePop();
+	}
+
+	nameString = "Blade Layered Offsets:##" + _name;
+	if (ImGui::TreeNode(nameString.c_str()))
+	{
+		ImGui::Text("X Offset");
+		nameString = "##LayerXOff" + _name;
+		ImGui::SliderFloat(nameString.c_str(), &_layerOffset.x, -0.75f, 0.75f, "%.3f");
+
+		ImGui::Text("Y Offset");
+		nameString = "##LayerYOff" + _name;
+		ImGui::SliderFloat(nameString.c_str(), &_layerOffset.y, -0.75f, 0.75f, "%.3f");
+
+		ImGui::Text("Z Offset");
+		nameString = "##LayerZOff" + _name;
+		ImGui::SliderFloat(nameString.c_str(), &_layerOffset.z, -0.75f, 0.75f, "%.3f");
+		nameString = "Reset to Default##BladeyOffset" + _name;
+		if (ImGui::SmallButton(nameString.c_str()))
+		{
+			_layerOffset = {};
+		}
+		ImGui::TreePop();
+	}
+
+	ImGui::Unindent();
 }
 
 void GrassBlade::CalcOffsetsAndSetBuffer()
@@ -130,39 +208,39 @@ void GrassBlade::CalcOffsetsAndSetBuffer()
 	////Apply cascading offsets to each layer
 	//Layer 1 -- 1 x Offset
 	temp = verts[2].pos;
-	verts[2].pos = DirectX::XMFLOAT3(temp.x + _layerOffsetX, temp.y + _layerOffsetY, temp.z + _layerOffsetZ);
+	verts[2].pos = DirectX::XMFLOAT3(temp.x + _layerOffset.x, temp.y + _layerOffset.y, temp.z + _layerOffset.z);
 	temp = verts[3].pos;
-	verts[3].pos = DirectX::XMFLOAT3(temp.x + _layerOffsetX, temp.y + _layerOffsetY, temp.z + _layerOffsetZ);
+	verts[3].pos = DirectX::XMFLOAT3(temp.x + _layerOffset.x, temp.y + _layerOffset.y, temp.z + _layerOffset.z);
 	temp = verts[11].pos;
-	verts[11].pos = DirectX::XMFLOAT3(temp.x + _layerOffsetX, temp.y + _layerOffsetY, temp.z + _layerOffsetZ);
+	verts[11].pos = DirectX::XMFLOAT3(temp.x + _layerOffset.x, temp.y + _layerOffset.y, temp.z + _layerOffset.z);
 	temp = verts[12].pos;
-	verts[12].pos = DirectX::XMFLOAT3(temp.x + _layerOffsetX, temp.y + _layerOffsetY, temp.z + _layerOffsetZ);
+	verts[12].pos = DirectX::XMFLOAT3(temp.x + _layerOffset.x, temp.y + _layerOffset.y, temp.z + _layerOffset.z);
 
 	//Layer 2 -- 2 x Offset
 	temp = verts[4].pos;
-	verts[4].pos = DirectX::XMFLOAT3(temp.x + (_layerOffsetX * 2.0), temp.y + (_layerOffsetY * 2.0), temp.z + (_layerOffsetZ * 2.0));
+	verts[4].pos = DirectX::XMFLOAT3(temp.x + (_layerOffset.x * 2.0), temp.y + (_layerOffset.y * 2.0), temp.z + (_layerOffset.z * 2.0));
 	temp = verts[5].pos;
-	verts[5].pos = DirectX::XMFLOAT3(temp.x + (_layerOffsetX * 2.0), temp.y + (_layerOffsetY * 2.0), temp.z + (_layerOffsetZ * 2.0));
+	verts[5].pos = DirectX::XMFLOAT3(temp.x + (_layerOffset.x * 2.0), temp.y + (_layerOffset.y * 2.0), temp.z + (_layerOffset.z * 2.0));
 	temp = verts[13].pos;
-	verts[13].pos = DirectX::XMFLOAT3(temp.x + (_layerOffsetX * 2.0), temp.y + (_layerOffsetY * 2.0), temp.z + (_layerOffsetZ * 2.0));
+	verts[13].pos = DirectX::XMFLOAT3(temp.x + (_layerOffset.x * 2.0), temp.y + (_layerOffset.y * 2.0), temp.z + (_layerOffset.z * 2.0));
 	temp = verts[14].pos;
-	verts[14].pos = DirectX::XMFLOAT3(temp.x + (_layerOffsetX * 2.0), temp.y + (_layerOffsetY * 2.0), temp.z + (_layerOffsetZ * 2.0));
+	verts[14].pos = DirectX::XMFLOAT3(temp.x + (_layerOffset.x * 2.0), temp.y + (_layerOffset.y * 2.0), temp.z + (_layerOffset.z * 2.0));
 
 	//Layer 3 -- 3 x Offset
 	temp = verts[6].pos;
-	verts[6].pos = DirectX::XMFLOAT3(temp.x + (_layerOffsetX * 3.0), temp.y + (_layerOffsetY * 3.0), temp.z + (_layerOffsetZ * 3.0));
+	verts[6].pos = DirectX::XMFLOAT3(temp.x + (_layerOffset.x * 3.0), temp.y + (_layerOffset.y * 3.0), temp.z + (_layerOffset.z * 3.0));
 	temp = verts[7].pos;
-	verts[7].pos = DirectX::XMFLOAT3(temp.x + (_layerOffsetX * 3.0), temp.y + (_layerOffsetY * 3.0), temp.z + (_layerOffsetZ * 3.0));
+	verts[7].pos = DirectX::XMFLOAT3(temp.x + (_layerOffset.x * 3.0), temp.y + (_layerOffset.y * 3.0), temp.z + (_layerOffset.z * 3.0));
 	temp = verts[15].pos;
-	verts[15].pos = DirectX::XMFLOAT3(temp.x + (_layerOffsetX * 3.0), temp.y + (_layerOffsetY * 3.0), temp.z + (_layerOffsetZ * 3.0));
+	verts[15].pos = DirectX::XMFLOAT3(temp.x + (_layerOffset.x * 3.0), temp.y + (_layerOffset.y * 3.0), temp.z + (_layerOffset.z * 3.0));
 	temp = verts[16].pos;
-	verts[16].pos = DirectX::XMFLOAT3(temp.x + (_layerOffsetX * 3.0), temp.y + (_layerOffsetY * 3.0), temp.z + (_layerOffsetZ * 3.0));
+	verts[16].pos = DirectX::XMFLOAT3(temp.x + (_layerOffset.x * 3.0), temp.y + (_layerOffset.y * 3.0), temp.z + (_layerOffset.z * 3.0));
 
 	//Point -- 4 x Offset
 	temp = verts[8].pos;
-	verts[8].pos = DirectX::XMFLOAT3(temp.x + (_layerOffsetX * 4.0), temp.y + (_layerOffsetY * 4.0), temp.z + (_layerOffsetZ * 4.0));
+	verts[8].pos = DirectX::XMFLOAT3(temp.x + (_layerOffset.x * 4.0), temp.y + (_layerOffset.y * 4.0), temp.z + (_layerOffset.z * 4.0));
 	temp = verts[17].pos;
-	verts[17].pos = DirectX::XMFLOAT3(temp.x + (_layerOffsetX * 4.0), temp.y + (_layerOffsetY * 4.0), temp.z + (_layerOffsetZ * 4.0));
+	verts[17].pos = DirectX::XMFLOAT3(temp.x + (_layerOffset.x * 4.0), temp.y + (_layerOffset.y * 4.0), temp.z + (_layerOffset.z * 4.0));
 
 	////Write the changes back to the vertex buffer
 	_vertexBuffer->UpdateVerts(verts);

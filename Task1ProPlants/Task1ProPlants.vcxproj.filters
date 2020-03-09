@@ -190,7 +190,7 @@
       <Filter>Source Files\Drawables</Filter>
     </ClCompile>
     <ClCompile Include="source\GrassBlade.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Drawables</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -390,7 +390,7 @@
       <Filter>Header Files\Primitives</Filter>
     </ClInclude>
     <ClInclude Include="includes\GrassBlade.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Drawables</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

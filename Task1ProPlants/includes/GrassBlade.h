@@ -9,6 +9,7 @@ class GrassBlade : public DrawablesBase<GrassBlade>
 {
 public:
 	GrassBlade(Graphics& gfx,
+		const char* name,
 		const char* textureName,
 		DirectX::XMFLOAT3 pos,
 		DirectX::XMFLOAT3 rot,
@@ -27,22 +28,25 @@ public:
 
 	void UpdateOutVertices(Graphics& gfx);
 
-	void TempGui(Graphics& gfx);
+	void SpawnImGui(Graphics& gfx);
 
 	std::vector<TexturedVertex> _vertOut;
 	std::vector<int> _indexOut;
 
 private:
+	void CalcOffsetsAndSetBuffer();
+
 	DirectX::XMFLOAT3 _pivotPos = { 0.0f, 0.0f, 0.0f };
 	std::unique_ptr<GameObjectTransform> _transform = nullptr;
 	DynamicVertexBuffer<TexturedVertex>* _vertexBuffer = nullptr;
 	int _vertCount = 0;
 	int _indCount = 0;
 
-	float _layerOffsetX = 0.0f;
-	float _layerOffsetY = 0.0f;
-	float _layerOffsetZ = 0.0f;
+	std::string _name;
 
-	void CalcOffsetsAndSetBuffer();
+	DirectX::XMFLOAT3 _position = {};
+	DirectX::XMFLOAT3 _rotation = {};
+	DirectX::XMFLOAT3 _scale = {1.0f, 1.0f, 1.0f};
+	DirectX::XMFLOAT3 _layerOffset = {};
 };
 
