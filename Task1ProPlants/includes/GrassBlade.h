@@ -25,6 +25,8 @@ public:
 	GameObjectTransform* GetFaceTransform() noexcept;
 	int GetVertCount()	{ return _vertCount; }
 	int GetIndCount() { return _indCount; }
+	const char* GetName() { return _name.c_str(); }
+	const char* GetTexName() { return _texName; }
 
 	void UpdateOutVertices(Graphics& gfx);
 
@@ -43,6 +45,7 @@ private:
 	int _indCount = 0;
 
 	std::string _name;
+	const char* _texName;
 
 	DirectX::XMFLOAT3 _position = {};
 	DirectX::XMFLOAT3 _rotation = {};

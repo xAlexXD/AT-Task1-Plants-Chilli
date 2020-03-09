@@ -16,6 +16,6 @@ public:
 
 private:
 	const char* _baseGrassTexture;
-	std::unique_ptr<GrassBlade> _testBlade;
+	std::vector<std::unique_ptr<GrassBlade>> _bladeVector;
 };
 

@@ -4,7 +4,7 @@
 #include "BladePrim.h"
 
 GrassBlade::GrassBlade(Graphics& gfx, const char* name, const char* textureName, DirectX::XMFLOAT3 pos, DirectX::XMFLOAT3 rot, DirectX::XMFLOAT3 posDelta, DirectX::XMFLOAT3 rotDelta, DirectX::XMFLOAT3 worldRot, DirectX::XMFLOAT3 worldDelta) :
-	_transform(std::make_unique<GameObjectTransform>(pos, rot, posDelta, rotDelta, worldRot, worldDelta)), _name(name)
+	_transform(std::make_unique<GameObjectTransform>(pos, rot, posDelta, rotDelta, worldRot, worldDelta)), _name(name), _texName(textureName)
 {
 	//Grab the base form of the model and apply some starting transforms to get it how we want the initial object to be
 	auto model = BladePrim::MakeTextured<TexturedVertex>();
@@ -78,7 +78,7 @@ GameObjectTransform* GrassBlade::GetFaceTransform() noexcept
 void GrassBlade::UpdateOutVertices(Graphics& gfx)
 {
 	//Get buffer from dynamic vertex buffer
-	std::vector<TexturedVertex> vert = _vertexBuffer->GetOriginalVerts();
+	std::vector<TexturedVertex> vert = _vertexBuffer->GetVerts();
 	_vertOut.clear();
 	_vertOut.reserve(vert.size());
 	for (size_t i = 0; i < vert.size(); i++)
