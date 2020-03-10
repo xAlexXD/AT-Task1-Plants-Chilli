@@ -26,6 +26,8 @@ public:
 	const char* GetName() { return _bunchName.c_str(); }
 
 private:
+	void UpdateTexture(Graphics& gfx);
+
 	std::vector<std::unique_ptr<Leaf>> _leafVector;
 	unsigned int _leafLimit = 30u;
 	unsigned int _leafCount = 0u;
@@ -39,6 +41,8 @@ private:
 	float _y = 0.0f;
 	float _z = 0.0f;
 	const std::string _bunchName;
+
+	char _textureArray[128] = "";
 };
 /*
 YLrot to tilt the Leaf

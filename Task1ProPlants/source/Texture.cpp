@@ -6,11 +6,42 @@
 
 Texture::Texture(Graphics & gfx, const char* fileName)
 {
+	ChangeTextureView(gfx, fileName);
+}
+
+Texture::~Texture()
+{
+	//release the targa data
+	if (_pTargaData != nullptr)
+	{
+		delete[] _pTargaData;
+		_pTargaData = nullptr;
+	}
+}
+
+void Texture::Bind(Graphics& gfx) noexcept
+{
+	GetContext(gfx)->PSSetShaderResources(0u, 1u, _pTextureView.GetAddressOf());
+}
+
+ID3D11ShaderResourceView* Texture::GetTextureView() const noexcept
+{
+	return _pTextureView.Get();
+}
+
+void Texture::ChangeTextureView(Graphics& gfx, const char* fileName)
+{
 	HRESULT hr;
 	int height, width;
 
 	//Load targa image data into memory
-	LoadTarga(fileName, width, height);
+	if (!LoadTarga(fileName, width, height))
+	{
+		return;
+	}
+
+	//Ensure the base pointer is freed
+	_pTextureView = nullptr;
 
 	//Creation of texture resource
 	Microsoft::WRL::ComPtr<ID3D11Texture2D> pTexture = nullptr;
@@ -49,29 +80,9 @@ Texture::Texture(Graphics & gfx, const char* fileName)
 	_pTargaData = nullptr;
 }
 
-Texture::~Texture()
-{
-	//release the targa data
-	if (_pTargaData != nullptr)
-	{
-		delete[] _pTargaData;
-		_pTargaData = nullptr;
-	}
-}
-
-void Texture::Bind(Graphics& gfx) noexcept
-{
-	GetContext(gfx)->PSSetShaderResources(0u, 1u, _pTextureView.GetAddressOf());
-}
-
-ID3D11ShaderResourceView* Texture::GetTextureView() const noexcept
-{
-	return _pTextureView.Get();
-}
-
 //Targa loader, need to be flipped before using as targas are stored opposide in the y to dds
 //MUST have an alpha channel, 24bit targas will be rejected
-void Texture::LoadTarga(const char* fileName, int& width, int& height)
+bool Texture::LoadTarga(const char* fileName, int& width, int& height)
 {
 	int bpp, imageSize, index, targaIndex;
 	FILE* filePtr;
@@ -79,10 +90,16 @@ void Texture::LoadTarga(const char* fileName, int& width, int& height)
 	unsigned char* targaImage;
 
 	//Open the targa file for reading in binary
-	TEX_THROW_FAILED(fopen_s(&filePtr, fileName, "rb") != 0);
+	if (fopen_s(&filePtr, fileName, "rb"))
+	{
+		return false;
+	}
 
 	//Read in the file header
-	TEX_THROW_FAILED((unsigned int)fread(&targaFileHeader, sizeof(TargaHeader), 1, filePtr) != 1);
+	if ((unsigned int)fread(&targaFileHeader, sizeof(TargaHeader), 1, filePtr) != 1)
+	{
+		return false;
+	}
 
 	//Get the important info from the header
 	width = static_cast<int>(targaFileHeader.width);
@@ -90,7 +107,10 @@ void Texture::LoadTarga(const char* fileName, int& width, int& height)
 	bpp = static_cast<int>(targaFileHeader.bpp);
 
 	//Check that its 32 bit and not 24
-	TEX_THROW_FAILED(bpp != 32);
+	if (bpp != 32)
+	{
+		return false;
+	}
 
 	//Calc the size of the 32bit image data, 4 channels for each pixel
 	imageSize = width * height * 4;
@@ -99,10 +119,16 @@ void Texture::LoadTarga(const char* fileName, int& width, int& height)
 	targaImage = new unsigned char[imageSize];
 
 	//Read in the targa image data
-	TEX_THROW_FAILED((unsigned int)fread(targaImage, 1, imageSize, filePtr) != imageSize);
+	if ((unsigned int)fread(targaImage, 1, imageSize, filePtr) != imageSize)
+	{
+		return false;
+	}
 
 	//Close the file
-	TEX_THROW_FAILED(fclose(filePtr) != 0);
+	if (fclose(filePtr) != 0)
+	{
+		return false;
+	}
 
 	//Allocate memory for the targa destination data
 	_pTargaData = new unsigned char[imageSize];
@@ -134,6 +160,7 @@ void Texture::LoadTarga(const char* fileName, int& width, int& height)
 	//Release the loaded in data as its stored in our local array
 	delete[] targaImage;
 	targaImage = nullptr;
+	return true;
 }
 
 //Texture exceptions

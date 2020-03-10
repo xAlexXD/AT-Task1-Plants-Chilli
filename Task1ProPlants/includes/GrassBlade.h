@@ -37,6 +37,7 @@ public:
 
 private:
 	void CalcOffsetsAndSetBuffer();
+	void UpdateTexture(Graphics& gfx);
 
 	DirectX::XMFLOAT3 _pivotPos = { 0.0f, 0.0f, 0.0f };
 	std::unique_ptr<GameObjectTransform> _transform = nullptr;
@@ -46,6 +47,7 @@ private:
 
 	std::string _name;
 	const char* _texName;
+	char _textureArray[128] = "";
 
 	DirectX::XMFLOAT3 _position = {};
 	DirectX::XMFLOAT3 _rotation = {};
@@ -54,5 +56,7 @@ private:
 	float _curveIntensity = 0.0f;
 	float _curveHeightMultiplier = 0.0f;
 	float _curveSpanOffset = 0.0f;
+
+	Texture* _textureBindable = nullptr;
 };
 

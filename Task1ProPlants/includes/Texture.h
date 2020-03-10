@@ -25,6 +25,7 @@ public:
 
 	ID3D11ShaderResourceView* GetTextureView() const noexcept;
 
+	void ChangeTextureView(Graphics& gfx, const char* fileName);
 
 protected:
 	Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> _pTextureView = nullptr;
@@ -40,7 +41,7 @@ private:
 		unsigned char data2;
 	};
 
-	void LoadTarga(const char* fileName, int& width, int& height);
+	bool LoadTarga(const char* fileName, int& width, int& height);
 
 	unsigned char* _pTargaData = nullptr;
 };

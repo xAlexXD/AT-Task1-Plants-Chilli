@@ -58,6 +58,14 @@ void Bush::SpawnImGui(Graphics& gfx) noexcept
 {
 	ImGui::Indent();
 	std::string stringForNames = "";
+	ImGui::Text("Change Texture (Must be a .TGA)");
+	stringForNames = "##TextureDir" + _bushName;
+	ImGui::InputTextWithHint(stringForNames.c_str(), "Dir must be with /!", _textureArray, IM_ARRAYSIZE(_textureArray));
+	if (ImGui::SmallButton("Apply Texture"))
+	{
+		UpdateTexture(gfx);
+	}
+
 	stringForNames = "Face count: " + std::to_string(_faceCount) + "/" + std::to_string(_faceLimit);
 	ImGui::Text(stringForNames.c_str());
 
@@ -159,5 +167,14 @@ void Bush::UpdateLocalVertAndInd(Graphics& gfx)
 		}
 
 		currentRunSize = _faceVerts.size();
+	}
+}
+
+void Bush::UpdateTexture(Graphics& gfx)
+{
+	std::string dir(_textureArray);
+	for (auto& face : _faceVector)
+	{
+		face->UpdateTexture(gfx, dir.c_str());
 	}
 }

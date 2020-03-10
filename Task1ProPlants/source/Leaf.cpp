@@ -37,6 +37,7 @@ Leaf::Leaf(Graphics& gfx,
 	path << "./textures/" << textureName;
 
 	AddBind(std::make_unique<Texture>(gfx, path.str().c_str()));
+	_textureBindable = dynamic_cast<Texture*>(GetPointerToLastBindable());
 	AddBind(std::make_unique<Sampler>(gfx));
 
 	auto pvs = std::make_unique<VertexShader>(gfx, L"TexturedPhongVertexShader.cso");
@@ -123,4 +124,9 @@ void Leaf::UpdateOutVertices(Graphics& gfx)
 		vertex.n.y = temp.y;
 		vertex.n.z = temp.z;
 	}
+}
+
+void Leaf::UpdateTexture(Graphics& gfx, const char* filePath)
+{
+	_textureBindable->ChangeTextureView(gfx, filePath);
 }

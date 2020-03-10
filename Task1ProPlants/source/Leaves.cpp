@@ -61,6 +61,14 @@ void Leaves::SpawnImGuiWindow(Graphics& gfx) noexcept
 {
 	ImGui::Indent();
 	std::string stringForNames = "";
+	ImGui::Text("Change Texture (Must be a .TGA)");
+	stringForNames = "##TextureDir" + _bunchName;
+	ImGui::InputTextWithHint(stringForNames.c_str(), "Dir must be with /!", _textureArray, IM_ARRAYSIZE(_textureArray));
+	if (ImGui::SmallButton("Apply Texture"))
+	{
+		UpdateTexture(gfx);
+	}
+
 	stringForNames = "Leaf count: " + std::to_string(_leafCount) + "/" + std::to_string(_leafLimit);
 	ImGui::Text(stringForNames.c_str());
 
@@ -162,5 +170,14 @@ void Leaves::UpdateLocalVertAndInd(Graphics& gfx)
 		}
 
 		currentRunSize = _leafVerts.size();
+	}
+}
+
+void Leaves::UpdateTexture(Graphics& gfx)
+{
+	std::string dir(_textureArray);
+	for (auto& leaf : _leafVector)
+	{
+		leaf->UpdateTexture(gfx, dir.c_str());
 	}
 }

@@ -29,11 +29,14 @@ public:
 	std::vector<TexturedVertex> _vertOut;
 	std::vector<int> _indexOut;
 
+	void UpdateTexture(Graphics& gfx, const char* filePath);
+
 private:
 	DirectX::XMFLOAT3 _pivotPos = { 0.0f, 0.0f, 0.0f };
 	std::unique_ptr<GameObjectTransform> _transform = nullptr;
 	DynamicVertexBuffer<TexturedVertex>* _vertexBuffer = nullptr;
 	int _vertCount = 0;
 	int _indCount = 0;
+	Texture* _textureBindable = nullptr;
 };
 

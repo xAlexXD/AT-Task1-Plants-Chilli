@@ -27,6 +27,7 @@ GrassBlade::GrassBlade(Graphics& gfx, const char* name, const char* textureName,
 	path << "./textures/" << textureName;
 
 	AddBind(std::make_unique<Texture>(gfx, path.str().c_str()));
+	_textureBindable = dynamic_cast<Texture*>(GetPointerToLastBindable());
 	AddBind(std::make_unique<Sampler>(gfx));
 
 	auto pvs = std::make_unique<VertexShader>(gfx, L"TexturedPhongVertexShader.cso");
@@ -117,6 +118,14 @@ void GrassBlade::SpawnImGui(Graphics& gfx)
 	std::string nameString = "";
 
 	ImGui::Indent();
+	ImGui::Text("Change Texture (Must be a .TGA)");
+	nameString = "##TextureDir" + _name;
+	ImGui::InputTextWithHint(nameString.c_str(), "Dir must be with /!", _textureArray, IM_ARRAYSIZE(_textureArray));
+	if (ImGui::SmallButton("Apply Texture"))
+	{
+		UpdateTexture(gfx);
+	}
+
 	nameString = "Blade Position:##" + _name;
 	if (ImGui::TreeNode(nameString.c_str()))
 	{
@@ -277,4 +286,10 @@ void GrassBlade::CalcOffsetsAndSetBuffer()
 
 	////Write the changes back to the vertex buffer
 	_vertexBuffer->UpdateVerts(verts);
+}
+
+void GrassBlade::UpdateTexture(Graphics& gfx)
+{
+	std::string dir(_textureArray);
+	_textureBindable->ChangeTextureView(gfx, dir.c_str());
 }

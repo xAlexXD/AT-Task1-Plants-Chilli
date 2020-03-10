@@ -35,6 +35,7 @@ BushFace::BushFace(Graphics& gfx, const char* textureName, DirectX::XMFLOAT3 pos
 	path << "./textures/" << textureName;
 
 	AddBind(std::make_unique<Texture>(gfx, path.str().c_str()));
+	_textureBindable = dynamic_cast<Texture*>(GetPointerToLastBindable());
 	AddBind(std::make_unique<Sampler>(gfx));
 
 	auto pvs = std::make_unique<VertexShader>(gfx, L"TexturedPhongVertexShader.cso");
@@ -112,4 +113,9 @@ void BushFace::UpdateOutVertices(Graphics& gfx)
 		vertex.n.y = temp.y;
 		vertex.n.z = temp.z;
 	}
+}
+
+void BushFace::UpdateTexture(Graphics& gfx, const char* filePath)
+{
+	_textureBindable->ChangeTextureView(gfx, filePath);
 }

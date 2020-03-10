@@ -28,6 +28,8 @@ public:
 	}
 
 private:
+	void UpdateTexture(Graphics& gfx);
+
 	std::vector<std::unique_ptr<BushFace>> _faceVector;
 	unsigned int _faceLimit = 12u;
 	unsigned int _faceCount = 0u;
@@ -43,5 +45,7 @@ private:
 	float _yRot = 0.0f;
 	float _zRot = 0.0f;
 	const std::string _bushName;
+
+	char _textureArray[128] = "";
 };
 
