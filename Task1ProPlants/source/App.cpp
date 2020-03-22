@@ -12,8 +12,8 @@ App::App() : _wnd(1280, 720, "AT Task1 Proc Plants"), _light(_wnd.Gfx())
 {
 	_plants.reserve(3);
 	_plants.emplace_back(std::make_unique<Flower>(_wnd.Gfx(), "leaf.tga", "pinkPetal.tga"));
-	_plants.emplace_back(std::make_unique<Bushes>(_wnd.Gfx(), "leaf.tga"));
-	_plants.emplace_back(std::make_unique<Grass>(_wnd.Gfx(), "leaf.tga"));
+	_plants.emplace_back(std::make_unique<Bushes>(_wnd.Gfx(), "bushTexture.tga"));
+	_plants.emplace_back(std::make_unique<Grass>(_wnd.Gfx(), "grassTexture.tga"));
 	_wnd.Gfx().SetProjection(DirectX::XMMatrixPerspectiveLH(1.0f, 720.0f / 1280.0f, 0.5f, 100.0f));
 }
 
