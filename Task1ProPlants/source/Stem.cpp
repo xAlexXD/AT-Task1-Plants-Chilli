@@ -100,14 +100,14 @@ void Stem::UpdateLocalVertsAndInds(Graphics& gfx)
 		_vertOut.push_back(vert[i]);
 	}
 
-	const auto modelView = GetTransformXM();
+	const auto modelView = GetTransformXM() * gfx.GetCamera();
 	const auto modelViewProj = modelView * gfx.GetProjection();
 
 	//Apply the transforms the vertex shader would
 	for (auto& vertex : _vertOut)
 	{
 		//Multiply the positions by the model view projection
-		DirectX::XMFLOAT4 temp = { vertex.pos.x, vertex.pos.y, vertex.pos.z, 0.0f };
+		DirectX::XMFLOAT4 temp = { vertex.pos.x, vertex.pos.y, vertex.pos.z, 1.0f };
 		auto tempVec = DirectX::XMLoadFloat4(&temp);
 		tempVec = DirectX::XMVector4Transform(tempVec, modelViewProj);
 		DirectX::XMStoreFloat4(&temp, tempVec);
