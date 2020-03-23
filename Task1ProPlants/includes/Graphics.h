@@ -56,7 +56,9 @@ public:
 	bool IsImguiEnabled() const noexcept;
 
 	DirectX::XMMATRIX GetCamera() const noexcept;
+	DirectX::XMMATRIX GetExportCamera() const noexcept;
 	void SetCamera(DirectX::FXMMATRIX cam) noexcept;
+	void SetExportCamera(DirectX::FXMMATRIX cam) noexcept;
 
 	void DrawIndexed(UINT count) noexcept;
 	DirectX::XMMATRIX GetProjection() const noexcept;
@@ -72,6 +74,7 @@ private:
 
 	bool _imguiEnabled = true;
 	DirectX::XMMATRIX _cameraMatrix;
+	DirectX::XMMATRIX _exportCameraMatrix;
 	DirectX::XMMATRIX _projectionMatrix;
 };
 

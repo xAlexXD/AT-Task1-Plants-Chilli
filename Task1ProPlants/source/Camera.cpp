@@ -18,6 +18,23 @@ DirectX::XMMATRIX Camera::GetMatrix() const noexcept
 	);
 }
 
+DirectX::XMMATRIX Camera::GetExportMatrix() const noexcept
+{
+	//First transform offsets camera away from origin, then rotates around the origin in pitch and yaw
+	const auto pos = DirectX::XMVector3Transform(
+		DirectX::XMVectorSet(0.0f, 0.0f, -0.1f, 0.0f),
+		DirectX::XMMatrixRotationRollPitchYaw(-1.570796326794897f, 0.0f, 0.0f)
+	);
+
+	//Applies the local rotation to the world rotation calc'd previously
+	return DirectX::XMMatrixLookAtLH(
+		pos, DirectX::XMVectorZero(),
+		DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f)
+	) * DirectX::XMMatrixRotationRollPitchYaw(
+		0.0f, 0.0f, 0.0f
+	);
+}
+
 void Camera::SpawnImguiControlWindow() noexcept
 {
 	ImGui::Indent();

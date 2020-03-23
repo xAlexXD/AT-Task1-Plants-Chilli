@@ -44,6 +44,7 @@ void App::DoFrame()
 	//Start DirectX frame
 	_wnd.Gfx().BeginFrame(0.7f, 0.73f, 0.78f);
 	_wnd.Gfx().SetCamera(_cam.GetMatrix());
+	_wnd.Gfx().SetExportCamera(_cam.GetExportMatrix());
 
 	//Bind the light in the pipeline
 	_light.Bind(_wnd.Gfx(), _wnd.Gfx().GetCamera());

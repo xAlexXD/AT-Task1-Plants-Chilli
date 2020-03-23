@@ -176,9 +176,19 @@ DirectX::XMMATRIX Graphics::GetCamera() const noexcept
 	return _cameraMatrix;
 }
 
+DirectX::XMMATRIX Graphics::GetExportCamera() const noexcept
+{
+	return _exportCameraMatrix;
+}
+
 void Graphics::SetCamera(DirectX::FXMMATRIX cam) noexcept
 {
 	_cameraMatrix = cam;
+}
+
+void Graphics::SetExportCamera(DirectX::FXMMATRIX cam) noexcept
+{
+	_exportCameraMatrix = cam;
 }
 
 void Graphics::DrawIndexed(UINT count) noexcept

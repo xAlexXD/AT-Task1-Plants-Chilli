@@ -100,7 +100,7 @@ void Leaf::UpdateOutVertices(Graphics& gfx)
 		_vertOut.push_back(vert[i]);
 	}
 
-	const auto modelView = GetTransformXM() * gfx.GetCamera();
+	const auto modelView = GetTransformXM() * gfx.GetExportCamera();
 	const auto modelViewProj = modelView * gfx.GetProjection();
 
 	//Apply the transforms the vertex shader would
