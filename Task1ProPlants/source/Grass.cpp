@@ -54,7 +54,7 @@ void Grass::SpawnImgui(Graphics& gfx)
 	}
 }
 
-void Grass::Export(Graphics& gfx, ObjExporter& exporter, const char* outDir)
+void Grass::Export(Graphics& gfx, ObjExporter& exporter, const char* outDir, const char* outName)
 {
 	//Create a vector of vert vectors, ind vectors and texture string vectors
 	int totalReserve = _bladeVector.size();
@@ -94,5 +94,5 @@ void Grass::Export(Graphics& gfx, ObjExporter& exporter, const char* outDir)
 	}
 
 	//Push them into the obj exporter
-	exporter.ExportToObj("Grass", outDir, std::move(vecOfVertVecs), std::move(vecOfIndVecs), std::move(vecOfTexNames));
+	exporter.ExportToObj(outName, outDir, std::move(vecOfVertVecs), std::move(vecOfIndVecs), std::move(vecOfTexNames));
 }

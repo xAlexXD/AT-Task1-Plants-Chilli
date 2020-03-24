@@ -103,11 +103,15 @@ void App::DoFrame()
 		_light.SpawnControlWindow();
 		ImGui::Text("Model Exporter:");
 		ImGui::Indent();
+		ImGui::Text("File Name:");
+		ImGui::InputTextWithHint("##OutnameText", "Just standard letters and numbers!", _outNameArray, IM_ARRAYSIZE(_outNameArray));
+		ImGui::Text("Out Directory:");
 		ImGui::InputTextWithHint("##OutdirText", "Outdir must be with /!", _outDirArray, IM_ARRAYSIZE(_outDirArray));
 		if (ImGui::SmallButton("Export Model"))
 		{
 			std::string dir(_outDirArray);
-			_plants[_currentSelection]->Export(_wnd.Gfx(), _exporter, dir.c_str());
+			std::string name(_outNameArray);
+			_plants[_currentSelection]->Export(_wnd.Gfx(), _exporter, dir.c_str(), name.c_str());
 		}
 		ImGui::Unindent();
 	}

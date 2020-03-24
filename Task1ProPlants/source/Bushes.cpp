@@ -53,7 +53,7 @@ void Bushes::SpawnImgui(Graphics& gfx)
 	}
 }
 
-void Bushes::Export(Graphics& gfx, ObjExporter& exporter, const char* outDir)
+void Bushes::Export(Graphics& gfx, ObjExporter& exporter, const char* outDir, const char* outName)
 {
 	//Create a vector of vert vectors, ind vectors and texture string vectors
 	int totalReserve = _bushVector.size();	//+1 for the stem
@@ -93,5 +93,5 @@ void Bushes::Export(Graphics& gfx, ObjExporter& exporter, const char* outDir)
 	}
 
 	//Push them into the obj exporter
-	exporter.ExportToObj("Bushes", outDir, std::move(vecOfVertVecs), std::move(vecOfIndVecs), std::move(vecOfTexNames));
+	exporter.ExportToObj(outName, outDir, std::move(vecOfVertVecs), std::move(vecOfIndVecs), std::move(vecOfTexNames));
 }

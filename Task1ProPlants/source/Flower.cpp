@@ -94,7 +94,7 @@ void Flower::SpawnImgui(Graphics& gfx)
 
 }
 
-void Flower::Export(Graphics& gfx, ObjExporter& exporter, const char* outDir)
+void Flower::Export(Graphics& gfx, ObjExporter& exporter, const char* outDir, const char* outName)
 {
 	//Create a vector of vert vectors, ind vectors and texture string vectors
 	int totalReserve = _leafBunches.size() + _petalBunches.size() + 1;	//+1 for the stem
@@ -182,5 +182,5 @@ void Flower::Export(Graphics& gfx, ObjExporter& exporter, const char* outDir)
 	}
 
 	//Push them into the obj exporter
-	exporter.ExportToObj("Flower", outDir, std::move(vecOfVertVecs), std::move(vecOfIndVecs), std::move(vecOfTexNames));
+	exporter.ExportToObj(outName, outDir, std::move(vecOfVertVecs), std::move(vecOfIndVecs), std::move(vecOfTexNames));
 }

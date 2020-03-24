@@ -12,7 +12,7 @@ public:
 	void Update(float dt) override;
 	void Draw(Graphics& gfx) override;
 	void SpawnImgui(Graphics& gfx) override;
-	void Export(Graphics& gfx, ObjExporter& exporter, const char* outDir) override;
+	void Export(Graphics& gfx, ObjExporter& exporter, const char* outDir, const char* outName) override;
 
 private:
 	const char* _baseGrassTexture;

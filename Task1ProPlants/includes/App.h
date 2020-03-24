@@ -26,6 +26,7 @@ private:
 	PointLight _light;
 	ObjExporter _exporter;
 	char _outDirArray[128] = "";
+	char _outNameArray[128] = "";
 
 	enum GuiOrder
 	{

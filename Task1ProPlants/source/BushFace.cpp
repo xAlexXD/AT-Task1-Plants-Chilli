@@ -90,7 +90,7 @@ void BushFace::UpdateOutVertices(Graphics& gfx)
 	}
 
 	const auto modelView = GetTransformXM() * gfx.GetExportCamera();
-	const auto modelViewProj = modelView * gfx.GetProjection();
+	const auto modelViewProj = modelView;
 
 	//Apply the transforms the vertex shader would
 	for (auto& vertex : _vertOut)
