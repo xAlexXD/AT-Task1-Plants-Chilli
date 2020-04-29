@@ -58,7 +58,6 @@ void App::DoFrame()
 
 	//ImGui::ShowDemoWindow();
 
-
 	//Setup for the plant editor segment of the UI
 	ImGuiWindowFlags guiFlags = ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize;
 

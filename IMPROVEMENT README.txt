@@ -1,2 +1,0 @@
--Multiple textures for petals **
--Multiple plant types **
